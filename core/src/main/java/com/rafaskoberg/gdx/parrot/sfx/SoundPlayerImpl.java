@@ -8,7 +8,6 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.LongMap;
 import com.badlogic.gdx.utils.LongMap.Entry;
-import com.badlogic.gdx.utils.ObjectMap;
 import com.badlogic.gdx.utils.Pools;
 import com.rafaskoberg.boom.Boom;
 import com.rafaskoberg.gdx.parrot.util.ParrotUtils;
@@ -18,10 +17,9 @@ import com.rafaskoberg.gdx.parrot.util.ParrotUtils;
  */
 public class SoundPlayerImpl implements SoundPlayer {
     // Collections
-    private final Array<SoundInstance>               soundInstances;
-    private final ObjectMap<SoundType, Array<Sound>> soundsByType; // TODO This should live inside SoundType
-    private final LongMap<SoundInstance>             soundsById;
-    private final LongMap<Array<Vector2>>            continuousPositionsById;
+    private final Array<SoundInstance>    soundInstances;
+    private final LongMap<SoundInstance>  soundsById;
+    private final LongMap<Array<Vector2>> continuousPositionsById;
 
     // Members
     private final SoundSettings settings;
@@ -33,7 +31,6 @@ public class SoundPlayerImpl implements SoundPlayer {
     public SoundPlayerImpl() {
         // Collections
         this.soundInstances = new Array<>();
-        this.soundsByType = new ObjectMap<>();
         this.soundsById = new LongMap<>();
         this.continuousPositionsById = new LongMap<>();
 
@@ -124,7 +121,7 @@ public class SoundPlayerImpl implements SoundPlayer {
                 lifeFactor = MathUtils.clamp(1.0f - (deadTime / settings.deathFadeOut), 0.0f, 1.0f);
             }
 
-            if(category.isSpatial()) {
+            if(category != null && category.isSpatial()) {
                 // Calculate distance factor
                 tmpVec.set(soundInstance.positionX, soundInstance.positionY).sub(centerX, centerY);
                 float dst = tmpVec.len();
@@ -291,9 +288,9 @@ public class SoundPlayerImpl implements SoundPlayer {
         }
 
         // Get random sound
-        Array<Sound> array = soundsByType.get(type, null);
-        if(array != null) {
-            Sound sound = array.random();
+        Array<Sound> sounds = type.getSounds();
+        if(sounds != null) {
+            Sound sound = sounds.random();
             if(sound != null) {
 
                 // Calculate pitch
@@ -500,7 +497,7 @@ public class SoundPlayerImpl implements SoundPlayer {
 
         // Get voice limits
         int availableVoicesForType = type.getVoices();
-        int availableVoicesForCategory = category.getVoices();
+        int availableVoicesForCategory = category == null ? Integer.MAX_VALUE : category.getVoices();
 
         // Make sure we really have to limit voices at all
         int totalSoundsPlaying = soundInstances.size;
@@ -561,7 +558,6 @@ public class SoundPlayerImpl implements SoundPlayer {
         Pools.freeAll(soundInstances);
         soundInstances.clear();
         soundsById.clear();
-        soundsByType.clear();
     }
 
 }

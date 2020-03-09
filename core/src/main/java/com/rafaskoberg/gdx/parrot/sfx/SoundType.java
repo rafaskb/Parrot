@@ -1,15 +1,17 @@
 package com.rafaskoberg.gdx.parrot.sfx;
 
+import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.utils.Array;
+
 /**
  * Interface containing information about a type of sound.
  */
 public interface SoundType {
 
     /**
-     * Returns the filename prefix of this sound. This doesn't include parent directories, index suffixes or file
-     * extensions.
+     * Returns an {@link Array} of {@link Sound}s associated with this {@link SoundType}.
      */
-    String getFilename();
+    Array<Sound> getSounds();
 
     /**
      * Returns the {@link SoundCategory} of this sound.
