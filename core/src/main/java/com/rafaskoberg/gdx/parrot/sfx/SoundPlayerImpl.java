@@ -225,9 +225,6 @@ public class SoundPlayerImpl implements SoundPlayer {
                             float diffY = position.y - centerY;
                             if(Float.isNaN(minDiffX) || Math.abs(diffX) < Math.abs(minDiffX)) minDiffX = diffX;
                             if(Float.isNaN(minDiffY) || Math.abs(diffY) < Math.abs(minDiffY)) minDiffY = diffY;
-
-                            // Free Vector2 instance
-                            Pools.free(position);
                         }
 
                         // Fix average
@@ -351,7 +348,7 @@ public class SoundPlayerImpl implements SoundPlayer {
                     coordsArray = new Array<>();
                     continuousPositionsById.put(soundInstance.id, coordsArray);
                 }
-                Vector2 coords = Pools.obtain(Vector2.class);
+                Vector2 coords = new Vector2();
                 coords.set(x, y);
                 coordsArray.add(coords);
             }
