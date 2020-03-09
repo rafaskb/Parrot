@@ -24,17 +24,24 @@ public class SoundPlayerImpl implements SoundPlayer {
     private final LongMap<Array<Vector2>>            continuousPositionsById;
 
     // Members
-    private final SoundSettings settings     = new SoundSettings();
-    private final Vector2       tmpVec       = new Vector2();
-    private       long          nextId       = 1;
-    private       float         masterVolume = 1.0f;
+    private final SoundSettings settings;
+    private final Vector2       tmpVec;
+    private       long          nextId;
+    private       float         masterVolume;
     private       Boom          boom;
 
     public SoundPlayerImpl() {
+        // Collections
         this.soundInstances = new Array<>();
         this.soundsByType = new ObjectMap<>();
         this.soundsById = new LongMap<>();
         this.continuousPositionsById = new LongMap<>();
+
+        // Members
+        this.settings = new SoundSettings();
+        this.tmpVec = new Vector2();
+        this.nextId = 1;
+        this.masterVolume = 1.0f;
     }
 
     @Override
