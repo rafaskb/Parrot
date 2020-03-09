@@ -1,0 +1,4 @@
+rootProject.name = 'parrot'
+
+include 'lwjgl3'
+include 'core'
