@@ -12,7 +12,7 @@ public interface SoundCategory {
 
     /**
      * Returns whether or not this sound category is spatial, meaning distance factors should be calculated to modify
-     * pan and volume, giving a 3D impression.
+     * pan and volume, giving a 3D sensation. Note that spatial effects only work for mono sounds.
      */
     boolean isSpatial();
 }

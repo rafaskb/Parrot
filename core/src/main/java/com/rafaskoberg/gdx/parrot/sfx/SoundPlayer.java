@@ -124,14 +124,14 @@ public interface SoundPlayer extends Disposable {
     }
 
     /**
-     * Sets the position of the sound associated with the given ID.
+     * Sets the position of the sound associated with the given ID. Note this will only work on mono sounds.
      */
     default void setSoundCoordinates(long id, float x, float y) {
         setSoundCoordinates(getSound(id), x, y);
     }
 
     /**
-     * Sets the position of the given {@link SoundInstance}.
+     * Sets the position of the given {@link SoundInstance}. Note this will only work on mono sounds.
      */
     void setSoundCoordinates(SoundInstance soundInstance, float x, float y);
 
