@@ -24,29 +24,40 @@ public interface SoundType {
     int getVoices();
 
     /**
-     * Returns the volume of this sound type, from {@code 0.0} to {@code 1.0}.
+     * Returns the volume of this sound type, from 0 to 1. Defaults to 1
      */
-    float getVolume();
+    default float getVolume() {
+        return 1;
+    }
 
     /**
-     * Returns the pitch of this sound type.
+     * Returns the pitch of this sound type. Defaults to 1
      */
-    float getPitch();
+    default float getPitch() {
+        return 0.1f;
+    }
 
     /**
-     * Returns the pitch variation of this sound type.
+     * Returns the pitch variation of this sound type. Defaults to 0.05
      */
-    float getPitchVariation();
+    default float getPitchVariation() {
+        return 0.05f;
+    }
 
     /**
-     * Returns the default {@link PlaybackMode} of this sound type.
+     * Returns the default {@link PlaybackMode} of this sound type. Defaults to {@link PlaybackMode#NORMAL}.
      */
-    PlaybackMode getPlaybackMode();
+    default PlaybackMode getPlaybackMode() {
+        return PlaybackMode.NORMAL;
+    }
 
     /**
-     * Returns a multiplier value used for Continuous sounds, namely how quickly should the sounds fade in or stop
-     * playing.
+     * Returns a multiplier value used for {@link PlaybackMode#CONTINUOUS Continuous} sounds, which determines how
+     * quickly the sound should die after it stops being touched. This value is used to multiply {@link
+     * SoundSettings#continuousTimeout}. Defaults to 1.
      */
-    float getContinuityFactor();
+    default float getContinuityFactor() {
+        return 1;
+    }
 
 }
