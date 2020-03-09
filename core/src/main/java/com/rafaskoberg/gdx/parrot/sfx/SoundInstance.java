@@ -2,30 +2,34 @@ package com.rafaskoberg.gdx.parrot.sfx;
 
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.utils.Pool.Poolable;
 
 /**
  * {@link Sound} wrapper containing a lot of extra information to improve the sound handling.
  */
-public class SoundInstance {
-    protected Sound        sound         = null;
-    protected SoundType    type          = null;
-    protected long         internalId    = -1;
-    protected long         id            = -1;
-    protected float        positionX     = 0.0f;
-    protected float        positionY     = 0.0f;
-    protected float        pitch         = 1.0f;
-    protected boolean      isDying       = false;
-    protected boolean      playMe        = true;
-    protected PlaybackMode playbackMode  = PlaybackMode.NORMAL;
-    protected long         lastTouch     = 0;
-    protected float        duration      = 0.0f;
-    protected float        time          = 0.0f;
-    protected float        currentVolume = 1.0f;
-    protected float        currentPan    = 0.0f;
-    protected int          boomChannel   = -1;
-    private   boolean      persistent    = false;
+public class SoundInstance implements Poolable {
+    protected Sound        sound;
+    protected SoundType    type;
+    protected long         internalId;
+    protected long         id;
+    protected float        positionX;
+    protected float        positionY;
+    protected float        pitch;
+    protected boolean      isDying;
+    protected boolean      playMe;
+    protected PlaybackMode playbackMode;
+    protected long         lastTouch;
+    protected float        duration;
+    protected float        time;
+    protected float        currentVolume;
+    protected float        currentPan;
+    protected int          boomChannel;
+    private   boolean      persistent;
 
-    protected SoundInstance() {
+    // REMINDER: Reset members
+
+    public SoundInstance() {
+        reset();
     }
 
     /**
@@ -114,4 +118,24 @@ public class SoundInstance {
         return !looping && !MathUtils.isZero(duration) && time > duration;
     }
 
+    @Override
+    public void reset() {
+        this.sound = null;
+        this.type = null;
+        this.internalId = -1;
+        this.id = -1;
+        this.positionX = 0.0f;
+        this.positionY = 0.0f;
+        this.pitch = 1.0f;
+        this.isDying = false;
+        this.playMe = true;
+        this.playbackMode = PlaybackMode.NORMAL;
+        this.lastTouch = 0;
+        this.duration = 0.0f;
+        this.time = 0.0f;
+        this.currentVolume = 1.0f;
+        this.currentPan = 0.0f;
+        this.boomChannel = -1;
+        this.persistent = false;
+    }
 }

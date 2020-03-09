@@ -303,7 +303,7 @@ public class SoundPlayerImpl implements SoundPlayer {
 
                 // Create SoundInstance
                 long id = getNextId();
-                SoundInstance soundInstance = new SoundInstance();
+                SoundInstance soundInstance = Pools.obtain(SoundInstance.class);
                 soundInstance.sound = sound;
                 soundInstance.type = type;
                 soundInstance.id = id;
@@ -515,6 +515,9 @@ public class SoundPlayerImpl implements SoundPlayer {
 
         if(soundInstance.playbackMode == PlaybackMode.CONTINUOUS)
             continuousPositionsById.remove(soundInstance.id);
+
+        // Free instances
+        Pools.free(soundInstance);
     }
 
     /**
