@@ -4,16 +4,9 @@ buildscript {
         jcenter()
         maven { url "http://oss.sonatype.org/content/repositories/snapshots/" }
     }
-    dependencies {
-        classpath 'com.bmuschko:gradle-nexus-plugin:2.3.1'
-        classpath "io.codearte.gradle.nexus:gradle-nexus-staging-plugin:0.21.2"
-    }
 }
 
 apply plugin: 'java-library'
-apply plugin: 'com.bmuschko.nexus'
-apply plugin: 'io.codearte.nexus-staging'
-apply from: 'publish.gradle'
 
 def projectName = 'parrot'
 version '0.0.1-SNAPSHOT'
@@ -59,14 +52,14 @@ allprojects {
 project(":core") {
     dependencies {
         api group: 'com.badlogicgames.gdx', name: 'gdx', version: gdxVersion
-        compile "com.github.rafaskb.boom:core:$boomVersion"
+        implementation "com.github.rafaskb.boom:core:$boomVersion"
     }
 }
 
 project(":lwjgl3") {
     dependencies {
         api project(":core")
-        compile "com.github.rafaskb.boom:lwjgl3:$boomVersion"
+        implementation "com.github.rafaskb.boom:lwjgl3:$boomVersion"
 
         testImplementation group: 'com.badlogicgames.gdx', name: 'gdx-backend-lwjgl3', version: gdxVersion
         testImplementation group: 'com.badlogicgames.gdx', name: 'gdx-platform', version: gdxVersion, classifier: 'natives-desktop'
