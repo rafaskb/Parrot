@@ -5,3 +5,5 @@ Parrot is a library that augments the audio support in libGDX. It provides flexi
 Warning! This library is still in early development!
 
 Parrot was originally made for the Grashers game and transformed into an open source project due to way too many developers having to implement something very similar in their own games.
+
+## This library isn't functional yet.
