@@ -17,7 +17,7 @@ But I'm working on it! :)
 - [ ] Implement pitch multipliers based on SoundCategories.
 - [ ] Port Music system.
 - [ ] Most of the library uses volume, but should it use decibels everywhere instead?
-- [ ] Create a very clean and straightforawrd API in the Parrot class.
+- [ ] Create a very clean and straightforward API in the Parrot class.
 - [ ] Review the entire documentation to make sure everything is as clear as possible.
 - [ ] Create an example module with a fully functional implementation, which will also be used as a test application.
 - [ ] Write a proper README. (Including lwjgl3 and Boom limitations.)
