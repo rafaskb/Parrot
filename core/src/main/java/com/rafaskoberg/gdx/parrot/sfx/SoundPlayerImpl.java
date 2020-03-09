@@ -18,12 +18,10 @@ import com.rafaskoberg.gdx.parrot.util.ParrotUtils;
  */
 public class SoundPlayerImpl implements SoundPlayer {
     // Collections
-    private final Array<SoundInstance>                           soundInstances;
-    private final ObjectMap<SoundType, Array<Sound>>             soundsByType; // TODO This should live inside SoundType
-    private final LongMap<SoundInstance>                         soundsById;
-    private final ObjectMap<SoundType, Array<SoundInstance>>     soundInstancessByType;
-    private final ObjectMap<SoundCategory, Array<SoundInstance>> soundsByCategory;
-    private final LongMap<Array<Vector2>>                        continuousPositionsById;
+    private final Array<SoundInstance>               soundInstances;
+    private final ObjectMap<SoundType, Array<Sound>> soundsByType; // TODO This should live inside SoundType
+    private final LongMap<SoundInstance>             soundsById;
+    private final LongMap<Array<Vector2>>            continuousPositionsById;
 
     // Members
     private final SoundSettings settings     = new SoundSettings();
@@ -36,8 +34,6 @@ public class SoundPlayerImpl implements SoundPlayer {
         this.soundInstances = new Array<>();
         this.soundsByType = new ObjectMap<>();
         this.soundsById = new LongMap<>();
-        this.soundInstancessByType = new ObjectMap<>();
-        this.soundsByCategory = new ObjectMap<>();
         this.continuousPositionsById = new LongMap<>();
     }
 
@@ -277,10 +273,8 @@ public class SoundPlayerImpl implements SoundPlayer {
 
         // If sound is continuous, see if there's an active one
         if(mode == PlaybackMode.CONTINUOUS) {
-            Array<SoundInstance> typeSounds = soundInstancessByType.get(type, null);
-            if(typeSounds != null) {
-                for(int i = typeSounds.size - 1; i >= 0; i--) {
-                    SoundInstance soundInstance = typeSounds.get(i);
+            for(SoundInstance soundInstance : soundInstances) {
+                if(soundInstance.getType() == type) {
                     if(soundInstance.playbackMode == mode) {
                         if(soundInstance.isActive()) {
                             soundInstance.lastTouch = System.currentTimeMillis();
@@ -468,54 +462,21 @@ public class SoundPlayerImpl implements SoundPlayer {
      * Registers the given sound to all collections of this instance.
      */
     private void registerSound(SoundInstance soundInstance) {
+        // Add sound to collections
         soundInstances.add(soundInstance);
-
         soundsById.put(soundInstance.id, soundInstance);
 
-        SoundType type = soundInstance.getType();
-        Array<SoundInstance> typeSounds = soundInstancessByType.get(type, null);
-        if(typeSounds == null) {
-            typeSounds = new Array<>();
-            soundInstancessByType.put(type, typeSounds);
-
-        }
-        typeSounds.add(soundInstance);
-
-        SoundCategory category = type.getCategory();
-        Array<SoundInstance> categorySounds = soundsByCategory.get(category, null);
-        if(categorySounds == null) {
-            categorySounds = new Array<>();
-            soundsByCategory.put(category, categorySounds);
-
-        }
-        categorySounds.add(soundInstance);
-
-        // Check voice limit
-        if(typeSounds.size > type.getVoices())
-            limitVoices(type);
-        if(categorySounds.size > category.getVoices())
-            limitVoices(category);
+        // Limit voices
+        limitVoices(soundInstance.getType());
     }
 
     /**
      * Unregisters the given sound from all collections of this instance.
      */
     private void unregisterSound(SoundInstance soundInstance) {
-        // Remove from direct collections
+        // Remove from collections
         soundInstances.removeValue(soundInstance, true);
         soundsById.remove(soundInstance.id);
-
-        // Remove from SoundType collection
-        Array<SoundInstance> typeSounds = soundInstancessByType.get(soundInstance.getType(), null);
-        if(typeSounds != null) {
-            typeSounds.removeValue(soundInstance, true);
-        }
-
-        // Remove from SoundCategory collection
-        Array<SoundInstance> categorySounds = soundsByCategory.get(soundInstance.getType().getCategory(), null);
-        if(categorySounds != null) {
-            categorySounds.removeValue(soundInstance, true);
-        }
 
         // Remove continuous positions
         if(soundInstance.playbackMode == PlaybackMode.CONTINUOUS) {
@@ -531,49 +492,36 @@ public class SoundPlayerImpl implements SoundPlayer {
      * allowed amount, the oldest ones are killed.
      */
     private void limitVoices(SoundType type) {
-        int voicesAvailable = type.getVoices();
+        SoundCategory category = type.getCategory();
 
-        Array<SoundInstance> typeSounds = soundInstancessByType.get(type, null);
-        if(typeSounds.size <= voicesAvailable) return;
+        // Get voice limits
+        int availableVoicesForType = type.getVoices();
+        int availableVoicesForCategory = category.getVoices();
 
-        // Iterate through valid sounds
-        for(int i = typeSounds.size - 1; i >= 0; i--) {
-            SoundInstance soundInstance = typeSounds.get(i);
-            if(soundInstance.isActive() && !soundInstance.isExpired()) {
-
-                // If there are no voices available, stop sound
-                if(voicesAvailable <= 0) {
-                    stopSound(soundInstance);
-                }
-
-                // Count voice
-                voicesAvailable--;
-            }
+        // Make sure we really have to limit voices at all
+        int totalSoundsPlaying = soundInstances.size;
+        if(totalSoundsPlaying <= availableVoicesForType && totalSoundsPlaying <= availableVoicesForCategory) {
+            return;
         }
-    }
 
-    /**
-     * Limits the amount of voices of the given {@link SoundCategory} playing at once. If there are more voices than the
-     * allowed amount, the oldest ones are killed.
-     */
-    private void limitVoices(SoundCategory category) {
-        int voicesAvailable = category.getVoices();
-
-        Array<SoundInstance> categorySounds = soundsByCategory.get(category, null);
-        if(categorySounds.size <= voicesAvailable) return;
-
-        // Iterate through valid sounds
-        for(int i = categorySounds.size - 1; i >= 0; i--) {
-            SoundInstance soundInstance = categorySounds.get(i);
+        // Iterate through valid sound instances
+        for(int i = soundInstances.size - 1; i >= 0; i--) {
+            SoundInstance soundInstance = soundInstances.get(i);
             if(soundInstance.isActive() && !soundInstance.isExpired()) {
 
-                // If there are no voices available, stop sound
-                if(voicesAvailable <= 0) {
-                    stopSound(soundInstance);
-                }
+                // Stop sounds based on category
+                if(soundInstance.getType().getCategory() == category) {
+                    if(availableVoicesForCategory-- <= 0) {
+                        stopSound(soundInstance);
+                    }
 
-                // Count voice
-                voicesAvailable--;
+                    // Stop sounds based on type
+                    else if(soundInstance.getType() == type) {
+                        if(availableVoicesForType-- <= 0) {
+                            stopSound(soundInstance);
+                        }
+                    }
+                }
             }
         }
     }
@@ -609,8 +557,6 @@ public class SoundPlayerImpl implements SoundPlayer {
         Pools.freeAll(soundInstances);
         soundInstances.clear();
         soundsById.clear();
-        soundInstancessByType.clear();
-        soundsByCategory.clear();
         soundsByType.clear();
     }
 
