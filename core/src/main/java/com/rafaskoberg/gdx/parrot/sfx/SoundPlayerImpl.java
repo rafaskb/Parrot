@@ -606,6 +606,7 @@ public class SoundPlayerImpl implements SoundPlayer {
 
     @Override
     public void dispose() {
+        Pools.freeAll(soundInstances);
         soundInstances.clear();
         soundsById.clear();
         soundInstancessByType.clear();
