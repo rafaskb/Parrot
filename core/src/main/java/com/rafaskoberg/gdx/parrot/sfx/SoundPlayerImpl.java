@@ -454,6 +454,9 @@ public class SoundPlayerImpl implements SoundPlayer {
         // Stop sound
         if(soundInstance.sound != null) soundInstance.sound.stop(soundInstance.internalId);
 
+        // Unregister sound
+        unregisterSound(soundInstance);
+
         // Nullify instance
         soundInstance.sound = null;
         soundInstance.id = -1;
@@ -497,24 +500,27 @@ public class SoundPlayerImpl implements SoundPlayer {
     /**
      * Unregisters the given sound from all collections of this instance.
      */
-    private void unregisterSound(SoundInstance soundInstance, boolean removeFromMainArray) {
-        if(removeFromMainArray)
-            soundInstances.removeValue(soundInstance, true);
-
+    private void unregisterSound(SoundInstance soundInstance) {
+        // Remove from direct collections
+        soundInstances.removeValue(soundInstance, true);
         soundsById.remove(soundInstance.id);
 
+        // Remove from SoundType collection
         Array<SoundInstance> typeSounds = soundInstancessByType.get(soundInstance.getType(), null);
         if(typeSounds != null) {
             typeSounds.removeValue(soundInstance, true);
         }
 
+        // Remove from SoundCategory collection
         Array<SoundInstance> categorySounds = soundsByCategory.get(soundInstance.getType().getCategory(), null);
         if(categorySounds != null) {
             categorySounds.removeValue(soundInstance, true);
         }
 
-        if(soundInstance.playbackMode == PlaybackMode.CONTINUOUS)
+        // Remove continuous positions
+        if(soundInstance.playbackMode == PlaybackMode.CONTINUOUS) {
             continuousPositionsById.remove(soundInstance.id);
+        }
 
         // Free instances
         Pools.free(soundInstance);
