@@ -38,6 +38,7 @@ allprojects {
     ext {
         gdxVersion = '1.9.10'
         boomVersion = '561816962ed2f842bba5e6468861d4cc18b7eb86'
+        visUiVersion = '1.4.4'
     }
 
     repositories {
@@ -60,8 +61,14 @@ project(":lwjgl3") {
     dependencies {
         api project(":core")
         implementation "com.github.rafaskb.boom:lwjgl3:$boomVersion"
+    }
+}
 
-        testImplementation group: 'com.badlogicgames.gdx', name: 'gdx-backend-lwjgl3', version: gdxVersion
-        testImplementation group: 'com.badlogicgames.gdx', name: 'gdx-platform', version: gdxVersion, classifier: 'natives-desktop'
+project(":example") {
+    dependencies {
+        api project(":lwjgl3")
+        implementation group: 'com.badlogicgames.gdx', name: 'gdx-backend-lwjgl3', version: gdxVersion
+        implementation group: 'com.badlogicgames.gdx', name: 'gdx-platform', version: gdxVersion, classifier: 'natives-desktop'
+        implementation group: 'com.kotcrab.vis', name: 'vis-ui', version: visUiVersion
     }
 }
