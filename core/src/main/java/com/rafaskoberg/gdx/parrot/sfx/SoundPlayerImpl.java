@@ -86,7 +86,6 @@ public class SoundPlayerImpl implements SoundPlayer {
             // If sound has been played but has no internal ID, something terribly wrong happened to it. Kill sound!
             if(!soundInstance.playMe && soundInstance.internalId == (long) -1) {
                 killSound(soundInstance);
-                soundInstances.removeIndex(i);
                 i--;
                 continue;
             }
@@ -112,7 +111,6 @@ public class SoundPlayerImpl implements SoundPlayer {
                 // Check if sound should be killed and removed
                 if(deadTime > settings.deathFadeOut) {
                     killSound(soundInstance);
-                    soundInstances.removeIndex(i);
                     i--;
                     continue;
                 }
@@ -414,7 +412,6 @@ public class SoundPlayerImpl implements SoundPlayer {
             SoundInstance soundInstance = soundInstances.get(i);
             if(soundInstance.getType() == type) {
                 killSound(soundInstance);
-                soundInstances.removeIndex(i);
                 i--;
             }
         }
@@ -427,7 +424,6 @@ public class SoundPlayerImpl implements SoundPlayer {
             SoundInstance soundInstance = soundInstances.get(i);
             if(soundInstance.getType().getCategory() == category) {
                 killSound(soundInstance);
-                soundInstances.removeIndex(i);
                 i--;
             }
         }
@@ -451,12 +447,6 @@ public class SoundPlayerImpl implements SoundPlayer {
 
         // Unregister sound
         unregisterSound(soundInstance);
-
-        // Nullify instance
-        soundInstance.sound = null;
-        soundInstance.id = -1;
-        soundInstance.internalId = -1;
-        soundInstance.playMe = false;
     }
 
     /**
