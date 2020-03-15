@@ -32,7 +32,7 @@ public class ParrotUtils {
                     Class<? extends Sound> clazz = ClassReflection.forName(className);
                     methodOpenALSoundDuration = ClassReflection.getMethod(clazz, "duration");
                 }
-                duration = (float) methodOpenALSoundDuration.invoke(sound, float.class);
+                duration = (float) methodOpenALSoundDuration.invoke(sound);
             }
         } catch(ReflectionException e) {
             e.printStackTrace();
