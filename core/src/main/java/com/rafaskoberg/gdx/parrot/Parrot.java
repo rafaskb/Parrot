@@ -2,13 +2,13 @@ package com.rafaskoberg.gdx.parrot;
 
 import com.badlogic.gdx.graphics.Camera;
 import com.rafaskoberg.boom.Boom;
-import com.rafaskoberg.gdx.parrot.sfx.PlaybackMode;
-import com.rafaskoberg.gdx.parrot.sfx.SoundCategory;
 import com.rafaskoberg.gdx.parrot.sfx.SoundInstance;
 import com.rafaskoberg.gdx.parrot.sfx.SoundPlayer;
 import com.rafaskoberg.gdx.parrot.sfx.SoundPlayerImpl;
 import com.rafaskoberg.gdx.parrot.sfx.SoundSettings;
-import com.rafaskoberg.gdx.parrot.sfx.SoundType;
+import com.rafaskoberg.gdx.parrot.sfx.ParrotSoundType;
+import com.rafaskoberg.gdx.parrot.sfx.PlaybackMode;
+import com.rafaskoberg.gdx.parrot.sfx.ParrotSoundCategory;
 
 /** TODO Javadocs */
 public class Parrot implements SoundPlayer {
@@ -37,7 +37,7 @@ public class Parrot implements SoundPlayer {
     }
 
     @Override
-    public long playSound(SoundType type, float x, float y, float pitch, PlaybackMode mode, int boomChannel) {
+    public long playSound(ParrotSoundType type, float x, float y, float pitch, PlaybackMode mode, int boomChannel) {
         return soundPlayer.playSound(type, x, y, pitch, mode, boomChannel);
     }
 
@@ -52,12 +52,12 @@ public class Parrot implements SoundPlayer {
     }
 
     @Override
-    public void stopSound(SoundType type, boolean ignorePersistent) {
+    public void stopSound(ParrotSoundType type, boolean ignorePersistent) {
         soundPlayer.stopSound(type, ignorePersistent);
     }
 
     @Override
-    public void stopSound(SoundCategory category, boolean ignorePersistent) {
+    public void stopSound(ParrotSoundCategory category, boolean ignorePersistent) {
         soundPlayer.stopSound(category, ignorePersistent);
     }
 
@@ -72,12 +72,12 @@ public class Parrot implements SoundPlayer {
     }
 
     @Override
-    public void killSound(SoundType type) {
+    public void killSound(ParrotSoundType type) {
         soundPlayer.killSound(type);
     }
 
     @Override
-    public void killSound(SoundCategory category) {
+    public void killSound(ParrotSoundCategory category) {
         soundPlayer.killSound(category);
     }
 

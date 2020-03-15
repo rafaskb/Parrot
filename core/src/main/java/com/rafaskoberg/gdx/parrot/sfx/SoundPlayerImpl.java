@@ -64,8 +64,8 @@ public class SoundPlayerImpl implements SoundPlayer {
         // Iterate through sounds
         for(int i = 0; i < soundInstances.size; i++) {
             SoundInstance soundInstance = soundInstances.get(i);
-            SoundType soundType = soundInstance.getType();
-            SoundCategory category = soundType.getCategory();
+            ParrotSoundType soundType = soundInstance.getType();
+            ParrotSoundCategory category = soundType.getCategory();
 
             // Variables
             float continuityFactor = soundType.getContinuityFactor();
@@ -267,7 +267,7 @@ public class SoundPlayerImpl implements SoundPlayer {
     }
 
     @Override
-    public long playSound(SoundType type, float x, float y, float pitch, PlaybackMode mode, int boomChannel) {
+    public long playSound(ParrotSoundType type, float x, float y, float pitch, PlaybackMode mode, int boomChannel) {
         // Make sure PlaybackMode is valid
         if(mode == null) mode = type.getPlaybackMode();
         if(mode == null) mode = PlaybackMode.NORMAL;
@@ -366,7 +366,7 @@ public class SoundPlayerImpl implements SoundPlayer {
     }
 
     @Override
-    public void stopSound(SoundType type, boolean ignorePersistent) {
+    public void stopSound(ParrotSoundType type, boolean ignorePersistent) {
         if(type == null) return;
         for(int i = 0; i < soundInstances.size; i++) {
             SoundInstance soundInstance = soundInstances.get(i);
@@ -378,7 +378,7 @@ public class SoundPlayerImpl implements SoundPlayer {
     }
 
     @Override
-    public void stopSound(SoundCategory category, boolean ignorePersistent) {
+    public void stopSound(ParrotSoundCategory category, boolean ignorePersistent) {
         if(category == null) return;
         for(int i = 0; i < soundInstances.size; i++) {
             SoundInstance soundInstance = soundInstances.get(i);
@@ -408,7 +408,7 @@ public class SoundPlayerImpl implements SoundPlayer {
 
     @Override
 
-    public void killSound(SoundType type) {
+    public void killSound(ParrotSoundType type) {
         if(type == null) return;
         for(int i = 0; i < soundInstances.size; i++) {
             SoundInstance soundInstance = soundInstances.get(i);
@@ -421,7 +421,7 @@ public class SoundPlayerImpl implements SoundPlayer {
     }
 
     @Override
-    public void killSound(SoundCategory category) {
+    public void killSound(ParrotSoundCategory category) {
         if(category == null) return;
         for(int i = 0; i < soundInstances.size; i++) {
             SoundInstance soundInstance = soundInstances.get(i);
@@ -489,11 +489,11 @@ public class SoundPlayerImpl implements SoundPlayer {
     }
 
     /**
-     * Limits the amount of voices of the given {@link SoundType} playing at once. If there are more voices than the
-     * allowed amount, the oldest ones are killed.
+     * Limits the amount of voices of the given {@link ParrotSoundType} playing at once. If there are more voices than
+     * the allowed amount, the oldest ones are killed.
      */
-    private void limitVoices(SoundType type) {
-        SoundCategory category = type.getCategory();
+    private void limitVoices(ParrotSoundType type) {
+        ParrotSoundCategory category = type.getCategory();
 
         // Get voice limits
         int availableVoicesForType = type.getVoices();

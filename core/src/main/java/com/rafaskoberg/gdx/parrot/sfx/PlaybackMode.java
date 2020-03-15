@@ -1,7 +1,7 @@
 package com.rafaskoberg.gdx.parrot.sfx;
 
 /**
- * List of modes a {@link SoundType} can be played.
+ * List of modes a {@link ParrotSoundType} can be played.
  */
 public enum PlaybackMode {
 

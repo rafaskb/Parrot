@@ -6,17 +6,17 @@ import com.badlogic.gdx.utils.Array;
 /**
  * Interface containing information about a type of sound.
  */
-public interface SoundType {
+public interface ParrotSoundType {
 
     /**
-     * Returns an {@link Array} of {@link Sound}s associated with this {@link SoundType}.
+     * Returns an {@link Array} of {@link Sound}s associated with this {@link ParrotSoundType}.
      */
     Array<Sound> getSounds();
 
     /**
-     * Returns the {@link SoundCategory} of this sound.
+     * Returns the {@link ParrotSoundCategory} of this sound.
      */
-    SoundCategory getCategory();
+    ParrotSoundCategory getCategory();
 
     /**
      * Returns the maximum amount of voices of this sound type allowed to coexist.

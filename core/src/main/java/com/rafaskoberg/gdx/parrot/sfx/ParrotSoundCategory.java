@@ -1,9 +1,9 @@
 package com.rafaskoberg.gdx.parrot.sfx;
 
 /**
- * Represents the category of a {@link SoundType}.
+ * Represents the category of a {@link ParrotSoundType}.
  */
-public interface SoundCategory {
+public interface ParrotSoundCategory {
 
     /**
      * Returns the maximum amount of voices of this category allowed to coexist.

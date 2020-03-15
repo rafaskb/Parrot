@@ -8,23 +8,23 @@ import com.badlogic.gdx.utils.Pool.Poolable;
  * {@link Sound} wrapper containing a lot of extra information to improve the sound handling.
  */
 public class SoundInstance implements Poolable {
-    protected Sound        sound;
-    protected SoundType    type;
-    protected long         internalId;
-    protected long         id;
-    protected float        positionX;
-    protected float        positionY;
-    protected float        pitch;
-    protected boolean      isDying;
-    protected boolean      playMe;
-    protected PlaybackMode playbackMode;
-    protected long         lastTouch;
-    protected float        duration;
-    protected float        time;
-    protected float        currentVolume;
-    protected float        currentPan;
-    protected int          boomChannel;
-    private   boolean      persistent;
+    protected Sound           sound;
+    protected ParrotSoundType type;
+    protected long            internalId;
+    protected long            id;
+    protected float           positionX;
+    protected float           positionY;
+    protected float           pitch;
+    protected boolean         isDying;
+    protected boolean         playMe;
+    protected PlaybackMode    playbackMode;
+    protected long            lastTouch;
+    protected float           duration;
+    protected float           time;
+    protected float           currentVolume;
+    protected float           currentPan;
+    protected int             boomChannel;
+    private   boolean         persistent;
 
     // REMINDER: Reset members
 
@@ -40,9 +40,9 @@ public class SoundInstance implements Poolable {
     }
 
     /**
-     * Returns the {@link SoundType} of this instance.
+     * Returns the {@link ParrotSoundType} of this instance.
      */
-    public SoundType getType() {
+    public ParrotSoundType getType() {
         return type;
     }
 
@@ -73,7 +73,7 @@ public class SoundInstance implements Poolable {
     }
 
     /**
-     * Returns the boom channel this sound is to be played on, or -1 if it should respect the {@link SoundType}'s
+     * Returns the boom channel this sound is to be played on, or -1 if it should respect the {@link ParrotSoundType}'s
      * value.
      */
     public int getBoomChannel() {

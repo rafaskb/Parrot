@@ -27,62 +27,62 @@ public interface SoundPlayer extends Disposable {
     void updateSounds(Camera camera, float delta);
 
     /**
-     * Register a {@link SoundType} to be played the next time this instance is updated.
+     * Register a {@link ParrotSoundType} to be played the next time this instance is updated.
      *
      * @return the ID associated with the created {@link SoundInstance}, which can be used for most operations in this
      * class.
      */
-    default long playSound(SoundType type) {
+    default long playSound(ParrotSoundType type) {
         return playSound(type, 0, 0, 1, null);
     }
 
     /**
-     * Register a {@link SoundType} to be played the next time this instance is updated with a specific pitch value.
+     * Register a {@link ParrotSoundType} to be played the next time this instance is updated with a specific pitch value.
      *
      * @return the ID associated with the created {@link SoundInstance}, which can be used for most operations in this
      * class.
      */
-    default long playSound(SoundType type, float pitch) {
+    default long playSound(ParrotSoundType type, float pitch) {
         return playSound(type, 0, 0, pitch, null);
     }
 
     /**
-     * Register a {@link SoundType} to be played the next time this instance is updated with the given attributes.
+     * Register a {@link ParrotSoundType} to be played the next time this instance is updated with the given attributes.
      *
      * @return the ID associated with the created {@link SoundInstance}, which can be used for most operations in this
      * class.
      */
-    default long playSound(SoundType type, Vector2 position, PlaybackMode mode) {
+    default long playSound(ParrotSoundType type, Vector2 position, PlaybackMode mode) {
         return playSound(type, position.x, position.y, 1, mode);
     }
 
     /**
-     * Register a {@link SoundType} to be played the next time this instance is updated with the given attributes.
+     * Register a {@link ParrotSoundType} to be played the next time this instance is updated with the given attributes.
      *
      * @return the ID associated with the created {@link SoundInstance}, which can be used for most operations in this
      * class.
      */
-    default long playSound(SoundType type, float x, float y, PlaybackMode mode) {
+    default long playSound(ParrotSoundType type, float x, float y, PlaybackMode mode) {
         return playSound(type, x, y, 1, mode);
     }
 
     /**
-     * Register a {@link SoundType} to be played the next time this instance is updated with the given attributes.
+     * Register a {@link ParrotSoundType} to be played the next time this instance is updated with the given attributes.
      *
      * @return the ID associated with the created {@link SoundInstance}, which can be used for most operations in this
      * class.
      */
-    default long playSound(SoundType type, float x, float y, float pitch, PlaybackMode mode) {
+    default long playSound(ParrotSoundType type, float x, float y, float pitch, PlaybackMode mode) {
         return playSound(type, x, y, 1, mode, -1);
     }
 
     /**
-     * Register a {@link SoundType} to be played the next time this instance is updated with the given attributes.
+     * Register a {@link ParrotSoundType} to be played the next time this instance is updated with the given attributes.
      *
      * @return the ID associated with the created {@link SoundInstance}, which can be used for most operations in this
      * class.
      */
-    long playSound(SoundType type, float x, float y, float pitch, PlaybackMode mode, int boomChannel);
+    long playSound(ParrotSoundType type, float x, float y, float pitch, PlaybackMode mode, int boomChannel);
 
     /**
      * Returns the {@link SoundInstance} associated with the given ID, if any. Might return {@code null}.
@@ -143,32 +143,32 @@ public interface SoundPlayer extends Disposable {
     }
 
     /**
-     * Calls {@link #stopSound(SoundType, boolean)} with {@code false}.
+     * Calls {@link #stopSound(ParrotSoundType, boolean)} with {@code false}.
      */
-    default void stopSound(SoundType type) {
+    default void stopSound(ParrotSoundType type) {
         stopSound(type, false);
     }
 
     /**
-     * Stops all the currently active sounds under the given {@link SoundType}.
+     * Stops all the currently active sounds under the given {@link ParrotSoundType}.
      *
      * @param ignorePersistent Whether or not {@link SoundInstance#isPersistent() persistent sounds} should be ignored.
      */
-    void stopSound(SoundType type, boolean ignorePersistent);
+    void stopSound(ParrotSoundType type, boolean ignorePersistent);
 
     /**
-     * Calls {@link #stopSound(SoundCategory, boolean)} with {@code false}.
+     * Calls {@link #stopSound(ParrotSoundCategory, boolean)} with {@code false}.
      */
-    default void stopSound(SoundCategory category) {
+    default void stopSound(ParrotSoundCategory category) {
         stopSound(category, false);
     }
 
     /**
-     * Stops all the currently active sounds under the given {@link SoundCategory}.
+     * Stops all the currently active sounds under the given {@link ParrotSoundCategory}.
      *
      * @param ignorePersistent Whether or not {@link SoundInstance#isPersistent() persistent sounds} should be ignored.
      */
-    void stopSound(SoundCategory category, boolean ignorePersistent);
+    void stopSound(ParrotSoundCategory category, boolean ignorePersistent);
 
     /**
      * Calls {@link #stopAllSounds()} with {@code false}.
@@ -198,14 +198,14 @@ public interface SoundPlayer extends Disposable {
     }
 
     /**
-     * Instantly kills all the currently active sounds under the given {@link SoundType}.
+     * Instantly kills all the currently active sounds under the given {@link ParrotSoundType}.
      */
-    void killSound(SoundType type);
+    void killSound(ParrotSoundType type);
 
     /**
-     * Instantly kills all the currently active sounds under the given {@link SoundCategory}.
+     * Instantly kills all the currently active sounds under the given {@link ParrotSoundCategory}.
      */
-    void killSound(SoundCategory category);
+    void killSound(ParrotSoundCategory category);
 
     /**
      * Instantly kills all sounds.
