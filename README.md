@@ -16,7 +16,8 @@ But I'm working on it! :)
 - [ ] Put a flag in the settings to control whether or not the maximum volume played by the app should be 1. (True by default)
 - [ ] Implement pitch multipliers based on SoundCategories.
 - [ ] Port Music system.
-- [ ] Most of the library uses volume, but should it use decibels everywhere instead?
+- [X] ~~Most of the library uses volume, but should it use decibels everywhere instead?~~ No, volume is easier to understand.
+- [ ] Implement Boom.
 - [ ] Create a very clean and straightforward API in the Parrot class.
 - [ ] Review the entire documentation to make sure everything is as clear as possible.
 - [ ] Create an example module with a fully functional implementation, which will also be used as a test application.
