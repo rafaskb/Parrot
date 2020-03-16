@@ -3,6 +3,7 @@ package com.rafaskoberg.gdx.parrot.sfx;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Disposable;
+import com.rafaskoberg.gdx.parrot.ParrotSettings;
 
 /**
  * Spatial sound player that handles all sounds being played in the game.
@@ -15,11 +16,6 @@ public interface SoundPlayer extends Disposable {
      * @param volume Linear volume from 0 to 1 to be set
      */
     void setSoundVolume(float volume);
-
-    /**
-     * Returns the {@link SoundSettings} instance of this sound player.
-     */
-    SoundSettings getSoundSettings();
 
     /**
      * Updates all the sounds. Must be called constantly.

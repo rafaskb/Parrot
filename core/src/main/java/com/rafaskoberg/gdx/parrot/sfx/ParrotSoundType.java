@@ -2,6 +2,7 @@ package com.rafaskoberg.gdx.parrot.sfx;
 
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.utils.Array;
+import com.rafaskoberg.gdx.parrot.ParrotSettings;
 
 /**
  * Interface containing information about a type of sound.
@@ -54,7 +55,7 @@ public interface ParrotSoundType {
     /**
      * Returns a multiplier value used for {@link PlaybackMode#CONTINUOUS Continuous} sounds, which determines how
      * quickly the sound should die after it stops being touched. This value is used to multiply {@link
-     * SoundSettings#continuousTimeout}. Defaults to 1.
+     * ParrotSettings#soundContinuousTimeout}. Defaults to 1.
      */
     default float getContinuityFactor() {
         return 1;

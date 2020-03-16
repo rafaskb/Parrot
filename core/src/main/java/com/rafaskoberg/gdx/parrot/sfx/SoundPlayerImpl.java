@@ -10,6 +10,8 @@ import com.badlogic.gdx.utils.LongMap;
 import com.badlogic.gdx.utils.LongMap.Entry;
 import com.badlogic.gdx.utils.Pools;
 import com.rafaskoberg.boom.Boom;
+import com.rafaskoberg.gdx.parrot.Parrot;
+import com.rafaskoberg.gdx.parrot.ParrotSettings;
 import com.rafaskoberg.gdx.parrot.util.ParrotUtils;
 
 /**
@@ -22,20 +24,22 @@ public class SoundPlayerImpl implements SoundPlayer {
     private final LongMap<Array<Vector2>> continuousPositionsById;
 
     // Members
-    private final SoundSettings settings;
-    private final Vector2       tmpVec;
-    private       long          nextId;
-    private       float         masterVolume;
-    private       Boom          boom;
+    private final Parrot         parrot;
+    private final ParrotSettings settings;
+    private final Vector2        tmpVec;
+    private       long           nextId;
+    private       float          masterVolume;
+    private       Boom           boom;
 
-    public SoundPlayerImpl() {
+    public SoundPlayerImpl(Parrot parrot) {
         // Collections
         this.soundInstances = new Array<>();
         this.soundsById = new LongMap<>();
         this.continuousPositionsById = new LongMap<>();
 
         // Members
-        this.settings = new SoundSettings();
+        this.parrot = parrot;
+        this.settings = parrot.getSettings();
         this.tmpVec = new Vector2();
         this.nextId = 1;
         this.masterVolume = 1.0f;
@@ -45,11 +49,6 @@ public class SoundPlayerImpl implements SoundPlayer {
     public void setSoundVolume(float volume) {
         float perceivedVolume = (float) Math.pow(volume, settings.loudnessExponentialCurve);
         this.masterVolume = MathUtils.clamp(perceivedVolume, 0.0f, 1.0f);
-    }
-
-    @Override
-    public SoundSettings getSoundSettings() {
-        return settings;
     }
 
     @Override
@@ -77,7 +76,7 @@ public class SoundPlayerImpl implements SoundPlayer {
             // Check if continuous sound should end
             if(soundInstance.isActive() && soundInstance.getPlaybackMode() == PlaybackMode.CONTINUOUS) {
                 float inactivityTime = (System.currentTimeMillis() - soundInstance.lastTouch) / 1000f;
-                float continuousTimeout = settings.continuousTimeout * continuityFactor;
+                float continuousTimeout = settings.soundContinuousTimeout * continuityFactor;
                 if(inactivityTime > continuousTimeout) {
                     stopSound(soundInstance);
                 }
@@ -92,7 +91,7 @@ public class SoundPlayerImpl implements SoundPlayer {
 
             // Calculate fade in factor
             if(soundInstance.getPlaybackMode() == PlaybackMode.CONTINUOUS) {
-                float continuousFadein = settings.continuousFadeIn * continuityFactor;
+                float continuousFadein = settings.soundSontinuousFadeIn * continuityFactor;
                 fadeInFactor = MathUtils.clamp(soundInstance.time / continuousFadein, 0.0f, 1.0f);
             }
 
@@ -109,28 +108,28 @@ public class SoundPlayerImpl implements SoundPlayer {
                 float deadTime = (System.currentTimeMillis() - soundInstance.lastTouch) / 1000f;
 
                 // Check if sound should be killed and removed
-                if(deadTime > settings.deathFadeOut) {
+                if(deadTime > settings.soundDeathFadeOut) {
                     killSound(soundInstance);
                     i--;
                     continue;
                 }
 
                 // Otherwise calculate life factor
-                lifeFactor = MathUtils.clamp(1.0f - (deadTime / settings.deathFadeOut), 0.0f, 1.0f);
+                lifeFactor = MathUtils.clamp(1.0f - (deadTime / settings.soundDeathFadeOut), 0.0f, 1.0f);
             }
 
             if(category != null && category.isSpatial()) {
                 // Calculate distance factor
                 tmpVec.set(soundInstance.positionX, soundInstance.positionY).sub(centerX, centerY);
                 float dst = tmpVec.len();
-                float dstFactorRaw = MathUtils.clamp(dst / settings.distanceLimit, 0.0f, 1.0f);
-                distanceFactor = Interpolation.linear.apply(1.0f, 1.0f - ParrotUtils.dbToVolume(settings.distanceReduction), dstFactorRaw);
+                float dstFactorRaw = MathUtils.clamp(dst / settings.soundDistanceLimit, 0.0f, 1.0f);
+                distanceFactor = Interpolation.linear.apply(1.0f, 1.0f - ParrotUtils.dbToVolume(settings.soundDistanceReduction), dstFactorRaw);
 
                 // Calculate pan
                 float dstX = tmpVec.x;
                 boolean panFacingLeft = tmpVec.x < 0.0f;
-                float panFactorRaw = MathUtils.clamp(Math.abs(dstX / settings.panLimit), 0.0f, 1.0f);
-                pan = Interpolation.linear.apply(0.0f, settings.panReduction, panFactorRaw);
+                float panFactorRaw = MathUtils.clamp(Math.abs(dstX / settings.soundPanLimit), 0.0f, 1.0f);
+                pan = Interpolation.linear.apply(0.0f, settings.soundPanReduction, panFactorRaw);
                 if(panFacingLeft) pan *= -1.0f;
             }
 
@@ -246,7 +245,7 @@ public class SoundPlayerImpl implements SoundPlayer {
                         float newY = centerY + minDiffY;
 
                         // Limit sound speed
-                        tmpVec.set(newX, newY).sub(oldX, oldY).limit(settings.continuousSpeed * delta);
+                        tmpVec.set(newX, newY).sub(oldX, oldY).limit(settings.soundContinuousSpeed * delta);
                         newX = oldX + tmpVec.x;
                         newY = oldY + tmpVec.y;
 
@@ -300,7 +299,7 @@ public class SoundPlayerImpl implements SoundPlayer {
                 soundInstance.sound = sound;
                 soundInstance.type = type;
                 soundInstance.id = id;
-                soundInstance.duration = ParrotUtils.getSoundDuration(sound, settings.unsupportedPlatformSoundDuration);
+                soundInstance.duration = ParrotUtils.getSoundDuration(sound, settings.soundDurationOnUnsupportedPlatforms);
                 soundInstance.positionX = x;
                 soundInstance.positionY = y;
                 soundInstance.pitch = pitch;
