@@ -10,7 +10,7 @@ import com.badlogic.gdx.utils.Disposable;
 public interface SoundPlayer extends Disposable {
 
     /**
-     * Sets the volume of this {@link SoundPlayerImpl} respecting perceived loudness equations.
+     * Sets the volume of this {@link SoundPlayer} respecting perceived loudness equations.
      *
      * @param volume Linear volume from 0 to 1 to be set
      */
@@ -37,7 +37,8 @@ public interface SoundPlayer extends Disposable {
     }
 
     /**
-     * Register a {@link ParrotSoundType} to be played the next time this instance is updated with a specific pitch value.
+     * Register a {@link ParrotSoundType} to be played the next time this instance is updated with a specific pitch
+     * value.
      *
      * @return the ID associated with the created {@link SoundInstance}, which can be used for most operations in this
      * class.
@@ -47,7 +48,8 @@ public interface SoundPlayer extends Disposable {
     }
 
     /**
-     * Register a {@link ParrotSoundType} to be played the next time this instance is updated with the given attributes.
+     * Register a {@link ParrotSoundType} to be played the next time this instance is updated with the given
+     * attributes.
      *
      * @return the ID associated with the created {@link SoundInstance}, which can be used for most operations in this
      * class.
@@ -57,7 +59,8 @@ public interface SoundPlayer extends Disposable {
     }
 
     /**
-     * Register a {@link ParrotSoundType} to be played the next time this instance is updated with the given attributes.
+     * Register a {@link ParrotSoundType} to be played the next time this instance is updated with the given
+     * attributes.
      *
      * @return the ID associated with the created {@link SoundInstance}, which can be used for most operations in this
      * class.
@@ -67,7 +70,8 @@ public interface SoundPlayer extends Disposable {
     }
 
     /**
-     * Register a {@link ParrotSoundType} to be played the next time this instance is updated with the given attributes.
+     * Register a {@link ParrotSoundType} to be played the next time this instance is updated with the given
+     * attributes.
      *
      * @return the ID associated with the created {@link SoundInstance}, which can be used for most operations in this
      * class.
@@ -77,7 +81,8 @@ public interface SoundPlayer extends Disposable {
     }
 
     /**
-     * Register a {@link ParrotSoundType} to be played the next time this instance is updated with the given attributes.
+     * Register a {@link ParrotSoundType} to be played the next time this instance is updated with the given
+     * attributes.
      *
      * @return the ID associated with the created {@link SoundInstance}, which can be used for most operations in this
      * class.
