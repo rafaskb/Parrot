@@ -35,19 +35,18 @@ public class MusicPlayerImpl implements MusicPlayer {
 
     @Override
     public void setMusicVolume(float volume) {
-        // Update master volume
-        float perceivedVolume = (float) Math.pow(volume, settings.loudnessExponentialCurve);
-        this.masterVolume = MathUtils.clamp(perceivedVolume, 0.0f, 1.0f);
+        // Calculate perceived volume
+        float perceivedVolume = MathUtils.clamp((float) Math.pow(volume, settings.loudnessExponentialCurve), MIN_VOLUME, 1.0f);
 
         // Calculate volume and factor differences in decibels
-        float volumeDiffDb = ParrotUtils.volumeToDb(this.masterVolume - volume);
+        float volumeDiffDb = ParrotUtils.volumeToDb(this.masterVolume) - ParrotUtils.volumeToDb(perceivedVolume);
 
-        // Apply new volume values to music player
-        this.masterVolume = volume;
+        // Update master volume
+        this.masterVolume = perceivedVolume;
 
         // Change volumes
         for(MusicInstance musicInstance : musicInstances) {
-            musicInstance.targetVolume = ParrotUtils.volumeToDb(musicInstance.targetVolume) + volumeDiffDb;
+            musicInstance.targetVolume = ParrotUtils.dbToVolume(ParrotUtils.volumeToDb(musicInstance.targetVolume) - volumeDiffDb);
         }
     }
 
