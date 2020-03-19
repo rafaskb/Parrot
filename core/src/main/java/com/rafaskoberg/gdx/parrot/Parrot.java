@@ -1,7 +1,11 @@
 package com.rafaskoberg.gdx.parrot;
 
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Camera;
 import com.rafaskoberg.boom.Boom;
+import com.rafaskoberg.gdx.parrot.music.MusicPlayer;
+import com.rafaskoberg.gdx.parrot.music.MusicPlayerImpl;
+import com.rafaskoberg.gdx.parrot.music.ParrotMusicType;
 import com.rafaskoberg.gdx.parrot.sfx.ParrotSoundCategory;
 import com.rafaskoberg.gdx.parrot.sfx.ParrotSoundType;
 import com.rafaskoberg.gdx.parrot.sfx.PlaybackMode;
@@ -10,16 +14,18 @@ import com.rafaskoberg.gdx.parrot.sfx.SoundPlayer;
 import com.rafaskoberg.gdx.parrot.sfx.SoundPlayerImpl;
 
 /** TODO Javadocs */
-public class Parrot implements SoundPlayer {
+public class Parrot implements SoundPlayer, MusicPlayer {
     protected ParrotSettings settings;
     protected Boom           boom;
     protected SoundPlayer    soundPlayer;
+    protected MusicPlayer    musicPlayer;
 
     /** TODO Javadocs */
     public Parrot() {
         this.settings = new ParrotSettings();
         this.boom = Boom.init();
         this.soundPlayer = new SoundPlayerImpl(this);
+        this.musicPlayer = new MusicPlayerImpl(this);
     }
 
     /**
@@ -28,6 +34,21 @@ public class Parrot implements SoundPlayer {
      */
     public ParrotSettings getSettings() {
         return settings;
+    }
+
+    /**
+     * Returns the {@link Boom} instance responsible for playing music and sound effects, in case it's available for the
+     * current platform.
+     */
+    public Boom getBoom() {
+        return boom;
+    }
+
+    /**
+     * Sets the {@link Boom} instance responsible for playing music and sound effects.
+     */
+    public void setBoom(Boom boom) {
+        this.boom = boom;
     }
 
     @Override
@@ -91,8 +112,49 @@ public class Parrot implements SoundPlayer {
     }
 
     @Override
+    public void setMusicVolume(float volume) {
+        musicPlayer.setMusicVolume(volume);
+    }
+
+    @Override
+    public void updateMusic(float delta) {
+        musicPlayer.updateMusic(delta);
+    }
+
+    @Override
+    public Music playMusic(ParrotMusicType musicType, boolean loop, boolean fadeIn, int channel, int boomChannel) {
+        return musicPlayer.playMusic(musicType, loop, fadeIn, channel, boomChannel);
+    }
+
+    @Override
+    public void stopMusic(ParrotMusicType musicType, boolean gracefully) {
+        musicPlayer.stopMusic(musicType, gracefully);
+    }
+
+    @Override
+    public void stopMusicChannel(int channel, boolean gracefully) {
+        musicPlayer.stopMusicChannel(channel, gracefully);
+    }
+
+    @Override
+    public void stopAllMusic(boolean gracefully) {
+        musicPlayer.stopAllMusic(gracefully);
+    }
+
+    @Override
+    public boolean isMusicPlaying() {
+        return musicPlayer.isMusicPlaying();
+    }
+
+    @Override
+    public boolean isMusicPlaying(int channel) {
+        return musicPlayer.isMusicPlaying(channel);
+    }
+
+    @Override
     public void dispose() {
         soundPlayer.dispose();
+        musicPlayer.dispose();
         // TODO
     }
 

@@ -60,4 +60,14 @@ public class ParrotSettings {
      */
     public float soundDurationOnUnsupportedPlatforms = 15;
 
+    /**
+     * Duration in seconds that a music track takes to fade in when it's played. Defaults to 0.8
+     */
+    public float musicFadeInDuration = 0.8f;
+
+    /**
+     * Duration in seconds that a music track takes to fade out when it's stopped. Defaults to 0.8
+     */
+    public float musicFadeOutDuration = 0.8f;
+
 }
