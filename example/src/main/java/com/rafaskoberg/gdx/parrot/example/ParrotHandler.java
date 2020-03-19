@@ -29,4 +29,12 @@ public class ParrotHandler {
             }
         }
     }
+
+    public void onMusicButton(boolean checked) {
+        if(checked) {
+            parrot.playMusic(MusicType.CRYSTAL_CAVE, true, false);
+        } else {
+            parrot.stopMusic(MusicType.CRYSTAL_CAVE);
+        }
+    }
 }

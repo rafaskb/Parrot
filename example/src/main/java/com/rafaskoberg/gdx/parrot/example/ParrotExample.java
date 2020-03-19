@@ -40,7 +40,12 @@ public class ParrotExample extends ApplicationAdapter {
 
         // Load sounds
         for(SoundType soundType : SoundType.values()) {
-            SoundLoader.load(soundType);
+            AudioLoader.load(soundType);
+        }
+
+        // Load music
+        for(MusicType musicType : MusicType.values()) {
+            AudioLoader.load(musicType);
         }
 
         // Create UI
@@ -62,24 +67,25 @@ public class ParrotExample extends ApplicationAdapter {
             }
         });
 
-        TextButton buttonResume = new TextButton("Resume", VisUI.getSkin());
-
-        TextButton buttonRestart = new TextButton("Restart", VisUI.getSkin());
-
-        TextButton buttonRebuild = new TextButton("Rebuild", VisUI.getSkin());
-
-        TextButton buttonSkip = new TextButton("Skip", VisUI.getSkin());
+        TextButton buttonMusic = new TextButton("Music", VisUI.getSkin(), "toggle");
+        buttonMusic.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                parrotHandler.onMusicButton(buttonMusic.isChecked());
+            }
+        });
 
         // Configure table
         rootTable.pad(50f);
         rootTable.row().uniform().expand().growX().space(40).center();
-        rootTable.add(buttonFootsteps, buttonResume, buttonRestart, buttonSkip, buttonRebuild);
+        rootTable.add(buttonFootsteps, buttonMusic);
         rootTable.pack();
     }
 
     public void update(float delta) {
         stage.act(delta);
         parrot.updateSounds(stage.getCamera(), delta);
+        parrot.updateMusic(delta);
     }
 
     @Override
@@ -107,7 +113,7 @@ public class ParrotExample extends ApplicationAdapter {
         Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
         config.setTitle("Parrot Example");
         config.setWindowedMode(1024, 576);
-        config.setAudioConfig(128, 2048, 9); // Increase libGDX's default audio limits which are pretty low
+        config.setAudioConfig(128, 4096, 9); // Increase libGDX's default audio limits which are pretty low
         config.setResizable(false);
         new Lwjgl3Application(new ParrotExample(), config);
     }
