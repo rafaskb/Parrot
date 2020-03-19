@@ -92,7 +92,7 @@ public class MusicPlayerImpl implements MusicPlayer {
                     float progress = MathUtils.clamp(musicInstance.stateTimer / Math.max(settings.musicFadeInDuration, 0.00001f), 0, 1);
                     float perceivedProgress = interpolation.applyIn(progress);
                     float volume = MathUtils.lerp(0, musicInstance.targetVolume, perceivedProgress);
-                    music.setVolume(Math.max(volume, MIN_VOLUME));
+                    music.setVolume(MathUtils.clamp(volume, MIN_VOLUME, 1));
                     if(musicInstance.stateTimer > settings.musicFadeInDuration) {
                         musicInstance.state = State.PLAYING;
                     }
@@ -101,7 +101,7 @@ public class MusicPlayerImpl implements MusicPlayer {
 
                 case PLAYING: {
                     // Adjust volume
-                    music.setVolume(Math.max(musicInstance.targetVolume, MIN_VOLUME));
+                    music.setVolume(MathUtils.clamp(musicInstance.targetVolume, MIN_VOLUME, 1));
 
                     // Dispose instances that are no longer playing
                     if(!music.isPlaying()) {
@@ -114,8 +114,8 @@ public class MusicPlayerImpl implements MusicPlayer {
                     // Process fade-out
                     float progress = MathUtils.clamp(musicInstance.stateTimer / Math.max(settings.musicFadeOutDuration, 0.00001f), 0, 1);
                     float perceivedProgress = interpolation.applyOut(progress);
-                    float volume = MathUtils.lerp(musicInstance.targetVolume, 0, perceivedProgress);
-                    music.setVolume(Math.max(volume, MIN_VOLUME));
+                    float volume = MathUtils.lerp(musicInstance.targetVolume, MIN_VOLUME, perceivedProgress);
+                    music.setVolume(MathUtils.clamp(volume, MIN_VOLUME, 1));
                     if(musicInstance.stateTimer > settings.musicFadeOutDuration) {
                         music.stop();
                         music.setPosition(0);

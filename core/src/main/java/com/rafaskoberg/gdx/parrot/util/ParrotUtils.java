@@ -51,7 +51,7 @@ public class ParrotUtils {
      * Converts volume to decibels.
      */
     public static float volumeToDb(float volume) {
-        return 20.0f * ((float) Math.log10(volume));
+        return 20.0f * ((float) Math.log10(Math.max(0, volume)));
     }
 
 }
