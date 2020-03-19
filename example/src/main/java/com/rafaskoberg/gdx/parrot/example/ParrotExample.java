@@ -6,14 +6,17 @@ import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.kotcrab.vis.ui.VisUI;
 import com.kotcrab.vis.ui.VisUI.SkinScale;
+import com.kotcrab.vis.ui.widget.VisSlider;
 import com.rafaskoberg.gdx.parrot.Parrot;
 
 public class ParrotExample extends ApplicationAdapter {
@@ -75,10 +78,28 @@ public class ParrotExample extends ApplicationAdapter {
             }
         });
 
+        // Create sliders
+        VisSlider sliderSoundVolume = new VisSlider(0, 1, 0.01f, true);
+        sliderSoundVolume.setValue(100);
+        sliderSoundVolume.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                parrot.setSoundVolume(sliderSoundVolume.getValue());
+            }
+        });
+        VisSlider sliderMusicVolume = new VisSlider(0, 1, 0.01f, true);
+        sliderMusicVolume.setValue(100);
+        sliderMusicVolume.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                parrot.setMusicVolume(sliderMusicVolume.getValue());
+            }
+        });
+
         // Configure table
         rootTable.pad(50f);
         rootTable.row().uniform().expand().growX().space(40).center();
-        rootTable.add(buttonFootsteps, buttonMusic);
+        rootTable.add(buttonFootsteps, buttonMusic, sliderSoundVolume, sliderMusicVolume);
         rootTable.pack();
     }
 
