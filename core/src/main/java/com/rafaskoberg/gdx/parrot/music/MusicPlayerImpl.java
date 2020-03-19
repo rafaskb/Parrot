@@ -280,12 +280,12 @@ public class MusicPlayerImpl implements MusicPlayer {
 
     class LoudnessInterpolation {
         float applyIn(float a) {
-            float power = settings.loudnessExponentialCurve;
+            int power = settings.loudnessExponentialCurve;
             return (float) Math.pow(a, power);
         }
 
         float applyOut(float a) {
-            float power = settings.loudnessExponentialCurve;
+            int power = settings.loudnessExponentialCurve;
             return (float) Math.pow(a - 1, power) * (power % 2 == 0 ? -1 : 1) + 1;
         }
     }

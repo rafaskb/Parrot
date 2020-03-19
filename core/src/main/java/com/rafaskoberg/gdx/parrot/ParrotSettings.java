@@ -6,11 +6,11 @@ import com.rafaskoberg.gdx.parrot.sfx.SoundInstance;
 public class ParrotSettings {
     /**
      * Perceived loudness exponential curve to be applied to linear-based audio algorithms (plain old 0-1). Defaults to
-     * 4
+     * 3
      * <p>
      * See <a href="https://www.dr-lex.be/info-stuff/volumecontrols.html#about">Programming Volume Controls</a>
      */
-    public float loudnessExponentialCurve = 4;
+    public int loudnessExponentialCurve = 3;
 
     /**
      * In the spatial system, distances beyond this limit will have the maximum amount of reduction. Defaults to 15
