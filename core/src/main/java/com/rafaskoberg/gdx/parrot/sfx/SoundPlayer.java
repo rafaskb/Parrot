@@ -1,9 +1,7 @@
 package com.rafaskoberg.gdx.parrot.sfx;
 
 import com.badlogic.gdx.graphics.Camera;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Disposable;
-import com.rafaskoberg.gdx.parrot.ParrotSettings;
 
 /**
  * Spatial sound player that handles all sounds being played in the game.
@@ -50,8 +48,8 @@ public interface SoundPlayer extends Disposable {
      * @return the ID associated with the created {@link SoundInstance}, which can be used for most operations in this
      * class.
      */
-    default long playSound(ParrotSoundType type, Vector2 position, PlaybackMode mode) {
-        return playSound(type, position.x, position.y, 1, mode);
+    default long playSound(ParrotSoundType type, float x, float y) {
+        return playSound(type, x, y, 1, null);
     }
 
     /**
