@@ -53,14 +53,14 @@ allprojects {
 project(":core") {
     dependencies {
         api group: 'com.badlogicgames.gdx', name: 'gdx', version: gdxVersion
-        implementation "com.github.rafaskb.boom:core:$boomVersion"
+        api "com.github.rafaskb.boom:core:$boomVersion"
     }
 }
 
 project(":lwjgl3") {
     dependencies {
         api project(":core")
-        implementation "com.github.rafaskb.boom:lwjgl3:$boomVersion"
+        api "com.github.rafaskb.boom:lwjgl3:$boomVersion"
     }
 }
 
