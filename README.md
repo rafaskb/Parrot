@@ -16,7 +16,8 @@ But I'm working on it! :)
 - [x] Port Music system.
 - [x] Implement Boom.
 - [x] ~~Most of the library uses volume, but should it use decibels everywhere instead?~~ No, volume is easier to understand.
-- [ ] Put a flag in the settings to control whether or not the maximum volume played by the app should be 1. (True by default)
+- [x] ~~Put a flag in the settings to control whether or not the maximum volume played by the app should be 1. (True by default)~~ Not applicable.
+- [x] Get rid of Camera references in SoundPlayer, use raw coordinates instead.
 - [ ] Implement pitch multipliers based on SoundCategories.
 - [ ] Implement volume multipliers per music channel.
 - [ ] Create a very clean and straightforward API in the Parrot class.

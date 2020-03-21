@@ -1,6 +1,5 @@
 package com.rafaskoberg.gdx.parrot.sfx;
 
-import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.utils.Disposable;
 
 /**
@@ -18,7 +17,17 @@ public interface SoundPlayer extends Disposable {
     /**
      * Updates all the sounds. Must be called constantly.
      */
-    void updateSounds(Camera camera, float delta);
+    default void updateSounds(float delta) {
+        updateSounds(0, 0, delta);
+    }
+
+    /**
+     * Updates all the sounds. Must be called constantly.
+     *
+     * @param x X coordinate of the sound listener, for spatial sounds.
+     * @param y Y coordinate of the sound listener, for spatial sounds.
+     */
+    void updateSounds(float x, float y, float delta);
 
     /**
      * Register a {@link ParrotSoundType} to be played the next time this instance is updated.

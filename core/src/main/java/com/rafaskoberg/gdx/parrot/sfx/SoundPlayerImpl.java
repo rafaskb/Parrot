@@ -1,7 +1,6 @@
 package com.rafaskoberg.gdx.parrot.sfx;
 
 import com.badlogic.gdx.audio.Sound;
-import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
@@ -52,13 +51,9 @@ public class SoundPlayerImpl implements SoundPlayer {
     }
 
     @Override
-    public void updateSounds(Camera camera, float delta) {
-        // Get camera position
-        float centerX = camera.position.x;
-        float centerY = camera.position.y;
-
+    public void updateSounds(float x, float y, float delta) {
         // Manually solidify continuous sounds positions
-        solidifyContinuousPositions(centerX, centerY, delta);
+        solidifyContinuousPositions(x, y, delta);
 
         // Iterate through sounds
         for(int i = 0; i < soundInstances.size; i++) {
@@ -120,7 +115,7 @@ public class SoundPlayerImpl implements SoundPlayer {
 
             if(category != null && category.isSpatial()) {
                 // Calculate distance factor
-                tmpVec.set(soundInstance.positionX, soundInstance.positionY).sub(centerX, centerY);
+                tmpVec.set(soundInstance.positionX, soundInstance.positionY).sub(x, y);
                 float dst = tmpVec.len();
                 float dstFactorRaw = MathUtils.clamp(dst / settings.soundDistanceLimit, 0.0f, 1.0f);
                 distanceFactor = Interpolation.linear.apply(1.0f, 1.0f - ParrotUtils.dbToVolume(settings.soundDistanceReduction), dstFactorRaw);

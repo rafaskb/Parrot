@@ -57,8 +57,8 @@ public class Parrot implements SoundPlayer, MusicPlayer {
     }
 
     @Override
-    public void updateSounds(Camera camera, float delta) {
-        soundPlayer.updateSounds(camera, delta);
+    public void updateSounds(float x, float y, float delta) {
+        soundPlayer.updateSounds(x, y, delta);
     }
 
     @Override
