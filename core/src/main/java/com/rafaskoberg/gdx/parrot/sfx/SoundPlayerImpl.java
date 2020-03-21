@@ -131,7 +131,8 @@ public class SoundPlayerImpl implements SoundPlayer {
             if(soundInstance.sound != null) {
                 // Calculate volume
                 float volumeFactors = fadeInFactor * distanceFactor * lifeFactor;
-                float soundVolume = soundInstance.getType().getVolume() * volumeFactors;
+                float relativeVolume = ParrotUtils.getPerceivedVolume(soundType.getVolume(), settings.loudnessExponentialCurve);
+                float soundVolume = relativeVolume * volumeFactors;
 
                 // If sound is dying, keep the same pan and don't increase the volume
                 if(soundInstance.isDying) {

@@ -189,13 +189,16 @@ public class MusicPlayerImpl implements MusicPlayer {
                 musicInstances.add(musicInstance);
             }
 
+            // Calculate perceived relative volume
+            float relativeVolume = ParrotUtils.getPerceivedVolume(musicType.getRelativeVolume(), settings.loudnessExponentialCurve);
+
             // Configure MusicInstance
             musicInstance.state = State.SILENT;
             musicInstance.music = music;
             musicInstance.musicType = musicType;
             musicInstance.isLooping = loop;
             musicInstance.shouldFadeIn = fadeIn;
-            musicInstance.targetVolume = masterVolume * musicType.getRelativeVolume() * volumesByChannel.get(channel, 1);
+            musicInstance.targetVolume = masterVolume * relativeVolume * volumesByChannel.get(channel, 1);
             musicInstance.channel = channel;
             musicInstance.boomChannel = boomChannel;
 
