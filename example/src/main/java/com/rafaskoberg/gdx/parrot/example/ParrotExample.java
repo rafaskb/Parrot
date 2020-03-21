@@ -69,12 +69,19 @@ public class ParrotExample extends ApplicationAdapter {
             }
         });
 
-        // Create buttons
         TextButton buttonWarning = new TextButton("Warning Beep", VisUI.getSkin(), "toggle");
         buttonWarning.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 parrotHandler.onWarningButton(buttonWarning.isChecked());
+            }
+        });
+
+        TextButton buttonFlamethrower = new TextButton("Flamethrower", VisUI.getSkin(), "toggle");
+        buttonFlamethrower.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                parrotHandler.onFlamethrowerButton(buttonFlamethrower.isChecked());
             }
         });
 
@@ -107,7 +114,9 @@ public class ParrotExample extends ApplicationAdapter {
         // Configure table
         rootTable.pad(50f);
         rootTable.row().uniform().expand().growX().space(40).center();
-        rootTable.add(buttonFootsteps, buttonWarning, buttonMusic);
+        rootTable.add(buttonFootsteps, buttonWarning, buttonFlamethrower);
+        rootTable.row().uniform().expand().growX().space(40).center();
+        rootTable.add(buttonMusic);
         rootTable.row().uniform().expand().growX().space(40).center();
         rootTable.add(sliderSoundVolume, sliderMusicVolume);
         rootTable.pack();
@@ -115,6 +124,7 @@ public class ParrotExample extends ApplicationAdapter {
 
     public void update(float delta) {
         stage.act(delta);
+        parrotHandler.update(delta);
         parrot.updateSounds(0, 0, delta);
         parrot.updateMusic(delta);
     }
