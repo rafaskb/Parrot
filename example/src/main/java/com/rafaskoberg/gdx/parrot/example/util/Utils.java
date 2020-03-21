@@ -7,11 +7,16 @@ import com.badlogic.gdx.graphics.Pixmap.Format;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.kotcrab.vis.ui.VisUI;
 import com.kotcrab.vis.ui.widget.VisImageButton.VisImageButtonStyle;
+import com.rafaskoberg.gdx.parrot.Parrot;
+import com.rafaskoberg.gdx.parrot.example.SoundType;
 
 public class Utils {
 
@@ -49,4 +54,38 @@ public class Utils {
         return style;
     }
 
+    /** Adds a {@link ClickListener} to the given button that plays sounds. */
+    public static void addSoundToButton(Actor button, Parrot parrot) {
+        button.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                super.clicked(event, x, y);
+
+                // Play click sound
+                parrot.playSound(SoundType.UI_CLICK);
+            }
+
+            @Override
+            public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                // Ignore if mouse was already over
+                if(isOver()) return;
+
+                super.enter(event, x, y, pointer, fromActor);
+
+                // Ignore if mouse is not over
+                if(!isOver()) return;
+
+                // Ignore if fromActor is a child
+                Actor actor = event.getListenerActor();
+                Actor from = fromActor;
+                while(from != null) {
+                    if(from == actor) return;
+                    from = from.getParent();
+                }
+
+                // Play hover sound
+                parrot.playSound(SoundType.UI_HOVER);
+            }
+        });
+    }
 }

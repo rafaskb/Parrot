@@ -67,6 +67,7 @@ public class MusicPlayerWidget extends Table {
     private Table createControllerTable(Parrot parrot) {
         // Previous button
         VisImageButton previousButton = new VisImageButton(Utils.createModernButtonStyle(Utils.loadImageDrawable("previous")));
+        Utils.addSoundToButton(previousButton, parrot);
         previousButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -76,6 +77,7 @@ public class MusicPlayerWidget extends Table {
 
         // Play/Stop button
         playButton = new VisImageButton(Utils.createModernButtonStyle(Utils.loadImageDrawable("play"), true));
+        Utils.addSoundToButton(playButton, parrot);
         playButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -85,6 +87,7 @@ public class MusicPlayerWidget extends Table {
 
         // Next button
         VisImageButton nextButton = new VisImageButton(Utils.createModernButtonStyle(Utils.loadImageDrawable("next")));
+        Utils.addSoundToButton(nextButton, parrot);
         nextButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -110,6 +113,7 @@ public class MusicPlayerWidget extends Table {
 
         // Music slider
         VisSlider sliderMusicVolume = new VisSlider(0, 1, 0.01f, false);
+        Utils.addSoundToButton(sliderMusicVolume, parrot);
         sliderMusicVolume.setValue(100);
         sliderMusicVolume.addListener(new ChangeListener() {
             @Override

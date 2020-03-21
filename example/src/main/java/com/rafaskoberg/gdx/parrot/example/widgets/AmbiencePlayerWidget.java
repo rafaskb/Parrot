@@ -15,6 +15,7 @@ import com.kotcrab.vis.ui.widget.VisSelectBox;
 import com.kotcrab.vis.ui.widget.VisSlider;
 import com.rafaskoberg.gdx.parrot.Parrot;
 import com.rafaskoberg.gdx.parrot.example.AmbienceType;
+import com.rafaskoberg.gdx.parrot.example.SoundType;
 import com.rafaskoberg.gdx.parrot.example.util.Constants;
 import com.rafaskoberg.gdx.parrot.example.util.Utils;
 
@@ -48,6 +49,7 @@ public class AmbiencePlayerWidget extends Table {
     private Table createControllerTable(Parrot parrot) {
         // Play button
         playButton = new VisImageButton(Utils.createModernButtonStyle(Utils.loadImageDrawable("play-small"), true));
+        Utils.addSoundToButton(playButton, parrot);
         playButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -57,6 +59,7 @@ public class AmbiencePlayerWidget extends Table {
 
         // Create SelectBox
         selectBox = new VisSelectBox<>();
+        Utils.addSoundToButton(selectBox, parrot);
         selectBox.setItems(AmbienceType.values());
         selectBox.addListener(new ChangeListener() {
             @Override
@@ -82,6 +85,7 @@ public class AmbiencePlayerWidget extends Table {
 
         // Music slider
         VisSlider sliderMusicVolume = new VisSlider(0, 1, 0.01f, false);
+        Utils.addSoundToButton(sliderMusicVolume, parrot);
         sliderMusicVolume.setValue(100);
         sliderMusicVolume.addListener(new ChangeListener() {
             @Override
@@ -124,5 +128,8 @@ public class AmbiencePlayerWidget extends Table {
         if(isPlaying) {
             parrot.playMusic(selectedAmbience, true, true, Constants.AMBIENCE_CHANNEL, -1);
         }
+
+        // Play sound effect
+        parrot.playSound(SoundType.UI_CLICK);
     }
 }
