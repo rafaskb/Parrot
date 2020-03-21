@@ -2,8 +2,6 @@ package com.rafaskoberg.gdx.parrot.example;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
-import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -30,7 +28,7 @@ public class ParrotExample extends ApplicationAdapter {
         parrot = new Parrot();
 
         // Load VisUI
-        VisUI.load(Gdx.files.internal("example/assets/skin/tinted.json"));
+        VisUI.load(Gdx.files.internal("skin/tinted.json"));
 
         // Create batch and stage
         this.batch = new SpriteBatch();
@@ -149,14 +147,4 @@ public class ParrotExample extends ApplicationAdapter {
         VisUI.dispose();
         stage.dispose();
     }
-
-    public static void main(String[] arg) {
-        Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
-        config.setTitle("Parrot Example");
-        config.setWindowedMode(1024, 576);
-        config.setAudioConfig(128, 4096, 9); // Increase libGDX's default audio limits which are pretty low
-        config.setResizable(false);
-        new Lwjgl3Application(new ParrotExample(), config);
-    }
-
 }

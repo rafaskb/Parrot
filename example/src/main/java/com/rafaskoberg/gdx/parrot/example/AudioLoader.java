@@ -6,8 +6,8 @@ import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.files.FileHandle;
 
 public class AudioLoader {
-    private static final String   SOUNDS_DIR = "example/assets/sounds/";
-    private static final String   MUSIC_DIR  = "example/assets/music/";
+    private static final String   SOUNDS_DIR = "sounds/";
+    private static final String   MUSIC_DIR  = "music/";
     private static final String[] EXTENSIONS = {".wav", ".ogg", ".mp3"};
 
     public static void load(SoundType soundType) {

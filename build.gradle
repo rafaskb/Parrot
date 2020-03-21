@@ -8,10 +8,6 @@ buildscript {
 
 apply plugin: 'java-library'
 
-def projectName = 'parrot'
-version '0.0.1-SNAPSHOT'
-group 'com.rafaskoberg.gdx'
-
 [compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
 
 // Disable JDK 8's doclint
@@ -36,6 +32,9 @@ allprojects {
     sourceSets.test.java.srcDirs = ["src/test/java"]
 
     ext {
+        projectName = 'parrot'
+        projectVersion = '0.0.1-SNAPSHOT'
+
         gdxVersion = '1.9.10'
         boomVersion = '561816962ed2f842bba5e6468861d4cc18b7eb86'
         visUiVersion = '1.4.4'
@@ -67,6 +66,7 @@ project(":lwjgl3") {
 project(":example") {
     dependencies {
         api project(":lwjgl3")
+        implementation group: 'com.badlogicgames.gdx', name: 'gdx', version: gdxVersion
         implementation group: 'com.badlogicgames.gdx', name: 'gdx-backend-lwjgl3', version: gdxVersion
         implementation group: 'com.badlogicgames.gdx', name: 'gdx-platform', version: gdxVersion, classifier: 'natives-desktop'
         implementation group: 'com.kotcrab.vis', name: 'vis-ui', version: visUiVersion

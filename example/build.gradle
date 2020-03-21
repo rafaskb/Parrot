@@ -1,0 +1,29 @@
+import org.gradle.internal.os.OperatingSystem
+
+apply plugin: "application"
+
+mainClassName = 'com.rafaskoberg.gdx.parrot.example.ParrotExampleLauncher'
+sourceSets.main.java.srcDirs = ["src/main/java"]
+
+run {
+    main = mainClassName
+    workingDir = project.file('assets').path
+    if (OperatingSystem.current() == OperatingSystem.MAC_OS) {
+        // Required to run LWJGL3 Java apps on MacOS
+        jvmArgs += "-XstartOnFirstThread"
+    }
+    ignoreExitValue = true
+}
+
+task dist(type: Jar, dependsOn: 'classes') {
+    archiveFileName = "${project.ext.projectName}-example-${project.ext.projectVersion}.jar"
+
+    from files(sourceSets.main.output.classesDirs)
+    from files(sourceSets.main.output.resourcesDir)
+    from { configurations.runtimeClasspath.collect { zipTree(it) } }
+    from files(project.file('assets'));
+
+    manifest {
+        attributes 'Main-Class': mainClassName
+    }
+}
