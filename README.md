@@ -6,11 +6,20 @@ Warning! This library is still in early development!
 
 Parrot was originally made for the Grashers game and transformed into an open source project due to way too many developers having to implement something very similar in their own games.
 
+
+
 ## This library isn't functional yet.
 
 But I'm working on it! :)
 
-#### Roadmap
+In case you want to run the example app to see how the library is shaping up:
+1. Clone this repository.
+2. Open terminal and go to the project's root folder.
+3. Run `gradlew example:run` _(If that doesn't work, try `./gradlew` instead)_
+
+
+
+## Roadmap
 
 - [x] Port Sound system.
 - [x] Port Music system.
