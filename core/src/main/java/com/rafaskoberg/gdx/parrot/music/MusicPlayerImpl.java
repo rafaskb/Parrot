@@ -36,7 +36,7 @@ public class MusicPlayerImpl implements MusicPlayer {
     @Override
     public void setMusicVolume(float volume) {
         // Calculate perceived volume
-        float perceivedVolume = MathUtils.clamp((float) Math.pow(volume, settings.loudnessExponentialCurve), MIN_VOLUME, 1.0f);
+        float perceivedVolume = ParrotUtils.getPerceivedVolume(volume, settings.loudnessExponentialCurve);
 
         // Calculate volume and factor differences in decibels
         float volumeDiffDb = ParrotUtils.volumeToDb(this.masterVolume) - ParrotUtils.volumeToDb(perceivedVolume);

@@ -46,8 +46,7 @@ public class SoundPlayerImpl implements SoundPlayer {
 
     @Override
     public void setSoundVolume(float volume) {
-        float perceivedVolume = (float) Math.pow(volume, settings.loudnessExponentialCurve);
-        this.masterVolume = MathUtils.clamp(perceivedVolume, 0.0f, 1.0f);
+        this.masterVolume = ParrotUtils.getPerceivedVolume(volume, settings.loudnessExponentialCurve);
     }
 
     @Override

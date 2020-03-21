@@ -1,6 +1,7 @@
 package com.rafaskoberg.gdx.parrot.util;
 
 import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.SharedLibraryLoader;
 import com.badlogic.gdx.utils.reflect.ClassReflection;
 import com.badlogic.gdx.utils.reflect.Method;
@@ -8,6 +9,8 @@ import com.badlogic.gdx.utils.reflect.ReflectionException;
 
 /** Utility class for the Parrot library. */
 public class ParrotUtils {
+    private static final float MIN_VOLUME = 0.000001f;
+
     private static Method methodOpenALSoundDuration;
 
     /**
@@ -52,6 +55,13 @@ public class ParrotUtils {
      */
     public static float volumeToDb(float volume) {
         return 20.0f * ((float) Math.log10(Math.max(0, volume)));
+    }
+
+    /**
+     * Calculates the perceived volume based on the given linear one.
+     */
+    public static float getPerceivedVolume(float volume, float loudnessExponentialCurve) {
+        return MathUtils.clamp((float) Math.pow(volume, loudnessExponentialCurve), MIN_VOLUME, 1.0f);
     }
 
 }
