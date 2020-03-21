@@ -23,6 +23,13 @@ But I'm working on it! :)
 - [ ] Create a very clean and straightforward API in the Parrot class.
 - [ ] Review the entire documentation to make sure everything is as clear as possible.
 - [ ] Create an example module with a fully functional implementation, which will also be used as a test application.
+    - [ ] Music player with play and stop buttons, plus a label of the music track and its author.
+    - [ ] Footstep sounds (spatial).
+    - [ ] Flamethrower sound to demonstrate continuous playback mode (spatial).
+    - [ ] Warning Beep sound to demonstrate eternal playback mode (non spatial).
+    - [ ] UI sounds. (non spatial).
+    - [ ] Ambient music tracks (Rain, restaurant, underwater).
+    - [ ] Choose between multiple Boom channels (only for sound effects).
 - [ ] Write a proper README. (Including lwjgl3 and Boom limitations.)
 - [ ] Create a simple wiki with instructions.
 - [ ] Release v1.0.0 through Jitpack.
