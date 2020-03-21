@@ -1,5 +1,6 @@
 package com.rafaskoberg.gdx.parrot.example;
 
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.Timer;
 import com.badlogic.gdx.utils.Timer.Task;
 import com.rafaskoberg.gdx.parrot.Parrot;
@@ -32,9 +33,11 @@ public class ParrotHandler {
 
     public void onMusicButton(boolean checked) {
         if(checked) {
-            parrot.playMusic(MusicType.CRYSTAL_CAVE, true, false);
+            MusicType[] values = MusicType.values();
+            MusicType musicType = values[MathUtils.random(values.length - 1)];
+            parrot.playMusic(musicType, true, true);
         } else {
-            parrot.stopMusic(MusicType.CRYSTAL_CAVE);
+            parrot.stopAllMusic();
         }
     }
 }

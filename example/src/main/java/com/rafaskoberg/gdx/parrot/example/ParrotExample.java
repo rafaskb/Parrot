@@ -31,7 +31,7 @@ public class ParrotExample extends ApplicationAdapter {
         parrot = new Parrot();
 
         // Load VisUI
-        VisUI.load(SkinScale.X2);
+        VisUI.load(Gdx.files.internal("example/assets/skin/tinted.json"));
 
         // Create batch and stage
         this.batch = new SpriteBatch();
@@ -105,7 +105,7 @@ public class ParrotExample extends ApplicationAdapter {
 
     public void update(float delta) {
         stage.act(delta);
-        parrot.updateSounds(stage.getCamera(), delta);
+        parrot.updateSounds(0, 0, delta);
         parrot.updateMusic(delta);
     }
 
