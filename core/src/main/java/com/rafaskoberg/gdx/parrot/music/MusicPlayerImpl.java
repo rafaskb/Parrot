@@ -75,7 +75,6 @@ public class MusicPlayerImpl implements MusicPlayer {
 
                 case SILENT: {
                     // Play music
-                    music.setPosition(0);
                     music.setVolume(MIN_VOLUME);
                     music.setLooping(musicInstance.isLooping);
                     if(boom == null) {
@@ -118,7 +117,6 @@ public class MusicPlayerImpl implements MusicPlayer {
                     music.setVolume(MathUtils.clamp(volume, MIN_VOLUME, 1));
                     if(musicInstance.stateTimer > settings.musicFadeOutDuration) {
                         music.stop();
-                        music.setPosition(0);
                         musicInstance.state = State.DISPOSING;
                     }
                     break;
@@ -150,7 +148,6 @@ public class MusicPlayerImpl implements MusicPlayer {
             // Stop music if it's already playing
             if(music.isPlaying()) {
                 music.stop();
-                music.setPosition(0);
             }
 
             // Reuse an existing MusicInstance of the same type
@@ -180,7 +177,7 @@ public class MusicPlayerImpl implements MusicPlayer {
             musicInstance.boomChannel = boomChannel;
 
             // Configure Music
-            music.setPosition(0);
+            music.stop();
             music.setVolume(MIN_VOLUME);
 
             return music;
