@@ -16,6 +16,14 @@ public interface MusicPlayer extends Disposable {
     void setMusicVolume(float volume);
 
     /**
+     * Sets the volume of a certain channel of this {@link MusicPlayer} respecting perceived loudness equations.
+     *
+     * @param channel Internal channel
+     * @param volume  Linear volume from 0 to 1 to be set
+     */
+    void setMusicChannelVolume(int channel, float volume);
+
+    /**
      * Updates all music instances. Must be called constantly.
      */
     void updateMusic(float delta);

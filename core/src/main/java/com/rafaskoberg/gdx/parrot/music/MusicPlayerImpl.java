@@ -3,6 +3,7 @@ package com.rafaskoberg.gdx.parrot.music;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.IntFloatMap;
 import com.badlogic.gdx.utils.Pools;
 import com.rafaskoberg.boom.Boom;
 import com.rafaskoberg.gdx.parrot.Parrot;
@@ -15,6 +16,7 @@ public class MusicPlayerImpl implements MusicPlayer {
 
     // Collections
     private final Array<MusicInstance> musicInstances;
+    private final IntFloatMap          volumesByChannel;
 
     // Members
     private final Parrot                parrot;
@@ -25,6 +27,7 @@ public class MusicPlayerImpl implements MusicPlayer {
     public MusicPlayerImpl(Parrot parrot) {
         // Collections
         this.musicInstances = new Array<>();
+        this.volumesByChannel = new IntFloatMap();
 
         // Members
         this.parrot = parrot;
@@ -47,6 +50,26 @@ public class MusicPlayerImpl implements MusicPlayer {
         // Change volumes
         for(MusicInstance musicInstance : musicInstances) {
             musicInstance.targetVolume = ParrotUtils.dbToVolume(ParrotUtils.volumeToDb(musicInstance.targetVolume) - volumeDiffDb);
+        }
+    }
+
+    @Override
+    public void setMusicChannelVolume(int channel, float volume) {
+        // Calculate perceived volume
+        float perceivedVolume = ParrotUtils.getPerceivedVolume(volume, settings.loudnessExponentialCurve);
+
+        // Calculate volume and factor differences in decibels
+        float oldVolume = volumesByChannel.get(channel, 1);
+        float volumeDiffDb = ParrotUtils.volumeToDb(oldVolume) - ParrotUtils.volumeToDb(perceivedVolume);
+
+        // Update channel volume
+        volumesByChannel.put(channel, perceivedVolume);
+
+        // Change volumes
+        for(MusicInstance musicInstance : musicInstances) {
+            if(musicInstance.channel == channel) {
+                musicInstance.targetVolume = ParrotUtils.dbToVolume(ParrotUtils.volumeToDb(musicInstance.targetVolume) - volumeDiffDb);
+            }
         }
     }
 
@@ -172,7 +195,7 @@ public class MusicPlayerImpl implements MusicPlayer {
             musicInstance.musicType = musicType;
             musicInstance.isLooping = loop;
             musicInstance.shouldFadeIn = fadeIn;
-            musicInstance.targetVolume = masterVolume * musicType.getRelativeVolume();// * channelVolume;
+            musicInstance.targetVolume = masterVolume * musicType.getRelativeVolume() * volumesByChannel.get(channel, 1);
             musicInstance.channel = channel;
             musicInstance.boomChannel = boomChannel;
 
