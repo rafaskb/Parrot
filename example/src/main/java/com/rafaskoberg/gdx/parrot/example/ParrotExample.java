@@ -15,6 +15,7 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.kotcrab.vis.ui.VisUI;
 import com.kotcrab.vis.ui.widget.VisSlider;
 import com.rafaskoberg.gdx.parrot.Parrot;
+import com.rafaskoberg.gdx.parrot.example.widgets.MusicPlayerWidget;
 
 public class ParrotExample extends ApplicationAdapter {
     private Parrot        parrot;
@@ -83,14 +84,6 @@ public class ParrotExample extends ApplicationAdapter {
             }
         });
 
-        TextButton buttonMusic = new TextButton("Music", VisUI.getSkin(), "toggle");
-        buttonMusic.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                parrotHandler.onMusicButton(buttonMusic.isChecked());
-            }
-        });
-
         // Create sliders
         VisSlider sliderSoundVolume = new VisSlider(0, 1, 0.01f, true);
         sliderSoundVolume.setValue(100);
@@ -100,23 +93,18 @@ public class ParrotExample extends ApplicationAdapter {
                 parrot.setSoundVolume(sliderSoundVolume.getValue());
             }
         });
-        VisSlider sliderMusicVolume = new VisSlider(0, 1, 0.01f, true);
-        sliderMusicVolume.setValue(100);
-        sliderMusicVolume.addListener(new ChangeListener() {
-            @Override
-            public void changed(ChangeEvent event, Actor actor) {
-                parrot.setMusicVolume(sliderMusicVolume.getValue());
-            }
-        });
+
+        MusicPlayerWidget musicPlayerWidget = new MusicPlayerWidget(parrot);
+        musicPlayerWidget.pack();
 
         // Configure table
-        rootTable.pad(50f);
+        rootTable.setFillParent(true);
         rootTable.row().uniform().expand().growX().space(40).center();
         rootTable.add(buttonFootsteps, buttonWarning, buttonFlamethrower);
         rootTable.row().uniform().expand().growX().space(40).center();
-        rootTable.add(buttonMusic);
-        rootTable.row().uniform().expand().growX().space(40).center();
-        rootTable.add(sliderSoundVolume, sliderMusicVolume);
+        rootTable.add(sliderSoundVolume);
+        rootTable.row();
+        rootTable.add(musicPlayerWidget).colspan(3).growX().bottom();
         rootTable.pack();
     }
 
@@ -131,7 +119,7 @@ public class ParrotExample extends ApplicationAdapter {
     public void render() {
         update(Gdx.graphics.getDeltaTime());
 
-        Gdx.gl.glClearColor(0.1f, 0.1f, 0.1f, 1);
+        Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         stage.draw();

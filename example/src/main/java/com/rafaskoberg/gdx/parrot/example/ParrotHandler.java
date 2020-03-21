@@ -1,13 +1,10 @@
 package com.rafaskoberg.gdx.parrot.example;
 
-import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.Timer;
 import com.badlogic.gdx.utils.Timer.Task;
 import com.rafaskoberg.gdx.parrot.Parrot;
 
 public class ParrotHandler {
-    private static final int   MUSIC_CHANNEL     = 1;
-    private static final int   AMBIENCE_CHANNEL  = 2;
     private static final float FOOTSTEP_INTERVAL = 0.5f;
 
     private Parrot  parrot;
@@ -57,16 +54,6 @@ public class ParrotHandler {
         } else {
             flamethrowerSoundId = 0;
             isFlamethrowerActive = false;
-        }
-    }
-
-    public void onMusicButton(boolean checked) {
-        if(checked) {
-            MusicType[] values = MusicType.values();
-            MusicType musicType = values[MathUtils.random(values.length - 1)];
-            parrot.playMusic(musicType, true, true, MUSIC_CHANNEL, -1);
-        } else {
-            parrot.stopMusicChannel(MUSIC_CHANNEL);
         }
     }
 }
