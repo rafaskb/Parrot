@@ -6,9 +6,10 @@ import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.files.FileHandle;
 
 public class AudioLoader {
-    private static final String   SOUNDS_DIR = "sounds/";
-    private static final String   MUSIC_DIR  = "music/";
-    private static final String[] EXTENSIONS = {".wav", ".ogg", ".mp3"};
+    private static final String   SOUNDS_DIR   = "sounds/";
+    private static final String   MUSIC_DIR    = "music/";
+    private static final String   AMBIENCE_DIR = "ambience/";
+    private static final String[] EXTENSIONS   = {".wav", ".ogg", ".mp3"};
 
     public static void load(SoundType soundType) {
         // Load file directly
@@ -63,4 +64,19 @@ public class AudioLoader {
         }
     }
 
+    public static void load(AmbienceType ambienceType) {
+        // Load file directly
+        for(String extension : EXTENSIONS) {
+            FileHandle file = Gdx.files.internal(AMBIENCE_DIR + ambienceType.getFilename() + extension);
+            if(file.exists()) {
+                try {
+                    Music music = Gdx.audio.newMusic(file);
+                    ambienceType.setMusic(music);
+                    break;
+                } catch(Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
 }

@@ -15,6 +15,7 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.kotcrab.vis.ui.VisUI;
 import com.kotcrab.vis.ui.widget.VisSlider;
 import com.rafaskoberg.gdx.parrot.Parrot;
+import com.rafaskoberg.gdx.parrot.example.widgets.AmbiencePlayerWidget;
 import com.rafaskoberg.gdx.parrot.example.widgets.MusicPlayerWidget;
 
 public class ParrotExample extends ApplicationAdapter {
@@ -47,6 +48,11 @@ public class ParrotExample extends ApplicationAdapter {
         // Load music
         for(MusicType musicType : MusicType.values()) {
             AudioLoader.load(musicType);
+        }
+
+        // Load ambience
+        for(AmbienceType ambienceType : AmbienceType.values()) {
+            AudioLoader.load(ambienceType);
         }
 
         // Create UI
@@ -94,11 +100,15 @@ public class ParrotExample extends ApplicationAdapter {
             }
         });
 
+        AmbiencePlayerWidget ambiencePlayerWidget = new AmbiencePlayerWidget(parrot);
+        ambiencePlayerWidget.pack();
+
         MusicPlayerWidget musicPlayerWidget = new MusicPlayerWidget(parrot);
         musicPlayerWidget.pack();
 
         // Configure table
         rootTable.setFillParent(true);
+        rootTable.add(ambiencePlayerWidget).colspan(3).growX().top();
         rootTable.row().uniform().expand().growX().space(40).center();
         rootTable.add(buttonFootsteps, buttonWarning, buttonFlamethrower);
         rootTable.row().uniform().expand().growX().space(40).center();
