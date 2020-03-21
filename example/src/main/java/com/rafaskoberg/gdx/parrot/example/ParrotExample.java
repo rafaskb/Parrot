@@ -15,7 +15,6 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.kotcrab.vis.ui.VisUI;
-import com.kotcrab.vis.ui.VisUI.SkinScale;
 import com.kotcrab.vis.ui.widget.VisSlider;
 import com.rafaskoberg.gdx.parrot.Parrot;
 
@@ -70,6 +69,15 @@ public class ParrotExample extends ApplicationAdapter {
             }
         });
 
+        // Create buttons
+        TextButton buttonWarning = new TextButton("Warning Beep", VisUI.getSkin(), "toggle");
+        buttonWarning.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                parrotHandler.onWarningButton(buttonWarning.isChecked());
+            }
+        });
+
         TextButton buttonMusic = new TextButton("Music", VisUI.getSkin(), "toggle");
         buttonMusic.addListener(new ClickListener() {
             @Override
@@ -99,7 +107,9 @@ public class ParrotExample extends ApplicationAdapter {
         // Configure table
         rootTable.pad(50f);
         rootTable.row().uniform().expand().growX().space(40).center();
-        rootTable.add(buttonFootsteps, buttonMusic, sliderSoundVolume, sliderMusicVolume);
+        rootTable.add(buttonFootsteps, buttonWarning, buttonMusic);
+        rootTable.row().uniform().expand().growX().space(40).center();
+        rootTable.add(sliderSoundVolume, sliderMusicVolume);
         rootTable.pack();
     }
 

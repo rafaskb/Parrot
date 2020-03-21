@@ -7,7 +7,8 @@ import com.rafaskoberg.gdx.parrot.sfx.ParrotSoundType;
 import com.rafaskoberg.gdx.parrot.sfx.PlaybackMode;
 
 public enum SoundType implements ParrotSoundType {
-    FOOTSTEPS("footsteps", SoundCategory.PLAYER, 3, 1.0f, 1.0f, 0.05f, PlaybackMode.NORMAL, 0.0f);
+    FOOTSTEPS("footsteps", SoundCategory.PLAYER, 3, 1.0f, 1.0f, 0.05f, PlaybackMode.NORMAL, 0.0f),
+    WARNING_BEEP("warning_beep", SoundCategory.ENVIRONMENT, 1, 0.5f, 0.5f, 0.00f, PlaybackMode.ETERNAL, 0.0f);
 
     private final Array<Sound>  sounds;
     private final String        filename;
