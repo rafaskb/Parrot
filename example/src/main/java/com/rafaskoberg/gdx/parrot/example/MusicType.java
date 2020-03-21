@@ -4,9 +4,11 @@ import com.badlogic.gdx.audio.Music;
 import com.rafaskoberg.gdx.parrot.music.ParrotMusicType;
 
 public enum MusicType implements ParrotMusicType {
-    CRYSTAL_CAVE("crystal_cave", 1.0f),
-    SNOWLAND("snowland", 1.0f),
-    THE_LAST_ENCOUNTER("the_last_encounter", 1.0f);
+    CRYSTAL_CAVE("crystal_cave", 0.8f),
+    SNOWLAND("snowland", 0.8f),
+    THE_LAST_ENCOUNTER("the_last_encounter", 1.0f),
+    IMMINENT_THREAT("imminent_threat", 0.8f),
+    RIVERSIDE_RIDE("riverside_ride", 0.8f);
 
     private final String filename;
     private final float  volume;
