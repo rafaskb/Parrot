@@ -18,10 +18,11 @@ import com.rafaskoberg.gdx.parrot.example.util.Constants;
 import com.rafaskoberg.gdx.parrot.example.util.Utils;
 
 public class MusicPlayerWidget extends Table {
-    private final Parrot   parrot;
-    private       int      curentMusicTypeIndex = 0;
-    private       VisLabel trackLabel;
-    private       VisLabel artistLabel;
+    private final Parrot         parrot;
+    private       int            curentMusicTypeIndex = 0;
+    private       VisImageButton playButton;
+    private       VisLabel       trackLabel;
+    private       VisLabel       artistLabel;
 
     public MusicPlayerWidget(Parrot parrot) {
         this.parrot = parrot;
@@ -74,7 +75,7 @@ public class MusicPlayerWidget extends Table {
         });
 
         // Play/Stop button
-        VisImageButton playButton = new VisImageButton(Utils.createModernButtonStyle(Utils.loadImageDrawable("play"), true));
+        playButton = new VisImageButton(Utils.createModernButtonStyle(Utils.loadImageDrawable("play"), true));
         playButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -113,7 +114,7 @@ public class MusicPlayerWidget extends Table {
         sliderMusicVolume.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                parrot.setMusicVolume(sliderMusicVolume.getValue());
+                parrot.setMusicChannelVolume(Constants.MUSIC_CHANNEL, sliderMusicVolume.getValue());
             }
         });
 
@@ -133,11 +134,13 @@ public class MusicPlayerWidget extends Table {
         if(!isPlaying) {
             MusicType musicType = MusicType.values()[curentMusicTypeIndex];
             parrot.playMusic(musicType, true, true, Constants.MUSIC_CHANNEL, -1);
+            playButton.setChecked(true);
         }
 
         // Stop music
         if(isPlaying) {
             parrot.stopMusicChannel(Constants.MUSIC_CHANNEL, true);
+            playButton.setChecked(false);
         }
     }
 

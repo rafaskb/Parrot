@@ -19,8 +19,9 @@ import com.rafaskoberg.gdx.parrot.example.util.Constants;
 import com.rafaskoberg.gdx.parrot.example.util.Utils;
 
 public class AmbiencePlayerWidget extends Table {
-    private final Parrot parrot;
-    VisSelectBox<AmbienceType> selectBox;
+    private final Parrot                     parrot;
+    private       VisImageButton             playButton;
+    private       VisSelectBox<AmbienceType> selectBox;
 
     public AmbiencePlayerWidget(Parrot parrot) {
         this.parrot = parrot;
@@ -46,7 +47,7 @@ public class AmbiencePlayerWidget extends Table {
 
     private Table createControllerTable(Parrot parrot) {
         // Play button
-        VisImageButton playButton = new VisImageButton(Utils.createModernButtonStyle(Utils.loadImageDrawable("play-small"), true));
+        playButton = new VisImageButton(Utils.createModernButtonStyle(Utils.loadImageDrawable("play-small"), true));
         playButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -85,8 +86,7 @@ public class AmbiencePlayerWidget extends Table {
         sliderMusicVolume.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                parrot.setMusicVolume(sliderMusicVolume.getValue());
-                // TODO Change channel volume, not the entire player
+                parrot.setMusicChannelVolume(Constants.AMBIENCE_CHANNEL, sliderMusicVolume.getValue());
             }
         });
 
@@ -106,11 +106,13 @@ public class AmbiencePlayerWidget extends Table {
         if(!isPlaying) {
             AmbienceType ambienceType = selectBox.getSelected();
             parrot.playMusic(ambienceType, true, true, Constants.AMBIENCE_CHANNEL, -1);
+            playButton.setChecked(true);
         }
 
         // Stop ambience
         if(isPlaying) {
             parrot.stopMusicChannel(Constants.AMBIENCE_CHANNEL, true);
+            playButton.setChecked(false);
         }
     }
 
