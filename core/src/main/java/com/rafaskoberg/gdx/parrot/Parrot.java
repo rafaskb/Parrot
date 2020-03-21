@@ -1,7 +1,6 @@
 package com.rafaskoberg.gdx.parrot;
 
 import com.badlogic.gdx.audio.Music;
-import com.badlogic.gdx.graphics.Camera;
 import com.rafaskoberg.boom.Boom;
 import com.rafaskoberg.gdx.parrot.music.MusicPlayer;
 import com.rafaskoberg.gdx.parrot.music.MusicPlayerImpl;
