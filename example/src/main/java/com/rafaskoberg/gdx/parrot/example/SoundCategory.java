@@ -8,6 +8,7 @@ import com.rafaskoberg.gdx.parrot.sfx.ParrotSoundCategory;
 public enum SoundCategory implements ParrotSoundCategory {
     PLAYER(16, true),
     ENVIRONMENT(16, true),
+    WORLD(4, false),
     RESTRICTED(1, false),
     USER_INTERFACE(8, false);
 

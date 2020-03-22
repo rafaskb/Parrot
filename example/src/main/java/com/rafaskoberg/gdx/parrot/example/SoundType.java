@@ -8,7 +8,7 @@ import com.rafaskoberg.gdx.parrot.sfx.PlaybackMode;
 
 public enum SoundType implements ParrotSoundType {
     FOOTSTEPS("footsteps", SoundCategory.PLAYER, 3, 1.0f, 1.0f, 0.05f, PlaybackMode.NORMAL, 0.0f),
-    WARNING_BEEP("warning_beep", SoundCategory.ENVIRONMENT, 1, 0.8f, 0.5f, 0.00f, PlaybackMode.ETERNAL, 0.0f),
+    WARNING_BEEP("warning_beep", SoundCategory.WORLD, 1, 0.8f, 0.5f, 0.00f, PlaybackMode.ETERNAL, 0.0f),
     FLAMETHROWER_SPARK("flamethrower_spark", SoundCategory.PLAYER, 2, 1f, 1.0f, 0.20f, PlaybackMode.NORMAL, 0.0f),
     FLAMETHROWER("flamethrower", SoundCategory.PLAYER, 1, 0.6f, 1.0f, 0.00f, PlaybackMode.CONTINUOUS, 0.3f),
     UI_CLICK("ui_hover", SoundCategory.USER_INTERFACE, 2, 0.65f, 1.5f, 0.0f, PlaybackMode.NORMAL, 0.0f),
