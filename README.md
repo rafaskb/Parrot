@@ -34,11 +34,12 @@ In case you want to run the example app to see how the library is shaping up:
 - [ ] Create an example module with a fully functional implementation, which will also be used as a test application.
     - [x] Music player with play and stop buttons, plus a label of the music track and its author.
     - [x] Ambient music tracks (Rain, restaurant, underwater).
-    - [ ] Footstep sounds (spatial).
-    - [ ] Flamethrower sound to demonstrate continuous playback mode (spatial).
-    - [ ] Warning Beep sound to demonstrate eternal playback mode (non spatial).
-    - [ ] UI sounds. (non spatial).
-    - [ ] Choose between multiple Boom channels (only for sound effects).
+    - [x] UI sounds. (non spatial).
+    - [x] Basic Boom implementation.
+    - [x] Flamethrower sound to demonstrate continuous playback mode (spatial).
+    - [x] Warning Beep sound to demonstrate eternal playback mode (non spatial).
+    - [x] Footstep sounds (spatial).
+    - [ ] Allow user to change the listener's position.
 - [ ] Write a proper README. (Including lwjgl3 and Boom limitations.)
 - [ ] Create a simple wiki with instructions.
 - [ ] Release v1.0.0 through Jitpack.
