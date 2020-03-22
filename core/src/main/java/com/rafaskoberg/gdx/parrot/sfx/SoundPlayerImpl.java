@@ -28,7 +28,6 @@ public class SoundPlayerImpl implements SoundPlayer {
     private final Vector2        tmpVec;
     private       long           nextId;
     private       float          masterVolume;
-    private       Boom           boom;
 
     public SoundPlayerImpl(Parrot parrot) {
         // Collections
@@ -156,6 +155,7 @@ public class SoundPlayerImpl implements SoundPlayer {
                     float pitchVariation = soundType.getPitchVariation() * MathUtils.randomTriangular(-1, 1, 0);
                     pitch += pitchVariation;
 
+                    Boom boom = parrot.getBoom();
                     if(boom == null) {
                         // Play sound normally
                         if(normal) {
@@ -509,20 +509,6 @@ public class SoundPlayerImpl implements SoundPlayer {
                 }
             }
         }
-    }
-
-    /**
-     * Returns the {@link Boom} instance associated with this player, if any.
-     */
-    public Boom getBoom() {
-        return boom;
-    }
-
-    /**
-     * Sets the {@link Boom} instance associated with this player.
-     */
-    public void setBoom(Boom boom) {
-        this.boom = boom;
     }
 
     /** Returns the next available sound ID to be used. */
