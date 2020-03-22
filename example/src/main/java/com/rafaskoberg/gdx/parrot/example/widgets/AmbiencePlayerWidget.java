@@ -130,6 +130,6 @@ public class AmbiencePlayerWidget extends Table {
         }
 
         // Play sound effect
-        parrot.playSound(SoundType.UI_CLICK);
+        parrot.playSound(SoundType.UI_HOVER);
     }
 }
