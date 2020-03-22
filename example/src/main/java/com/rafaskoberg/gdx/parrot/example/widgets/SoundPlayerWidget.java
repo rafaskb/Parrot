@@ -18,7 +18,7 @@ import com.rafaskoberg.gdx.parrot.example.util.Constants;
 import com.rafaskoberg.gdx.parrot.example.util.Utils;
 
 public class SoundPlayerWidget extends Table {
-    private static final float FOOTSTEP_INTERVAL = 0.5f;
+    private static final float FOOTSTEP_INTERVAL = 0.35f;
 
     private final Parrot  parrot;
     private       Task    footstepTask;
