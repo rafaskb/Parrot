@@ -16,17 +16,17 @@ public interface SoundPlayer extends Disposable {
     void setSoundVolume(float volume);
 
     /**
-     * Sets the position of the listener for spatial sound effects.
+     * Sets the coordinates of the listener for spatial sound effects.
      */
-    Vector2 getSpatialListenerPosition();
+    Vector2 getSpatialListenerCoordinates();
 
     /**
-     * Sets the position of the listener for spatial sound effects.
+     * Sets the coordinates of the listener for spatial sound effects.
      *
      * @param x X coordinate of the sound listener, for spatial sounds.
      * @param y Y coordinate of the sound listener, for spatial sounds.
      */
-    void setSpatialListenerPosition(float x, float y);
+    void setSpatialListenerCoordinates(float x, float y);
 
     /**
      * Updates all the sounds. Must be called constantly.

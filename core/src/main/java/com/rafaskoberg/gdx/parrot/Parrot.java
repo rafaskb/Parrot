@@ -67,13 +67,13 @@ public class Parrot implements SoundPlayer, MusicPlayer {
     }
 
     @Override
-    public Vector2 getSpatialListenerPosition() {
-        return soundPlayer.getSpatialListenerPosition();
+    public Vector2 getSpatialListenerCoordinates() {
+        return soundPlayer.getSpatialListenerCoordinates();
     }
 
     @Override
-    public void setSpatialListenerPosition(float x, float y) {
-        soundPlayer.setSpatialListenerPosition(x, y);
+    public void setSpatialListenerCoordinates(float x, float y) {
+        soundPlayer.setSpatialListenerCoordinates(x, y);
     }
 
     @Override

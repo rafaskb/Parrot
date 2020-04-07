@@ -52,11 +52,13 @@ public class SoundPlayerImpl implements SoundPlayer {
 
     @Override
     public Vector2 getSpatialListenerPosition() {
+    @Override
+    public Vector2 getSpatialListenerCoordinates() {
         return listenerPosition;
     }
 
     @Override
-    public void setSpatialListenerPosition(float x, float y) {
+    public void setSpatialListenerCoordinates(float x, float y) {
         listenerPosition.set(x, y);
     }
 
