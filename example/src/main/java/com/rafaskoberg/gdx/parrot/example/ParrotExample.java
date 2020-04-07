@@ -132,8 +132,11 @@ public class ParrotExample extends ApplicationAdapter {
             float duration = isMusicPlaying ? settings.musicFadeInDuration : settings.musicFadeOutDuration;
             parrotIcon.addAction(Actions.alpha(alpha, duration, Interpolation.sine));
         }
+        float parrotIconRgb = parrot.getMusicChannelVolume(Constants.MUSIC_CHANNEL);
+        parrotIcon.getColor().r = parrotIconRgb;
+        parrotIcon.getColor().g = 0.25f + parrotIconRgb * 0.75f;
+        parrotIcon.getColor().b = 0.5f + parrotIconRgb * 0.5f;
     }
-
     @Override
     public void render() {
         // Update app
