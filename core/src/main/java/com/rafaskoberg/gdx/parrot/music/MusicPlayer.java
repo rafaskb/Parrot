@@ -21,6 +21,14 @@ public interface MusicPlayer extends Disposable {
     void setMusicPlayerVolume(float volume);
 
     /**
+     * Returns the linear volume of a certain channel of this {@link MusicPlayer}, as passed to {@link
+     * #setMusicChannelVolume(int, float)}.
+     *
+     * @param channel Internal channel
+     */
+    float getMusicChannelVolume(int channel);
+
+    /**
      * Sets the volume of a certain channel of this {@link MusicPlayer} respecting perceived loudness equations.
      *
      * @param channel Internal channel

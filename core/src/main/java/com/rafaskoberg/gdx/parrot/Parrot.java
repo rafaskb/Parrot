@@ -147,6 +147,11 @@ public class Parrot implements SoundPlayer, MusicPlayer {
     }
 
     @Override
+    public float getMusicChannelVolume(int channel) {
+        return musicPlayer.getMusicChannelVolume(channel);
+    }
+
+    @Override
     public void setMusicChannelVolume(int channel, float volume) {
         musicPlayer.setMusicChannelVolume(channel, volume);
     }

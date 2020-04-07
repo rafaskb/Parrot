@@ -17,6 +17,7 @@ public class MusicPlayerImpl implements MusicPlayer {
     // Collections
     private final Array<MusicInstance> musicInstances;
     private final IntFloatMap          volumesByChannel;
+    private final IntFloatMap          rawVolumesByChannel;
 
     // Members
     private final Parrot                parrot;
@@ -29,6 +30,7 @@ public class MusicPlayerImpl implements MusicPlayer {
         // Collections
         this.musicInstances = new Array<>();
         this.volumesByChannel = new IntFloatMap();
+        this.rawVolumesByChannel = new IntFloatMap();
 
         // Members
         this.parrot = parrot;
@@ -64,9 +66,18 @@ public class MusicPlayerImpl implements MusicPlayer {
     }
 
     @Override
+    public float getMusicChannelVolume(int channel) {
+        return rawVolumesByChannel.get(channel, 1);
+    }
+
+    @Override
     public void setMusicChannelVolume(int channel, float volume) {
+        // Calculate raw volume
+        float rawVolume = MathUtils.clamp(volume, 0, 1);
+        rawVolumesByChannel.put(channel, rawVolume);
+
         // Calculate perceived volume
-        float perceivedVolume = ParrotUtils.getPerceivedVolume(volume, settings.loudnessExponentialCurve);
+        float perceivedVolume = ParrotUtils.getPerceivedVolume(rawVolume, settings.loudnessExponentialCurve);
 
         // Calculate volume and factor differences in decibels
         float oldVolume = volumesByChannel.get(channel, 1);
