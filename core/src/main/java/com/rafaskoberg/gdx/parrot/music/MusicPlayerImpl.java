@@ -255,7 +255,7 @@ public class MusicPlayerImpl implements MusicPlayer {
 
     @Override
     public boolean isMusicPlaying() {
-        if(!isPowered()) {
+        if(isPowered()) {
             for(MusicInstance musicInstance : musicInstances) {
                 if(musicInstance != null && musicInstance.state.isActive()) {
                     Music music = musicInstance.music;
