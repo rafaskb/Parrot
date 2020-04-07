@@ -45,6 +45,16 @@ public class Parrot implements SoundPlayer, MusicPlayer {
     }
 
     /**
+     * Updates all music and sound effects handled by Parrot. Must be called constantly.
+     *
+     * @param delta Time in seconds since the last frame.
+     */
+    public void update(float delta) {
+        updateMusic(delta);
+        updateSounds(delta);
+    }
+
+    /**
      * Sets the {@link Boom} instance responsible for playing music and sound effects.
      */
     public void setBoom(Boom boom) {
