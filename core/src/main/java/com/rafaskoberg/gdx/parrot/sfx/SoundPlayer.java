@@ -1,5 +1,6 @@
 package com.rafaskoberg.gdx.parrot.sfx;
 
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Disposable;
 
 /**
@@ -15,19 +16,22 @@ public interface SoundPlayer extends Disposable {
     void setSoundVolume(float volume);
 
     /**
-     * Updates all the sounds. Must be called constantly.
+     * Sets the position of the listener for spatial sound effects.
      */
-    default void updateSounds(float delta) {
-        updateSounds(0, 0, delta);
-    }
+    Vector2 getSpatialListenerPosition();
 
     /**
-     * Updates all the sounds. Must be called constantly.
+     * Sets the position of the listener for spatial sound effects.
      *
      * @param x X coordinate of the sound listener, for spatial sounds.
      * @param y Y coordinate of the sound listener, for spatial sounds.
      */
-    void updateSounds(float x, float y, float delta);
+    void setSpatialListenerPosition(float x, float y);
+
+    /**
+     * Updates all the sounds. Must be called constantly.
+     */
+    void updateSounds(float delta);
 
     /**
      * Register a {@link ParrotSoundType} to be played the next time this instance is updated.

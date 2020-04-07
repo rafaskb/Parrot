@@ -25,6 +25,7 @@ public class SoundPlayerImpl implements SoundPlayer {
     // Members
     private final Parrot         parrot;
     private final ParrotSettings settings;
+    private final Vector2        listenerPosition;
     private final Vector2        tmpVec;
     private       long           nextId;
     private       float          masterVolume;
@@ -38,6 +39,7 @@ public class SoundPlayerImpl implements SoundPlayer {
         // Members
         this.parrot = parrot;
         this.settings = parrot.getSettings();
+        this.listenerPosition = new Vector2();
         this.tmpVec = new Vector2();
         this.nextId = 1;
         this.masterVolume = 1.0f;
@@ -49,9 +51,19 @@ public class SoundPlayerImpl implements SoundPlayer {
     }
 
     @Override
-    public void updateSounds(float x, float y, float delta) {
+    public Vector2 getSpatialListenerPosition() {
+        return listenerPosition;
+    }
+
+    @Override
+    public void setSpatialListenerPosition(float x, float y) {
+        listenerPosition.set(x, y);
+    }
+
+    @Override
+    public void updateSounds(float delta) {
         // Manually solidify continuous sounds positions
-        solidifyContinuousPositions(x, y, delta);
+        solidifyContinuousPositions(listenerPosition.x, listenerPosition.y, delta);
 
         // Iterate through sounds
         for(int i = 0; i < soundInstances.size; i++) {
@@ -113,7 +125,7 @@ public class SoundPlayerImpl implements SoundPlayer {
 
             if(category != null && category.isSpatial()) {
                 // Calculate distance factor
-                tmpVec.set(soundInstance.positionX, soundInstance.positionY).sub(x, y);
+                tmpVec.set(soundInstance.positionX, soundInstance.positionY).sub(listenerPosition.x, listenerPosition.y);
                 float dst = tmpVec.len();
                 float dstFactorRaw = MathUtils.clamp(dst / settings.soundDistanceLimit, 0.0f, 1.0f);
                 distanceFactor = Interpolation.linear.apply(1.0f, 1.0f - ParrotUtils.dbToVolume(settings.soundDistanceReduction), dstFactorRaw);

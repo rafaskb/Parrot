@@ -1,6 +1,7 @@
 package com.rafaskoberg.gdx.parrot;
 
 import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.math.Vector2;
 import com.rafaskoberg.boom.Boom;
 import com.rafaskoberg.gdx.parrot.music.MusicPlayer;
 import com.rafaskoberg.gdx.parrot.music.MusicPlayerImpl;
@@ -56,8 +57,18 @@ public class Parrot implements SoundPlayer, MusicPlayer {
     }
 
     @Override
-    public void updateSounds(float x, float y, float delta) {
-        soundPlayer.updateSounds(x, y, delta);
+    public Vector2 getSpatialListenerPosition() {
+        return soundPlayer.getSpatialListenerPosition();
+    }
+
+    @Override
+    public void setSpatialListenerPosition(float x, float y) {
+        soundPlayer.setSpatialListenerPosition(x, y);
+    }
+
+    @Override
+    public void updateSounds(float delta) {
+        soundPlayer.updateSounds(delta);
     }
 
     @Override
@@ -159,7 +170,6 @@ public class Parrot implements SoundPlayer, MusicPlayer {
     public void dispose() {
         soundPlayer.dispose();
         musicPlayer.dispose();
-        // TODO
     }
 
 }
