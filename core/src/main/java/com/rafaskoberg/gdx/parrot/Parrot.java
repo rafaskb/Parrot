@@ -37,14 +37,6 @@ public class Parrot implements SoundPlayer, MusicPlayer {
     }
 
     /**
-     * Returns the {@link Boom} instance responsible for playing music and sound effects, in case it's available for the
-     * current platform.
-     */
-    public Boom getBoom() {
-        return boom;
-    }
-
-    /**
      * Updates all music and sound effects handled by Parrot. Must be called constantly.
      *
      * @param delta Time in seconds since the last frame.
@@ -52,6 +44,14 @@ public class Parrot implements SoundPlayer, MusicPlayer {
     public void update(float delta) {
         updateMusic(delta);
         updateSounds(delta);
+    }
+
+    /**
+     * Returns the {@link Boom} instance responsible for playing music and sound effects, in case it's available for the
+     * current platform.
+     */
+    public Boom getBoom() {
+        return boom;
     }
 
     /**
@@ -112,13 +112,13 @@ public class Parrot implements SoundPlayer, MusicPlayer {
     }
 
     @Override
-    public void stopAllSounds(boolean ignorePersistent) {
-        soundPlayer.stopAllSounds(ignorePersistent);
+    public void stopSound(SoundInstance soundInstance) {
+        soundPlayer.stopSound(soundInstance);
     }
 
     @Override
-    public void stopSound(SoundInstance soundInstance) {
-        soundPlayer.stopSound(soundInstance);
+    public void stopAllSounds(boolean ignorePersistent) {
+        soundPlayer.stopAllSounds(ignorePersistent);
     }
 
     @Override
