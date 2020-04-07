@@ -69,7 +69,7 @@ public class SoundPlayerWidget extends Table {
         sliderSoundVolume.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                parrot.setSoundVolume(sliderSoundVolume.getValue());
+                parrot.setSoundPlayerVolume(sliderSoundVolume.getValue());
             }
         });
 

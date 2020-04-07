@@ -74,15 +74,19 @@ public class ParrotExample extends ApplicationAdapter {
         rootTable.setFillParent(true);
         this.stage.addActor(rootTable);
 
+        // Create ambience player widget
         AmbiencePlayerWidget ambiencePlayerWidget = new AmbiencePlayerWidget(parrot);
         ambiencePlayerWidget.pack();
 
+        // Create sound player widget
         SoundPlayerWidget soundPlayerWidget = new SoundPlayerWidget(parrot);
         soundPlayerWidget.pack();
 
+        // Create music player widget
         MusicPlayerWidget musicPlayerWidget = new MusicPlayerWidget(parrot);
         musicPlayerWidget.pack();
 
+        // Create parrot icon
         parrotIcon = new Image(Utils.loadImageDrawable("Parrot"));
         parrotIcon.setAlign(Align.center);
         parrotIcon.setScaling(Scaling.fit);
@@ -100,20 +104,19 @@ public class ParrotExample extends ApplicationAdapter {
         rootTable.pack();
     }
 
-    public void update(float delta) {
+    private void update(float delta) {
         // Update stage
         stage.act(delta);
 
         // Update listener position based on mouse coordinates
         float x = Gdx.input.getX() - Gdx.graphics.getWidth() / 2;
         float y = Gdx.graphics.getHeight() - Gdx.input.getY() - Gdx.graphics.getHeight() / 2;
-        float worldX = x / 50;
-        float worldY = y / 50;
-        parrot.setSpatialListenerPosition(worldX, worldY);
+        float worldX = x / 50; // Cheap conversion from screen coordinates to pseudo world coordinates
+        float worldY = y / 50; // Cheap conversion from screen coordinates to pseudo world coordinates
+        parrot.setSpatialListenerCoordinates(worldX, worldY);
 
         // Update parrot
-        parrot.updateSounds(delta);
-        parrot.updateMusic(delta);
+        parrot.update(delta);
 
         // Update parrot icon
         boolean isMusicPlaying = parrot.isMusicPlaying();
@@ -133,16 +136,20 @@ public class ParrotExample extends ApplicationAdapter {
 
     @Override
     public void render() {
+        // Update app
         update(Gdx.graphics.getDeltaTime());
 
+        // Clean screen
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
+        // Draw stage
         stage.draw();
     }
 
     @Override
     public void resize(int width, int height) {
+        // Resize stage
         stage.getViewport().update(width, height, true);
     }
 
