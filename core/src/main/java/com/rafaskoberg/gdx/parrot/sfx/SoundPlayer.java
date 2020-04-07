@@ -89,7 +89,7 @@ public interface SoundPlayer extends Disposable {
      * class.
      */
     default long playSound(ParrotSoundType type, float x, float y, float pitch, PlaybackMode mode) {
-        return playSound(type, x, y, 1, mode, -1);
+        return playSound(type, x, y, pitch, mode, -1);
     }
 
     /**
