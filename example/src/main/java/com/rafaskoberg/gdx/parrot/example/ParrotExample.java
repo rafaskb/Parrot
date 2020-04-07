@@ -4,15 +4,21 @@ import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.utils.Align;
+import com.badlogic.gdx.utils.Scaling;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.kotcrab.vis.ui.VisUI;
 import com.rafaskoberg.boom.BoomChannel;
-import com.rafaskoberg.boom.effect.echo.EchoData;
 import com.rafaskoberg.boom.effect.reverb.ReverbPreset;
 import com.rafaskoberg.gdx.parrot.Parrot;
+import com.rafaskoberg.gdx.parrot.ParrotSettings;
 import com.rafaskoberg.gdx.parrot.example.util.Constants;
+import com.rafaskoberg.gdx.parrot.example.util.Utils;
 import com.rafaskoberg.gdx.parrot.example.widgets.AmbiencePlayerWidget;
 import com.rafaskoberg.gdx.parrot.example.widgets.MusicPlayerWidget;
 import com.rafaskoberg.gdx.parrot.example.widgets.SoundPlayerWidget;
@@ -21,6 +27,8 @@ public class ParrotExample extends ApplicationAdapter {
     private Parrot      parrot;
     private Stage       stage;
     private SpriteBatch batch;
+    private Image       parrotIcon;
+    private boolean     wasMusicPlaying;
 
     @Override
     public void create() {
@@ -75,11 +83,17 @@ public class ParrotExample extends ApplicationAdapter {
         MusicPlayerWidget musicPlayerWidget = new MusicPlayerWidget(parrot);
         musicPlayerWidget.pack();
 
+        parrotIcon = new Image(Utils.loadImageDrawable("Parrot"));
+        parrotIcon.setAlign(Align.center);
+        parrotIcon.setScaling(Scaling.fit);
+        parrotIcon.getColor().a = 0.0f;
+        parrotIcon.pack();
+
         // Configure table
         rootTable.setFillParent(true);
         rootTable.add(ambiencePlayerWidget).colspan(2).growX().top();
         rootTable.row();
-        rootTable.add().grow();
+        rootTable.add(parrotIcon).expand();
         rootTable.add(soundPlayerWidget).growY().right();
         rootTable.row();
         rootTable.add(musicPlayerWidget).colspan(2).growX().bottom();
@@ -87,9 +101,34 @@ public class ParrotExample extends ApplicationAdapter {
     }
 
     public void update(float delta) {
+        // Update stage
         stage.act(delta);
-        parrot.updateSounds(0, 0, delta);
+
+        // Update listener position based on mouse coordinates
+        float x = Gdx.input.getX() - Gdx.graphics.getWidth() / 2;
+        float y = Gdx.graphics.getHeight() - Gdx.input.getY() - Gdx.graphics.getHeight() / 2;
+        float worldX = x / 50;
+        float worldY = y / 50;
+        parrot.setSpatialListenerPosition(worldX, worldY);
+
+        // Update parrot
+        parrot.updateSounds(delta);
         parrot.updateMusic(delta);
+
+        // Update parrot icon
+        boolean isMusicPlaying = parrot.isMusicPlaying();
+        if(isMusicPlaying != wasMusicPlaying) {
+            wasMusicPlaying = isMusicPlaying;
+
+            // Clear actions
+            parrotIcon.clearActions();
+
+            // Add new fade action
+            ParrotSettings settings = parrot.getSettings();
+            float alpha = isMusicPlaying ? 1 : 0;
+            float duration = isMusicPlaying ? settings.musicFadeInDuration : settings.musicFadeOutDuration;
+            parrotIcon.addAction(Actions.alpha(alpha, duration, Interpolation.sine));
+        }
     }
 
     @Override

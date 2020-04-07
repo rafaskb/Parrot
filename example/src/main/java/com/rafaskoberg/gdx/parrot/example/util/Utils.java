@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Pixmap.Format;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.Texture.TextureFilter;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -36,7 +37,9 @@ public class Utils {
     }
 
     public static TextureRegionDrawable loadImageDrawable(String name) {
-        return new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("images/" + name + ".png"))));
+        Texture texture = new Texture(Gdx.files.internal("images/" + name + ".png"));
+        texture.setFilter(TextureFilter.Linear, TextureFilter.Linear);
+        return new TextureRegionDrawable(new TextureRegion(texture));
     }
 
     public static VisImageButtonStyle createModernButtonStyle(TextureRegionDrawable baseDrawable) {

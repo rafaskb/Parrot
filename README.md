@@ -31,7 +31,7 @@ In case you want to run the example app to see how the library is shaping up:
 - [ ] Implement pitch multipliers based on SoundCategories.
 - [ ] Create a very clean and straightforward API in the Parrot class.
 - [ ] Review the entire documentation to make sure everything is as clear as possible.
-- [ ] Create an example module with a fully functional implementation, which will also be used as a test application.
+- [x] Create an example module with a fully functional implementation, which will also be used as a test application.
     - [x] Music player with play and stop buttons, plus a label of the music track and its author.
     - [x] Ambient music tracks (Rain, restaurant, underwater).
     - [x] UI sounds. (non spatial).
@@ -39,7 +39,7 @@ In case you want to run the example app to see how the library is shaping up:
     - [x] Flamethrower sound to demonstrate continuous playback mode (spatial).
     - [x] Warning Beep sound to demonstrate eternal playback mode (non spatial).
     - [x] Footstep sounds (spatial).
-    - [ ] Allow user to change the listener's position.
+    - [x] Allow user to change the listener's position.
 - [ ] Write a proper README. (Including lwjgl3 and Boom limitations.)
 - [ ] Create a simple wiki with instructions.
 - [ ] Release v1.0.0 through Jitpack.
