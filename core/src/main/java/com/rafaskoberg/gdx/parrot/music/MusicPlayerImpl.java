@@ -22,6 +22,7 @@ public class MusicPlayerImpl implements MusicPlayer {
     private final Parrot                parrot;
     private final ParrotSettings        settings;
     private final LoudnessInterpolation interpolation;
+    private       float                 rawVolume;
     private       float                 masterVolume;
 
     public MusicPlayerImpl(Parrot parrot) {
@@ -33,13 +34,22 @@ public class MusicPlayerImpl implements MusicPlayer {
         this.parrot = parrot;
         this.settings = parrot.getSettings();
         this.interpolation = new LoudnessInterpolation();
+        this.rawVolume = 1;
         this.masterVolume = 1;
     }
 
     @Override
-    public void setMusicVolume(float volume) {
+    public float getMusicPlayerVolume() {
+        return rawVolume;
+    }
+
+    @Override
+    public void setMusicPlayerVolume(float volume) {
+        // Set raw volume
+        this.rawVolume = MathUtils.clamp(volume, 0, 1);
+
         // Calculate perceived volume
-        float perceivedVolume = ParrotUtils.getPerceivedVolume(volume, settings.loudnessExponentialCurve);
+        float perceivedVolume = ParrotUtils.getPerceivedVolume(rawVolume, settings.loudnessExponentialCurve);
 
         // Calculate volume and factor differences in decibels
         float volumeDiffDb = ParrotUtils.volumeToDb(this.masterVolume) - ParrotUtils.volumeToDb(perceivedVolume);

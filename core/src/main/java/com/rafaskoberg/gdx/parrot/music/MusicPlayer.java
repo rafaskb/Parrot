@@ -9,11 +9,16 @@ import com.badlogic.gdx.utils.Disposable;
 public interface MusicPlayer extends Disposable {
 
     /**
+     * Returns the linear volume of this {@link MusicPlayer}, as passed to {@link #setMusicPlayerVolume(float)}.
+     */
+    float getMusicPlayerVolume();
+
+    /**
      * Sets the volume of this {@link MusicPlayer} respecting perceived loudness equations.
      *
      * @param volume Linear volume from 0 to 1 to be set
      */
-    void setMusicVolume(float volume);
+    void setMusicPlayerVolume(float volume);
 
     /**
      * Sets the volume of a certain channel of this {@link MusicPlayer} respecting perceived loudness equations.

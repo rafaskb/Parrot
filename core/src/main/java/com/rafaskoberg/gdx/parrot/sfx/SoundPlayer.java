@@ -9,11 +9,16 @@ import com.badlogic.gdx.utils.Disposable;
 public interface SoundPlayer extends Disposable {
 
     /**
+     * Returns the linear volume of this {@link SoundPlayer}, as passed to {@link #setSoundPlayerVolume(float)}.
+     */
+    float getSoundPlayerVolume();
+
+    /**
      * Sets the volume of this {@link SoundPlayer} respecting perceived loudness equations.
      *
      * @param volume Linear volume from 0 to 1 to be set
      */
-    void setSoundVolume(float volume);
+    void setSoundPlayerVolume(float volume);
 
     /**
      * Sets the coordinates of the listener for spatial sound effects.

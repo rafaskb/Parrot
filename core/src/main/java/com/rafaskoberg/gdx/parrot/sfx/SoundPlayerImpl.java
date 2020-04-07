@@ -28,6 +28,7 @@ public class SoundPlayerImpl implements SoundPlayer {
     private final Vector2        listenerPosition;
     private final Vector2        tmpVec;
     private       long           nextId;
+    private       float          rawVolume;
     private       float          masterVolume;
 
     public SoundPlayerImpl(Parrot parrot) {
@@ -42,16 +43,21 @@ public class SoundPlayerImpl implements SoundPlayer {
         this.listenerPosition = new Vector2();
         this.tmpVec = new Vector2();
         this.nextId = 1;
+        this.rawVolume = 1.0f;
         this.masterVolume = 1.0f;
     }
 
     @Override
-    public void setSoundVolume(float volume) {
-        this.masterVolume = ParrotUtils.getPerceivedVolume(volume, settings.loudnessExponentialCurve);
+    public float getSoundPlayerVolume() {
+        return rawVolume;
     }
 
     @Override
-    public Vector2 getSpatialListenerPosition() {
+    public void setSoundPlayerVolume(float volume) {
+        this.rawVolume = MathUtils.clamp(volume, 0, 1);
+        this.masterVolume = ParrotUtils.getPerceivedVolume(rawVolume, settings.loudnessExponentialCurve);
+    }
+
     @Override
     public Vector2 getSpatialListenerCoordinates() {
         return listenerPosition;
