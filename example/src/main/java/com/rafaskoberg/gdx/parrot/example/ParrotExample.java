@@ -36,6 +36,11 @@ public class ParrotExample extends ApplicationAdapter {
         // Load Parrot
         parrot = new Parrot();
 
+        // Modify some Parrot settings
+        ParrotSettings settings = parrot.getSettings();
+        settings.soundDistanceLimit = 10;
+        settings.soundDistanceReduction = -20;
+
         // Configure Boom
         if(parrot.getBoom() != null) {
             BoomChannel boomChannel = parrot.getBoom().createChannel(Constants.BOOM_GENERAL_CHANNEL);
