@@ -117,8 +117,8 @@ public class ParrotExample extends ApplicationAdapter {
         parrot.setSpatialListenerCoordinates(worldX, worldY);
 
         // Update sound category pitch values based on mouse coordinates
-        float yRate = MathUtils.clamp(y / Gdx.graphics.getHeight(), 0, 1);
-        float pitchFactor = MathUtils.lerp(0.33f, 2.0f, yRate);
+        float yRate = MathUtils.clamp(1f - (float) Gdx.input.getY() / (float) Gdx.graphics.getHeight(), 0, 1);
+        float pitchFactor = MathUtils.lerp(0.5f, 2.0f, yRate);
         parrot.setSoundCategoryPitchFactor(SoundCategory.PLAYER, pitchFactor);
 
         // Update parrot
