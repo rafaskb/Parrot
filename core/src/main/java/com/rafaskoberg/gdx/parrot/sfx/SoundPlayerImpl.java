@@ -7,6 +7,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.LongMap;
 import com.badlogic.gdx.utils.LongMap.Entry;
+import com.badlogic.gdx.utils.ObjectFloatMap;
 import com.badlogic.gdx.utils.Pools;
 import com.rafaskoberg.boom.Boom;
 import com.rafaskoberg.gdx.parrot.Parrot;
@@ -18,9 +19,10 @@ import com.rafaskoberg.gdx.parrot.util.ParrotUtils;
  */
 public class SoundPlayerImpl implements SoundPlayer {
     // Collections
-    private final Array<SoundInstance>    soundInstances;
-    private final LongMap<SoundInstance>  soundsById;
-    private final LongMap<Array<Vector2>> continuousPositionsById;
+    private final Array<SoundInstance>                soundInstances;
+    private final LongMap<SoundInstance>              soundsById;
+    private final LongMap<Array<Vector2>>             continuousPositionsById;
+    private final ObjectFloatMap<ParrotSoundCategory> pitchFactorsByCategory;
 
     // Members
     private final Parrot         parrot;
@@ -36,6 +38,7 @@ public class SoundPlayerImpl implements SoundPlayer {
         this.soundInstances = new Array<>();
         this.soundsById = new LongMap<>();
         this.continuousPositionsById = new LongMap<>();
+        this.pitchFactorsByCategory = new ObjectFloatMap<>();
 
         // Members
         this.parrot = parrot;
@@ -169,11 +172,15 @@ public class SoundPlayerImpl implements SoundPlayer {
                     long internalId;
                     float pitch = soundInstance.pitch;
 
-                    // TODO Apply category-based pitch factors
-
                     // Apply random pitch variation to sound effect
                     float pitchVariation = soundType.getPitchVariation() * MathUtils.randomTriangular(-1, 1, 0);
                     pitch += pitchVariation;
+
+                    // Apply category-based pitch factors
+                    if(category != null) {
+                        float pitchCategoryFactor = pitchFactorsByCategory.get(category, 1);
+                        pitch *= pitchCategoryFactor;
+                    }
 
                     Boom boom = parrot.getBoom();
                     if(boom == null) {
@@ -416,6 +423,33 @@ public class SoundPlayerImpl implements SoundPlayer {
         soundInstance.lastTouch = System.currentTimeMillis();
         soundInstance.isDying = true;
         soundInstance.playMe = false;
+    }
+
+    @Override
+    public float getSoundCategoryPitchFactor(ParrotSoundCategory category) {
+        return pitchFactorsByCategory.get(category, 1);
+    }
+
+    @Override
+    public void setSoundCategoryPitchFactor(ParrotSoundCategory category, float pitchFactor) {
+        // Update factor
+        float oldPitchFactor = pitchFactorsByCategory.get(category, 1);
+        pitchFactorsByCategory.put(category, pitchFactor);
+        float pitchDifference = pitchFactor - oldPitchFactor;
+
+        // Apply difference to ongoing sounds
+        if(!MathUtils.isZero(pitchDifference)) {
+            for(int i = 0; i < soundInstances.size; i++) {
+                SoundInstance soundInstance = soundInstances.get(i);
+                if(soundInstance.getType().getCategory() == category) {
+                    soundInstance.pitch += pitchDifference;
+                    Sound sound = soundInstance.sound;
+                    if(sound != null) {
+                        sound.setPitch(soundInstance.internalId, soundInstance.pitch);
+                    }
+                }
+            }
+        }
     }
 
     @Override

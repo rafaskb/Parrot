@@ -117,6 +117,16 @@ public class Parrot implements SoundPlayer, MusicPlayer {
     }
 
     @Override
+    public float getSoundCategoryPitchFactor(ParrotSoundCategory category) {
+        return soundPlayer.getSoundCategoryPitchFactor(category);
+    }
+
+    @Override
+    public void setSoundCategoryPitchFactor(ParrotSoundCategory category, float pitchFactor) {
+        soundPlayer.setSoundCategoryPitchFactor(category, pitchFactor);
+    }
+
+    @Override
     public void stopAllSounds(boolean ignorePersistent) {
         soundPlayer.stopAllSounds(ignorePersistent);
     }

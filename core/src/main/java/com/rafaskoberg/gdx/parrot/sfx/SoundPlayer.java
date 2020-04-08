@@ -207,6 +207,17 @@ public interface SoundPlayer extends Disposable {
     void stopSound(SoundInstance soundInstance);
 
     /**
+     * Returns the pitch factor set for the given category, or 1 if not present.
+     */
+    float getSoundCategoryPitchFactor(ParrotSoundCategory category);
+
+    /**
+     * Sets a pitch factor for the given category, which will multiply the pitch of all sounds with this category played
+     * after this call.
+     */
+    void setSoundCategoryPitchFactor(ParrotSoundCategory category, float pitchFactor);
+
+    /**
      * Instantly kills the sound associated with the given ID.
      */
     default void killSound(long id) {

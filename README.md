@@ -22,14 +22,14 @@ In case you want to run the example app to see how the library is shaping up:
 ## Roadmap
 
 #### In Progress
-- [ ] Create a very clean and straightforward API in the Parrot class.
 - [ ] Review the entire documentation to make sure everything is as clear as possible.
-- [ ] Implement pitch multipliers based on SoundCategories.
 - [ ] Write a proper README. (Including lwjgl3 and Boom limitations.)
 - [ ] Create a simple wiki with instructions.
 - [ ] Release v1.0.0 through Jitpack.
 
 #### Done
+- [x] Implement pitch multipliers based on SoundCategories.
+- [x] Create a very clean and straightforward API in the Parrot class.
 - [x] Port Sound system.
 - [x] Port Music system.
 - [x] Implement Boom.
