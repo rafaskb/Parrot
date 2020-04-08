@@ -5,6 +5,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Interpolation;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
@@ -115,6 +116,11 @@ public class ParrotExample extends ApplicationAdapter {
         float worldY = y / 50; // Cheap conversion from screen coordinates to pseudo world coordinates
         parrot.setSpatialListenerCoordinates(worldX, worldY);
 
+        // Update sound category pitch values based on mouse coordinates
+        float yRate = MathUtils.clamp(y / Gdx.graphics.getHeight(), 0, 1);
+        float pitchFactor = MathUtils.lerp(0.33f, 2.0f, yRate);
+        parrot.setSoundCategoryPitchFactor(SoundCategory.PLAYER, pitchFactor);
+
         // Update parrot
         parrot.update(delta);
 
@@ -137,6 +143,7 @@ public class ParrotExample extends ApplicationAdapter {
         parrotIcon.getColor().g = 0.25f + parrotIconRgb * 0.75f;
         parrotIcon.getColor().b = 0.5f + parrotIconRgb * 0.5f;
     }
+
     @Override
     public void render() {
         // Update app
