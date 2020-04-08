@@ -26,6 +26,7 @@ In case you want to run the example app to see how the library is shaping up:
 - [ ] Write a proper README. (Including lwjgl3 and Boom limitations.)
 - [ ] Create a simple wiki with instructions.
 - [ ] Release v1.0.0 through Jitpack.
+- [ ] Improve error handling by throwing exceptions.
 
 #### Done
 - [x] Implement pitch multipliers based on SoundCategories.
