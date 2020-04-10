@@ -119,13 +119,13 @@ public class MusicPlayerImpl implements MusicPlayer {
 
                 case SILENT: {
                     // Play music
-                    music.setVolume(MIN_VOLUME);
-                    music.setLooping(musicInstance.isLooping);
                     if(boom == null) {
                         music.play();
                     } else {
                         boom.play(music, musicInstance.boomChannel);
                     }
+                    music.setVolume(MIN_VOLUME);
+                    music.setLooping(musicInstance.isLooping);
                     musicInstance.state = musicInstance.shouldFadeIn ? State.FADING_IN : State.PLAYING;
                     break;
                 }
@@ -143,11 +143,11 @@ public class MusicPlayerImpl implements MusicPlayer {
                 }
 
                 case PLAYING: {
-                    // Adjust volume
-                    music.setVolume(MathUtils.clamp(musicInstance.targetVolume, MIN_VOLUME, 1));
-
-                    // Dispose instances that are no longer playing
-                    if(!music.isPlaying()) {
+                    if(music.isPlaying()) {
+                        // Adjust volume
+                        music.setVolume(MathUtils.clamp(musicInstance.targetVolume, MIN_VOLUME, 1));
+                    } else {
+                        // Dispose instances that are no longer playing
                         musicInstance.state = State.DISPOSING;
                     }
                     break;
@@ -158,7 +158,9 @@ public class MusicPlayerImpl implements MusicPlayer {
                     float progress = MathUtils.clamp(musicInstance.stateTimer / Math.max(settings.musicFadeOutDuration, 0.00001f), 0, 1);
                     float perceivedProgress = interpolation.applyOut(progress);
                     float volume = MathUtils.lerp(musicInstance.targetVolume, MIN_VOLUME, perceivedProgress);
-                    music.setVolume(MathUtils.clamp(volume, MIN_VOLUME, 1));
+                    if(music.isPlaying()) {
+                        music.setVolume(MathUtils.clamp(volume, MIN_VOLUME, 1));
+                    }
                     if(musicInstance.stateTimer > settings.musicFadeOutDuration) {
                         music.stop();
                         musicInstance.state = State.DISPOSING;
@@ -225,8 +227,9 @@ public class MusicPlayerImpl implements MusicPlayer {
 
             // Configure Music
             music.stop();
-            music.setVolume(MIN_VOLUME);
-
+            if(music.isPlaying()) {
+                music.setVolume(MIN_VOLUME);
+            }
             return music;
         }
 
