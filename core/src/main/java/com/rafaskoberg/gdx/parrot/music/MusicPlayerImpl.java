@@ -124,6 +124,7 @@ public class MusicPlayerImpl implements MusicPlayer {
                     } else {
                         boom.play(music, musicInstance.boomChannel);
                     }
+                    music.setPosition(0);
                     music.setVolume(MIN_VOLUME);
                     music.setLooping(musicInstance.isLooping);
                     musicInstance.state = musicInstance.shouldFadeIn ? State.FADING_IN : State.PLAYING;
@@ -162,7 +163,8 @@ public class MusicPlayerImpl implements MusicPlayer {
                         music.setVolume(MathUtils.clamp(volume, MIN_VOLUME, 1));
                     }
                     if(musicInstance.stateTimer > settings.musicFadeOutDuration) {
-                        music.stop();
+                        music.pause();
+                        music.setPosition(0);
                         musicInstance.state = State.DISPOSING;
                     }
                     break;
@@ -190,11 +192,6 @@ public class MusicPlayerImpl implements MusicPlayer {
         // Make sure music is valid
         Music music = musicType.getMusic();
         if(music != null) {
-
-            // Stop music if it's already playing
-            if(music.isPlaying()) {
-                music.stop();
-            }
 
             // Reuse an existing MusicInstance of the same type
             MusicInstance musicInstance = null;
@@ -226,10 +223,12 @@ public class MusicPlayerImpl implements MusicPlayer {
             musicInstance.boomChannel = boomChannel;
 
             // Configure Music
-            music.stop();
             if(music.isPlaying()) {
                 music.setVolume(MIN_VOLUME);
             }
+            music.pause();
+            music.setPosition(0);
+
             return music;
         }
 
