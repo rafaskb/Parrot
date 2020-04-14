@@ -56,16 +56,9 @@ project(":core") {
     }
 }
 
-project(":lwjgl3") {
-    dependencies {
-        api project(":core")
-        api "com.github.rafaskb.boom:lwjgl3:$boomVersion"
-    }
-}
-
 project(":example") {
     dependencies {
-        api project(":lwjgl3")
+        api project(":core")
         implementation group: 'com.badlogicgames.gdx', name: 'gdx', version: gdxVersion
         implementation group: 'com.badlogicgames.gdx', name: 'gdx-backend-lwjgl3', version: gdxVersion
         implementation group: 'com.badlogicgames.gdx', name: 'gdx-platform', version: gdxVersion, classifier: 'natives-desktop'
