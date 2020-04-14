@@ -2,6 +2,7 @@ package com.rafaskoberg.gdx.parrot.sfx;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Disposable;
+import com.rafaskoberg.boom.Boom;
 
 /**
  * Spatial sound player that handles all sounds being played in the game.
@@ -256,4 +257,8 @@ public interface SoundPlayer extends Disposable {
         soundInstance.playMe = false;
     }
 
+    /**
+     * Sets the {@link Boom} instance responsible for playing sound effects.
+     */
+    void setBoom(Boom boom);
 }

@@ -29,6 +29,7 @@ public class SoundPlayerImpl implements SoundPlayer {
     private final ParrotSettings settings;
     private final Vector2        listenerPosition;
     private final Vector2        tmpVec;
+    protected     Boom           boom;
     private       long           nextId;
     private       float          rawVolume;
     private       float          masterVolume;
@@ -182,7 +183,6 @@ public class SoundPlayerImpl implements SoundPlayer {
                         pitch *= pitchCategoryFactor;
                     }
 
-                    Boom boom = parrot.getBoom();
                     if(boom == null) {
                         // Play sound normally
                         if(normal) {
@@ -495,6 +495,11 @@ public class SoundPlayerImpl implements SoundPlayer {
 
         // Unregister sound
         unregisterSound(soundInstance);
+    }
+
+    @Override
+    public void setBoom(Boom boom) {
+        this.boom = boom;
     }
 
     /**

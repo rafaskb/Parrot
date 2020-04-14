@@ -2,6 +2,7 @@ package com.rafaskoberg.gdx.parrot.music;
 
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.utils.Disposable;
+import com.rafaskoberg.boom.Boom;
 
 /**
  * Music system that handles all music tracks being played in the game.
@@ -139,4 +140,9 @@ public interface MusicPlayer extends Disposable {
      * @param channel Internal music channel.
      */
     boolean isMusicPlaying(int channel);
+
+    /**
+     * Sets the {@link Boom} instance responsible for playing music tracks.
+     */
+    void setBoom(Boom boom);
 }

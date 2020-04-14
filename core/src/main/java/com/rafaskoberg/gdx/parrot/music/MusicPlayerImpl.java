@@ -23,6 +23,7 @@ public class MusicPlayerImpl implements MusicPlayer {
     private final Parrot                parrot;
     private final ParrotSettings        settings;
     private final LoudnessInterpolation interpolation;
+    protected     Boom                  boom;
     private       float                 rawVolume;
     private       float                 masterVolume;
 
@@ -96,8 +97,6 @@ public class MusicPlayerImpl implements MusicPlayer {
 
     @Override
     public void updateMusic(float delta) {
-        Boom boom = parrot.getBoom();
-
         // Iterate through all music
         for(int i = musicInstances.size - 1; i >= 0; i--) {
             MusicInstance musicInstance = musicInstances.get(i);
@@ -258,6 +257,11 @@ public class MusicPlayerImpl implements MusicPlayer {
         for(MusicInstance musicInstance : musicInstances) {
             stopMusicInstance(musicInstance, gracefully);
         }
+    }
+
+    @Override
+    public void setBoom(Boom boom) {
+        this.boom = boom;
     }
 
     /**

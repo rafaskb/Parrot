@@ -14,6 +14,7 @@ import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Scaling;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.kotcrab.vis.ui.VisUI;
+import com.rafaskoberg.boom.Boom;
 import com.rafaskoberg.boom.BoomChannel;
 import com.rafaskoberg.boom.effect.reverb.ReverbPreset;
 import com.rafaskoberg.gdx.parrot.Parrot;
@@ -26,6 +27,7 @@ import com.rafaskoberg.gdx.parrot.example.widgets.SoundPlayerWidget;
 
 public class ParrotExample extends ApplicationAdapter {
     private Parrot      parrot;
+    private Boom        boom;
     private Stage       stage;
     private SpriteBatch batch;
     private Image       parrotIcon;
@@ -41,11 +43,11 @@ public class ParrotExample extends ApplicationAdapter {
         settings.soundDistanceLimit = 10;
         settings.soundDistanceReduction = -20;
 
-        // Configure Boom
-        if(parrot.getBoom() != null) {
-            BoomChannel boomChannel = parrot.getBoom().createChannel(Constants.BOOM_GENERAL_CHANNEL);
-            boomChannel.addReverb(ReverbPreset.CAVE);
-        }
+        // Create Boom
+        boom = Boom.init();
+        parrot.setBoom(boom);
+        BoomChannel boomChannel = boom.createChannel(Constants.BOOM_GENERAL_CHANNEL);
+        boomChannel.addReverb(ReverbPreset.CAVE);
 
         // Load VisUI
         VisUI.load(Gdx.files.internal("skin/tinted.json"));

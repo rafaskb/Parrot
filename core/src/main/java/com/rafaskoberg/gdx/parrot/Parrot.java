@@ -16,14 +16,12 @@ import com.rafaskoberg.gdx.parrot.sfx.SoundPlayerImpl;
 /** TODO Javadocs */
 public class Parrot implements SoundPlayer, MusicPlayer {
     protected ParrotSettings settings;
-    protected Boom           boom;
     protected SoundPlayer    soundPlayer;
     protected MusicPlayer    musicPlayer;
 
     /** TODO Javadocs */
     public Parrot() {
         this.settings = new ParrotSettings();
-        this.boom = Boom.init();
         this.soundPlayer = new SoundPlayerImpl(this);
         this.musicPlayer = new MusicPlayerImpl(this);
     }
@@ -47,18 +45,11 @@ public class Parrot implements SoundPlayer, MusicPlayer {
     }
 
     /**
-     * Returns the {@link Boom} instance responsible for playing music and sound effects, in case it's available for the
-     * current platform.
-     */
-    public Boom getBoom() {
-        return boom;
-    }
-
-    /**
      * Sets the {@link Boom} instance responsible for playing music and sound effects.
      */
     public void setBoom(Boom boom) {
-        this.boom = boom;
+        musicPlayer.setBoom(boom);
+        soundPlayer.setBoom(boom);
     }
 
     @Override

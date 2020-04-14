@@ -52,7 +52,7 @@ allprojects {
 project(":core") {
     dependencies {
         api group: 'com.badlogicgames.gdx', name: 'gdx', version: gdxVersion
-        api "com.github.rafaskb.boom:core:$boomVersion"
+        compileOnly "com.github.rafaskb.boom:core:$boomVersion"
     }
 }
 
@@ -63,5 +63,7 @@ project(":example") {
         implementation group: 'com.badlogicgames.gdx', name: 'gdx-backend-lwjgl3', version: gdxVersion
         implementation group: 'com.badlogicgames.gdx', name: 'gdx-platform', version: gdxVersion, classifier: 'natives-desktop'
         implementation group: 'com.kotcrab.vis', name: 'vis-ui', version: visUiVersion
+        implementation "com.github.rafaskb.boom:core:$boomVersion"
+        implementation "com.github.rafaskb.boom:lwjgl3:$boomVersion"
     }
 }
