@@ -348,6 +348,11 @@ public class SoundPlayerImpl implements SoundPlayer {
     }
 
     @Override
+    public Array<SoundInstance> getAllSounds() {
+        return soundInstances;
+    }
+
+    @Override
     public boolean touchSound(SoundInstance soundInstance) {
         if(soundInstance == null) return false;
 

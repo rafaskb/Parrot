@@ -1,6 +1,7 @@
 package com.rafaskoberg.gdx.parrot.sfx;
 
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Disposable;
 import com.rafaskoberg.boom.Boom;
 
@@ -106,6 +107,11 @@ public interface SoundPlayer extends Disposable {
      * Returns the {@link SoundInstance} associated with the given ID, if any. Might return {@code null}.
      */
     SoundInstance getSound(long internalId);
+
+    /**
+     * Returns an {@link Array} containing all {@link SoundInstance}s being handled by the sound player.
+     */
+    Array<SoundInstance> getAllSounds();
 
     /**
      * Touches the sound instance associated with the given ID, so it doesn't die at the wrong time.

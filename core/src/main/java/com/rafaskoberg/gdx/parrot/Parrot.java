@@ -2,6 +2,7 @@ package com.rafaskoberg.gdx.parrot;
 
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.Array;
 import com.rafaskoberg.boom.Boom;
 import com.rafaskoberg.gdx.parrot.music.MusicPlayer;
 import com.rafaskoberg.gdx.parrot.music.MusicPlayerImpl;
@@ -85,6 +86,11 @@ public class Parrot implements SoundPlayer, MusicPlayer {
     @Override
     public SoundInstance getSound(long internalId) {
         return soundPlayer.getSound(internalId);
+    }
+
+    @Override
+    public Array<SoundInstance> getAllSounds() {
+        return soundPlayer.getAllSounds();
     }
 
     @Override
