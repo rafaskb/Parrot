@@ -193,6 +193,11 @@ public class Parrot implements SoundPlayer, MusicPlayer {
     }
 
     @Override
+    public ParrotMusicType getCurrentMusic(int channel) {
+        return musicPlayer.getCurrentMusic(channel);
+    }
+
+    @Override
     public void dispose() {
         soundPlayer.dispose();
         musicPlayer.dispose();

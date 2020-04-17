@@ -142,7 +142,16 @@ public interface MusicPlayer extends Disposable {
     boolean isMusicPlaying(int channel);
 
     /**
+     * Returns the current music being played in the given channel, in case the channel is active.
+     *
+     * @param channel Internal music channel.
+     * @return The music type being played.
+     */
+    ParrotMusicType getCurrentMusic(int channel);
+
+    /**
      * Sets the {@link Boom} instance responsible for playing music tracks.
      */
     void setBoom(Boom boom);
+
 }

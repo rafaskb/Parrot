@@ -308,6 +308,18 @@ public class MusicPlayerImpl implements MusicPlayer {
         return false;
     }
 
+    @Override
+    public ParrotMusicType getCurrentMusic(int channel) {
+        if(isPowered()) {
+            for(MusicInstance musicInstance : musicInstances) {
+                if(musicInstance != null && musicInstance.channel == channel && musicInstance.state.isActive()) {
+                    return musicInstance.musicType;
+                }
+            }
+        }
+        return null;
+    }
+
     /**
      * Returns whether or not this player is powered or not.
      */
