@@ -271,11 +271,14 @@ public class MusicPlayerImpl implements MusicPlayer {
      * @param gracefully Whether or not the action should be progressive.
      */
     private void stopMusicInstance(MusicInstance musicInstance, boolean gracefully) {
-        if(musicInstance.state.isActive()) {
+        State state = musicInstance.state;
+        boolean isActive = state.isActive();
+        boolean isSilent = state == State.SILENT;
+        if(isActive || isSilent) {
             musicInstance.state = State.FADING_OUT;
             musicInstance.stateTimer = 0;
             musicInstance.targetVolume = musicInstance.music.getVolume();
-            if(!gracefully) {
+            if(!gracefully || isSilent) {
                 musicInstance.stateTimer = Float.MAX_VALUE;
             }
         }
