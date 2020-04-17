@@ -54,6 +54,34 @@ public class SoundInstance implements Poolable {
     }
 
     /**
+     * Returns the current position of this sound in the X axis. Defaults to 0.
+     */
+    public float getPositionX() {
+        return positionX;
+    }
+
+    /**
+     * Returns the current position of this sound in the Y axis. Defaults to 0.
+     */
+    public float getPositionY() {
+        return positionY;
+    }
+
+    /**
+     * Returns the current volume of this sound, from 0 to 1.
+     */
+    public float getCurrentVolume() {
+        return currentVolume;
+    }
+
+    /**
+     * Returns the current pan of this sound, from -1 to 1.
+     */
+    public float getCurrentPan() {
+        return currentPan;
+    }
+
+    /**
      * Returns the duration in seconds of the sound associated with this instance. Returns {@code 0} in case of errors.
      */
     public float getDuration() {
@@ -67,7 +95,16 @@ public class SoundInstance implements Poolable {
         this.duration = duration;
     }
 
-    /** Sets the pitch of this sound. Default is 1.0. */
+    /**
+     * Returns the pitch of this sound. Default is 1.0.
+     */
+    public float getPitch() {
+        return pitch;
+    }
+
+    /**
+     * Sets the pitch of this sound. Default is 1.0.
+     */
     public void setPitch(float pitch) {
         if(sound != null) sound.setPitch(internalId, pitch);
     }
