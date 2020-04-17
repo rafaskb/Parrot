@@ -178,6 +178,7 @@ public class MusicPlayerImpl implements MusicPlayer {
             // Dispose instances
             if(musicInstance.state == State.DISPOSING) {
                 musicInstances.removeIndex(i);
+                musicInstance.music.stop();
                 Pools.free(musicInstance);
             }
         }
