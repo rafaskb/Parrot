@@ -85,6 +85,68 @@ public interface MusicPlayer extends Disposable {
     Music playMusic(ParrotMusicType musicType, boolean loop, boolean fadeIn, int channel, int boomChannel);
 
     /**
+     * Gracefully pauses the music of the given type currently being played.
+     */
+    default void pauseMusic(ParrotMusicType musicType) {
+        pauseMusic(musicType, true);
+    }
+
+    /**
+     * Pauses the music of the given type currently being played.
+     *
+     * @param gracefully Whether or not the action should be progressive.
+     */
+    void pauseMusic(ParrotMusicType musicType, boolean gracefully);
+
+    /**
+     * Gracefully pauses the music being played in the given channel.
+     *
+     * @param channel Internal music channel.
+     */
+    default void pauseMusicChannel(int channel) {
+        pauseMusicChannel(channel, true);
+    }
+
+    /**
+     * Pauses the music being played in the given channel.
+     *
+     * @param channel    Internal music channel.
+     * @param gracefully Whether or not the action should be progressive.
+     */
+    void pauseMusicChannel(int channel, boolean gracefully);
+
+    /**
+     * Gracefully resumes the music of the given type currently being played.
+     */
+    default void resumeMusic(ParrotMusicType musicType) {
+        resumeMusic(musicType, true);
+    }
+
+    /**
+     * Resumes the music of the given type currently being played.
+     *
+     * @param gracefully Whether or not the action should be progressive.
+     */
+    void resumeMusic(ParrotMusicType musicType, boolean gracefully);
+
+    /**
+     * Gracefully resumes the music being played in the given channel.
+     *
+     * @param channel Internal music channel.
+     */
+    default void resumeMusicChannel(int channel) {
+        resumeMusicChannel(channel, true);
+    }
+
+    /**
+     * Resumes the music being played in the given channel.
+     *
+     * @param channel    Internal music channel.
+     * @param gracefully Whether or not the action should be progressive.
+     */
+    void resumeMusicChannel(int channel, boolean gracefully);
+
+    /**
      * Gracefully stops the music of the given type currently being played.
      */
     default void stopMusic(ParrotMusicType musicType) {

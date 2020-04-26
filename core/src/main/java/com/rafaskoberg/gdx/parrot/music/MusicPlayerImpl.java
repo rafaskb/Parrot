@@ -42,6 +42,11 @@ public class MusicPlayerImpl implements MusicPlayer {
     }
 
     @Override
+    public void setBoom(Boom boom) {
+        this.boom = boom;
+    }
+
+    @Override
     public float getMusicPlayerVolume() {
         return rawVolume;
     }
@@ -117,6 +122,7 @@ public class MusicPlayerImpl implements MusicPlayer {
             switch(musicInstance.state) {
 
                 case SILENT: {
+
                     // Play music
                     if(boom == null) {
                         music.play();
@@ -126,11 +132,18 @@ public class MusicPlayerImpl implements MusicPlayer {
                     music.setPosition(0);
                     music.setVolume(MIN_VOLUME);
                     music.setLooping(musicInstance.isLooping);
-                    musicInstance.state = musicInstance.shouldFadeIn ? State.FADING_IN : State.PLAYING;
+                    boolean shouldFadeIn = musicInstance.nextState == State.FADING_IN;
+                    musicInstance.state = shouldFadeIn ? State.FADING_IN : State.PLAYING;
+                    musicInstance.nextState = shouldFadeIn ? State.PLAYING : null;
                     break;
                 }
 
                 case FADING_IN: {
+                    // Play music if necessary
+                    if(!music.isPlaying()) {
+                        music.play();
+                    }
+
                     // Process fade-in
                     float progress = MathUtils.clamp(musicInstance.stateTimer / Math.max(settings.musicFadeInDuration, 0.00001f), 0, 1);
                     float perceivedProgress = interpolation.applyIn(progress);
@@ -138,6 +151,7 @@ public class MusicPlayerImpl implements MusicPlayer {
                     music.setVolume(MathUtils.clamp(volume, MIN_VOLUME, 1));
                     if(musicInstance.stateTimer > settings.musicFadeInDuration) {
                         musicInstance.state = State.PLAYING;
+                        musicInstance.nextState = null;
                     }
                     break;
                 }
@@ -163,8 +177,13 @@ public class MusicPlayerImpl implements MusicPlayer {
                     }
                     if(musicInstance.stateTimer > settings.musicFadeOutDuration) {
                         music.pause();
-                        music.setPosition(0);
-                        musicInstance.state = State.DISPOSING;
+                        if(musicInstance.nextState == State.PAUSED) {
+                            musicInstance.state = State.PAUSED;
+                        } else {
+                            music.setPosition(0);
+                            musicInstance.state = State.DISPOSING;
+                        }
+                        musicInstance.nextState = null;
                     }
                     break;
                 }
@@ -214,10 +233,10 @@ public class MusicPlayerImpl implements MusicPlayer {
 
             // Configure MusicInstance
             musicInstance.state = State.SILENT;
+            musicInstance.nextState = fadeIn ? State.FADING_IN : State.PLAYING;
             musicInstance.music = music;
             musicInstance.musicType = musicType;
             musicInstance.isLooping = loop;
-            musicInstance.shouldFadeIn = fadeIn;
             musicInstance.targetVolume = masterVolume * relativeVolume * volumesByChannel.get(channel, 1);
             musicInstance.channel = channel;
             musicInstance.boomChannel = boomChannel;
@@ -233,6 +252,82 @@ public class MusicPlayerImpl implements MusicPlayer {
         }
 
         return null;
+    }
+
+    @Override
+    public void pauseMusic(ParrotMusicType musicType, boolean gracefully) {
+        for(MusicInstance musicInstance : musicInstances) {
+            if(musicInstance.musicType == musicType) {
+                pauseMusicInstance(musicInstance, gracefully);
+            }
+        }
+    }
+
+    @Override
+    public void pauseMusicChannel(int channel, boolean gracefully) {
+        for(MusicInstance musicInstance : musicInstances) {
+            if(musicInstance.channel == channel) {
+                pauseMusicInstance(musicInstance, gracefully);
+            }
+        }
+    }
+
+    /**
+     * Pauses a {@link MusicInstance} in case it's playing.
+     *
+     * @param gracefully Whether or not the action should be progressive.
+     */
+    private void pauseMusicInstance(MusicInstance musicInstance, boolean gracefully) {
+        State state = musicInstance.state;
+        boolean isActive = state.isActive();
+        boolean isPaused = state == State.PAUSED;
+        boolean isSilent = state == State.SILENT;
+        if(!isPaused && (isActive || isSilent)) {
+            musicInstance.state = State.FADING_OUT;
+            musicInstance.nextState = State.PAUSED;
+            musicInstance.stateTimer = 0;
+            musicInstance.targetVolume = musicInstance.music.getVolume();
+            if(!gracefully || isSilent) {
+                musicInstance.stateTimer = Float.MAX_VALUE;
+            }
+        }
+    }
+
+    @Override
+    public void resumeMusic(ParrotMusicType musicType, boolean gracefully) {
+        for(MusicInstance musicInstance : musicInstances) {
+            if(musicInstance.musicType == musicType) {
+                resumeMusicInstance(musicInstance, gracefully);
+            }
+        }
+    }
+
+    @Override
+    public void resumeMusicChannel(int channel, boolean gracefully) {
+        for(MusicInstance musicInstance : musicInstances) {
+            if(musicInstance.channel == channel) {
+                resumeMusicInstance(musicInstance, gracefully);
+            }
+        }
+    }
+
+    /**
+     * Resumes a {@link MusicInstance} in case it's paused.
+     *
+     * @param gracefully Whether or not the action should be progressive.
+     */
+    private void resumeMusicInstance(MusicInstance musicInstance, boolean gracefully) {
+        State state = musicInstance.state;
+        if(state == State.PAUSED || state == State.FADING_OUT) {
+            musicInstance.state = State.FADING_IN;
+            musicInstance.nextState = State.PLAYING;
+            musicInstance.stateTimer = 0;
+            float relativeVolume = ParrotUtils.getPerceivedVolume(musicInstance.musicType.getRelativeVolume(), settings.loudnessExponentialCurve);
+            musicInstance.targetVolume = masterVolume * relativeVolume * volumesByChannel.get(musicInstance.channel, 1);
+            if(!gracefully) {
+                musicInstance.stateTimer = Float.MAX_VALUE;
+            }
+        }
     }
 
     @Override
@@ -260,11 +355,6 @@ public class MusicPlayerImpl implements MusicPlayer {
         }
     }
 
-    @Override
-    public void setBoom(Boom boom) {
-        this.boom = boom;
-    }
-
     /**
      * Stops a {@link MusicInstance} in case it's playing.
      *
@@ -276,6 +366,7 @@ public class MusicPlayerImpl implements MusicPlayer {
         boolean isSilent = state == State.SILENT;
         if(isActive || isSilent) {
             musicInstance.state = State.FADING_OUT;
+            musicInstance.nextState = State.DISPOSING;
             musicInstance.stateTimer = 0;
             musicInstance.targetVolume = musicInstance.music.getVolume();
             if(!gracefully || isSilent) {
@@ -289,10 +380,7 @@ public class MusicPlayerImpl implements MusicPlayer {
         if(isPowered()) {
             for(MusicInstance musicInstance : musicInstances) {
                 if(musicInstance != null && musicInstance.state.isActive()) {
-                    Music music = musicInstance.music;
-                    if(music != null && music.isPlaying()) {
-                        return true;
-                    }
+                    return true;
                 }
             }
         }

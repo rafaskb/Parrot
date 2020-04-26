@@ -174,6 +174,26 @@ public class Parrot implements SoundPlayer, MusicPlayer {
     }
 
     @Override
+    public void pauseMusic(ParrotMusicType musicType, boolean gracefully) {
+        musicPlayer.pauseMusic(musicType, gracefully);
+    }
+
+    @Override
+    public void pauseMusicChannel(int channel, boolean gracefully) {
+        musicPlayer.pauseMusicChannel(channel, gracefully);
+    }
+
+    @Override
+    public void resumeMusic(ParrotMusicType musicType, boolean gracefully) {
+        musicPlayer.resumeMusic(musicType, gracefully);
+    }
+
+    @Override
+    public void resumeMusicChannel(int channel, boolean gracefully) {
+        musicPlayer.resumeMusicChannel(channel, gracefully);
+    }
+
+    @Override
     public void stopMusic(ParrotMusicType musicType, boolean gracefully) {
         musicPlayer.stopMusic(musicType, gracefully);
     }

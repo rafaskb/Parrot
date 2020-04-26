@@ -10,8 +10,8 @@ public class MusicInstance implements Poolable {
     protected Music           music;
     protected ParrotMusicType musicType;
     protected boolean         isLooping;
-    protected boolean         shouldFadeIn;
     protected State           state;
+    protected State           nextState;
     protected float           stateTimer;
     protected int             channel;
     protected int             boomChannel;
@@ -28,8 +28,8 @@ public class MusicInstance implements Poolable {
         this.music = null;
         this.musicType = null;
         this.isLooping = false;
-        this.shouldFadeIn = true;
         this.state = State.SILENT;
+        this.nextState = null;
         this.stateTimer = 0f;
         this.channel = 0;
         this.boomChannel = -1;
@@ -41,10 +41,11 @@ public class MusicInstance implements Poolable {
         FADING_IN,
         PLAYING,
         FADING_OUT,
+        PAUSED,
         DISPOSING;
 
         public boolean isActive() {
-            return this == FADING_IN || this == PLAYING;
+            return this == FADING_IN || this == PLAYING || this == PAUSED;
         }
     }
 
