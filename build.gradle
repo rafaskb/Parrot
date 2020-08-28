@@ -35,9 +35,9 @@ allprojects {
         projectName = 'parrot'
         projectVersion = '0.0.1-SNAPSHOT'
 
-        gdxVersion = '1.9.10'
-        boomVersion = '561816962ed2f842bba5e6468861d4cc18b7eb86'
-        visUiVersion = '1.4.4'
+        gdxVersion = '1.9.11'
+        boomVersion = '5eb28db1d7d6c1b8b540287d1744b445c16f48b1'
+        visUiVersion = '1.4.6'
     }
 
     repositories {
