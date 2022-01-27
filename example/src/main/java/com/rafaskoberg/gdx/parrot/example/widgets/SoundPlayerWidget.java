@@ -97,7 +97,7 @@ public class SoundPlayerWidget extends Table {
             footstepTask = Timer.schedule(new Task() {
                 @Override
                 public void run() {
-                    parrot.playSound(SoundType.FOOTSTEPS, 0, 0, 1, SoundType.FOOTSTEPS.getPlaybackMode(), Constants.BOOM_GENERAL_CHANNEL);
+                    parrot.playSound(SoundType.FOOTSTEPS, -1, 0, 0, 1, SoundType.FOOTSTEPS.getPlaybackMode(), Constants.BOOM_GENERAL_CHANNEL);
                 }
             }, 0, FOOTSTEP_INTERVAL);
         } else {
@@ -110,7 +110,7 @@ public class SoundPlayerWidget extends Table {
 
     private void onWarningButton(boolean checked) {
         if(checked) {
-            parrot.playSound(SoundType.WARNING_BEEP, 0, 0, 1, SoundType.WARNING_BEEP.getPlaybackMode(), Constants.BOOM_GENERAL_CHANNEL);
+            parrot.playSound(SoundType.WARNING_BEEP, -1, 0, 0, 1, SoundType.WARNING_BEEP.getPlaybackMode(), Constants.BOOM_GENERAL_CHANNEL);
         } else {
             parrot.stopSound(SoundType.WARNING_BEEP);
         }
@@ -118,7 +118,7 @@ public class SoundPlayerWidget extends Table {
 
     private void onFlamethrowerButton(boolean checked) {
         if(checked) {
-            parrot.playSound(SoundType.FLAMETHROWER_SPARK, 0, 0, 1, SoundType.FLAMETHROWER_SPARK.getPlaybackMode(), Constants.BOOM_GENERAL_CHANNEL);
+            parrot.playSound(SoundType.FLAMETHROWER_SPARK, -1, 0, 0, 1, SoundType.FLAMETHROWER_SPARK.getPlaybackMode(), Constants.BOOM_GENERAL_CHANNEL);
             flamethrowerSoundId = parrot.playSound(SoundType.FLAMETHROWER, 0, 0, 1, SoundType.FLAMETHROWER.getPlaybackMode(), Constants.BOOM_GENERAL_CHANNEL);
             isFlamethrowerActive = true;
         } else {

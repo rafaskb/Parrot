@@ -101,7 +101,19 @@ public interface SoundPlayer extends Disposable {
      * @return the ID associated with the created {@link SoundInstance}, which can be used for most operations in this
      * class.
      */
-    long playSound(ParrotSoundType type, float x, float y, float pitch, PlaybackMode mode, int boomChannel);
+    default long playSound(ParrotSoundType type, float x, float y, float pitch, PlaybackMode mode, int boomChannel) {
+        return playSound(type, -1, x, y, pitch, mode, boomChannel);
+    };
+
+    /**
+     * Register a {@link ParrotSoundType} to be played the next time this instance is updated with the given
+     * attributes.
+     *
+     * @param soundIndex The specific index of the soundType to be played. If negative, a random index will be chosen.
+     * @return the ID associated with the created {@link SoundInstance}, which can be used for most operations in this
+     * class.
+     */
+    long playSound(ParrotSoundType type, int soundIndex, float x, float y, float pitch, PlaybackMode mode, int boomChannel);
 
     /**
      * Returns the {@link SoundInstance} associated with the given ID, if any. Might return {@code null}.

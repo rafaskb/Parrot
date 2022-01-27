@@ -286,10 +286,13 @@ public class SoundPlayerImpl implements SoundPlayer {
     }
 
     @Override
-    public long playSound(ParrotSoundType type, float x, float y, float pitch, PlaybackMode mode, int boomChannel) {
+    public long playSound(ParrotSoundType type, int soundIndex, float x, float y, float pitch, PlaybackMode mode, int boomChannel) {
         // Make sure PlaybackMode is valid
         if(mode == null) mode = type.getPlaybackMode();
         if(mode == null) mode = PlaybackMode.NORMAL;
+
+        // Sanitize sound index
+        soundIndex = Math.min(soundIndex, type.getSounds().size - 1);
 
         // If sound is continuous, see if there's an active one
         if(mode == PlaybackMode.CONTINUOUS) {
@@ -309,7 +312,7 @@ public class SoundPlayerImpl implements SoundPlayer {
         // Get random sound
         Array<Sound> sounds = type.getSounds();
         if(sounds != null) {
-            Sound sound = sounds.random();
+            Sound sound = soundIndex < 0 ? sounds.random() : sounds.get(soundIndex);
             if(sound != null) {
 
                 // Calculate pitch

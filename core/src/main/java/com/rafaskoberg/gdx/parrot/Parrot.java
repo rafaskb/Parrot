@@ -79,8 +79,8 @@ public class Parrot implements SoundPlayer, MusicPlayer {
     }
 
     @Override
-    public long playSound(ParrotSoundType type, float x, float y, float pitch, PlaybackMode mode, int boomChannel) {
-        return soundPlayer.playSound(type, x, y, pitch, mode, boomChannel);
+    public long playSound(ParrotSoundType type, int soundIndex, float x, float y, float pitch, PlaybackMode mode, int boomChannel) {
+        return soundPlayer.playSound(type, soundIndex, x, y, pitch, mode, boomChannel);
     }
 
     @Override
