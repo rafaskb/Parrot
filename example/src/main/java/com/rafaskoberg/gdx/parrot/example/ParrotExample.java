@@ -26,12 +26,12 @@ import com.rafaskoberg.gdx.parrot.example.widgets.MusicPlayerWidget;
 import com.rafaskoberg.gdx.parrot.example.widgets.SoundPlayerWidget;
 
 public class ParrotExample extends ApplicationAdapter {
-    private Parrot      parrot;
-    private Boom        boom;
-    private Stage       stage;
+    private Parrot parrot;
+    private Boom boom;
+    private Stage stage;
     private SpriteBatch batch;
-    private Image       parrotIcon;
-    private boolean     wasMusicPlaying;
+    private Image parrotIcon;
+    private boolean wasMusicPlaying;
 
     @Override
     public void create() {

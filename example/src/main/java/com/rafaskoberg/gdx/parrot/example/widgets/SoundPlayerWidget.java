@@ -20,10 +20,10 @@ import com.rafaskoberg.gdx.parrot.example.util.Utils;
 public class SoundPlayerWidget extends Table {
     private static final float FOOTSTEP_INTERVAL = 0.35f;
 
-    private final Parrot  parrot;
-    private       Task    footstepTask;
-    private       boolean isFlamethrowerActive = false;
-    private       long    flamethrowerSoundId  = 0;
+    private final Parrot parrot;
+    private Task footstepTask;
+    private boolean isFlamethrowerActive = false;
+    private long flamethrowerSoundId = 0;
 
     public SoundPlayerWidget(Parrot parrot) {
         this.parrot = parrot;

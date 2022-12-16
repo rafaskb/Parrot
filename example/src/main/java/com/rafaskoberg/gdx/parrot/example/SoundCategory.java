@@ -12,7 +12,7 @@ public enum SoundCategory implements ParrotSoundCategory {
     RESTRICTED(1, false),
     USER_INTERFACE(8, false);
 
-    private final int     voices;
+    private final int voices;
     private final boolean isSpatial;
 
     SoundCategory(int voices, boolean isSpatial) {

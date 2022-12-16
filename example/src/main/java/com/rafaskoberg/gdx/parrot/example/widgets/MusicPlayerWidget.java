@@ -18,11 +18,11 @@ import com.rafaskoberg.gdx.parrot.example.util.Constants;
 import com.rafaskoberg.gdx.parrot.example.util.Utils;
 
 public class MusicPlayerWidget extends Table {
-    private final Parrot         parrot;
-    private       int            curentMusicTypeIndex = 0;
-    private       VisImageButton playButton;
-    private       VisLabel       trackLabel;
-    private       VisLabel       artistLabel;
+    private final Parrot parrot;
+    private int curentMusicTypeIndex = 0;
+    private VisImageButton playButton;
+    private VisLabel trackLabel;
+    private VisLabel artistLabel;
 
     public MusicPlayerWidget(Parrot parrot) {
         this.parrot = parrot;

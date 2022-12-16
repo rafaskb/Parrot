@@ -11,8 +11,8 @@ public enum AmbienceType implements ParrotMusicType {
 
     private final String filename;
     private final String trackName;
-    private final float  volume;
-    private       Music  music;
+    private final float volume;
+    private Music music;
 
     AmbienceType(String filename, String trackName, float volume) {
         this.filename = filename;

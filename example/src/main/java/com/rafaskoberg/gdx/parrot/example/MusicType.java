@@ -13,8 +13,8 @@ public enum MusicType implements ParrotMusicType {
     private final String filename;
     private final String trackName;
     private final String artistName;
-    private final float  volume;
-    private       Music  music;
+    private final float volume;
+    private Music music;
 
     MusicType(String filename, String trackName, String artistName, float volume) {
         this.filename = filename;

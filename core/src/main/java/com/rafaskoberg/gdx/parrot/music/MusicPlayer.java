@@ -22,8 +22,7 @@ public interface MusicPlayer extends Disposable {
     void setMusicPlayerVolume(float volume);
 
     /**
-     * Returns the linear volume of a certain channel of this {@link MusicPlayer}, as passed to {@link
-     * #setMusicChannelVolume(int, float)}.
+     * Returns the linear volume of a certain channel of this {@link MusicPlayer}, as passed to {@link #setMusicChannelVolume(int, float)}.
      *
      * @param channel Internal channel
      */
@@ -73,8 +72,7 @@ public interface MusicPlayer extends Disposable {
     }
 
     /**
-     * Register a {@link ParrotMusicType} to be played the next time this instance is updated with the given
-     * attributes.
+     * Register a {@link ParrotMusicType} to be played the next time this instance is updated with the given attributes.
      *
      * @param loop        Whether or not the music should loop.
      * @param fadeIn      Whether or not the music should fade-in when it starts playing.

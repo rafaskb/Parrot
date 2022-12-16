@@ -8,23 +8,23 @@ import com.badlogic.gdx.utils.Pool.Poolable;
  * {@link Sound} wrapper containing a lot of extra information to improve the sound handling.
  */
 public class SoundInstance implements Poolable {
-    protected Sound           sound;
+    protected Sound sound;
     protected ParrotSoundType type;
-    protected long            internalId;
-    protected long            id;
-    protected float           positionX;
-    protected float           positionY;
-    protected float           pitch;
-    protected boolean         isDying;
-    protected boolean         playMe;
-    protected PlaybackMode    playbackMode;
-    protected long            lastTouch;
-    protected float           duration;
-    protected float           time;
-    protected float           currentVolume;
-    protected float           currentPan;
-    protected int             boomChannel;
-    private   boolean         persistent;
+    protected long internalId;
+    protected long id;
+    protected float positionX;
+    protected float positionY;
+    protected float pitch;
+    protected boolean isDying;
+    protected boolean playMe;
+    protected PlaybackMode playbackMode;
+    protected long lastTouch;
+    protected float duration;
+    protected float time;
+    protected float currentVolume;
+    protected float currentPan;
+    protected int boomChannel;
+    private boolean persistent;
 
     // REMINDER: Reset members
 
@@ -110,8 +110,7 @@ public class SoundInstance implements Poolable {
     }
 
     /**
-     * Returns the boom channel this sound is to be played on, or -1 if it should respect the {@link ParrotSoundType}'s
-     * value.
+     * Returns the boom channel this sound is to be played on, or -1 if it should respect the {@link ParrotSoundType}'s value.
      */
     public int getBoomChannel() {
         return boomChannel;
@@ -132,8 +131,7 @@ public class SoundInstance implements Poolable {
     }
 
     /**
-     * Returns whether or not this instance is valid. That is, if it has been played already and the internal Internal
-     * ID is valid.
+     * Returns whether or not this instance is valid. That is, if it has been played already and the internal Internal ID is valid.
      */
     public boolean isValid() {
         return !(internalId == -1 && !playMe);

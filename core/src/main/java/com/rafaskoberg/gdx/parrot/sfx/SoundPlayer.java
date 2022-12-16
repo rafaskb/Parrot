@@ -43,75 +43,62 @@ public interface SoundPlayer extends Disposable {
     /**
      * Register a {@link ParrotSoundType} to be played the next time this instance is updated.
      *
-     * @return the ID associated with the created {@link SoundInstance}, which can be used for most operations in this
-     * class.
+     * @return the ID associated with the created {@link SoundInstance}, which can be used for most operations in this class.
      */
     default long playSound(ParrotSoundType type) {
         return playSound(type, 0, 0, 1, null);
     }
 
     /**
-     * Register a {@link ParrotSoundType} to be played the next time this instance is updated with a specific pitch
-     * value.
+     * Register a {@link ParrotSoundType} to be played the next time this instance is updated with a specific pitch value.
      *
-     * @return the ID associated with the created {@link SoundInstance}, which can be used for most operations in this
-     * class.
+     * @return the ID associated with the created {@link SoundInstance}, which can be used for most operations in this class.
      */
     default long playSound(ParrotSoundType type, float pitch) {
         return playSound(type, 0, 0, pitch, null);
     }
 
     /**
-     * Register a {@link ParrotSoundType} to be played the next time this instance is updated with the given
-     * attributes.
+     * Register a {@link ParrotSoundType} to be played the next time this instance is updated with the given attributes.
      *
-     * @return the ID associated with the created {@link SoundInstance}, which can be used for most operations in this
-     * class.
+     * @return the ID associated with the created {@link SoundInstance}, which can be used for most operations in this class.
      */
     default long playSound(ParrotSoundType type, float x, float y) {
         return playSound(type, x, y, 1, null);
     }
 
     /**
-     * Register a {@link ParrotSoundType} to be played the next time this instance is updated with the given
-     * attributes.
+     * Register a {@link ParrotSoundType} to be played the next time this instance is updated with the given attributes.
      *
-     * @return the ID associated with the created {@link SoundInstance}, which can be used for most operations in this
-     * class.
+     * @return the ID associated with the created {@link SoundInstance}, which can be used for most operations in this class.
      */
     default long playSound(ParrotSoundType type, float x, float y, PlaybackMode mode) {
         return playSound(type, x, y, 1, mode);
     }
 
     /**
-     * Register a {@link ParrotSoundType} to be played the next time this instance is updated with the given
-     * attributes.
+     * Register a {@link ParrotSoundType} to be played the next time this instance is updated with the given attributes.
      *
-     * @return the ID associated with the created {@link SoundInstance}, which can be used for most operations in this
-     * class.
+     * @return the ID associated with the created {@link SoundInstance}, which can be used for most operations in this class.
      */
     default long playSound(ParrotSoundType type, float x, float y, float pitch, PlaybackMode mode) {
         return playSound(type, x, y, pitch, mode, -1);
     }
 
     /**
-     * Register a {@link ParrotSoundType} to be played the next time this instance is updated with the given
-     * attributes.
+     * Register a {@link ParrotSoundType} to be played the next time this instance is updated with the given attributes.
      *
-     * @return the ID associated with the created {@link SoundInstance}, which can be used for most operations in this
-     * class.
+     * @return the ID associated with the created {@link SoundInstance}, which can be used for most operations in this class.
      */
     default long playSound(ParrotSoundType type, float x, float y, float pitch, PlaybackMode mode, int boomChannel) {
         return playSound(type, -1, x, y, pitch, mode, boomChannel);
-    };
+    }
 
     /**
-     * Register a {@link ParrotSoundType} to be played the next time this instance is updated with the given
-     * attributes.
+     * Register a {@link ParrotSoundType} to be played the next time this instance is updated with the given attributes.
      *
      * @param soundIndex The specific index of the soundType to be played. If negative, a random index will be chosen.
-     * @return the ID associated with the created {@link SoundInstance}, which can be used for most operations in this
-     * class.
+     * @return the ID associated with the created {@link SoundInstance}, which can be used for most operations in this class.
      */
     long playSound(ParrotSoundType type, int soundIndex, float x, float y, float pitch, PlaybackMode mode, int boomChannel);
 
@@ -231,8 +218,7 @@ public interface SoundPlayer extends Disposable {
     float getSoundCategoryPitchFactor(ParrotSoundCategory category);
 
     /**
-     * Sets a pitch factor for the given category, which will multiply the pitch of all sounds with this category played
-     * after this call.
+     * Sets a pitch factor for the given category, which will multiply the pitch of all sounds with this category played after this call.
      */
     void setSoundCategoryPitchFactor(ParrotSoundCategory category, float pitchFactor);
 

@@ -21,8 +21,8 @@ public class ParrotUtils {
     }
 
     /**
-     * Returns the duration of a {@link Sound} instance, if the current backend allows it. Currently it's only possible
-     * to obtain the duration of a {@link Sound} on Desktop.
+     * Returns the duration of a {@link Sound} instance, if the current backend allows it. Currently it's only possible to obtain the
+     * duration of a {@link Sound} on Desktop.
      *
      * @param defaultDuration Duration to be returned in case something goes wrong.
      */

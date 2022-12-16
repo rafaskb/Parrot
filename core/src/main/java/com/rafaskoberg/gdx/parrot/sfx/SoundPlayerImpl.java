@@ -19,20 +19,20 @@ import com.rafaskoberg.gdx.parrot.util.ParrotUtils;
  */
 public class SoundPlayerImpl implements SoundPlayer {
     // Collections
-    private final Array<SoundInstance>                soundInstances;
-    private final LongMap<SoundInstance>              soundsById;
-    private final LongMap<Array<Vector2>>             continuousPositionsById;
+    private final Array<SoundInstance> soundInstances;
+    private final LongMap<SoundInstance> soundsById;
+    private final LongMap<Array<Vector2>> continuousPositionsById;
     private final ObjectFloatMap<ParrotSoundCategory> pitchFactorsByCategory;
 
     // Members
-    private final Parrot         parrot;
+    private final Parrot parrot;
     private final ParrotSettings settings;
-    private final Vector2        listenerPosition;
-    private final Vector2        tmpVec;
-    protected     Boom           boom;
-    private       long           nextId;
-    private       float          rawVolume;
-    private       float          masterVolume;
+    private final Vector2 listenerPosition;
+    private final Vector2 tmpVec;
+    protected Boom boom;
+    private long nextId;
+    private float rawVolume;
+    private float masterVolume;
 
     public SoundPlayerImpl(Parrot parrot) {
         // Collections
@@ -540,8 +540,8 @@ public class SoundPlayerImpl implements SoundPlayer {
     }
 
     /**
-     * Limits the amount of voices of the given {@link ParrotSoundType} playing at once. If there are more voices than
-     * the allowed amount, the oldest ones are killed.
+     * Limits the amount of voices of the given {@link ParrotSoundType} playing at once. If there are more voices than the allowed amount,
+     * the oldest ones are killed.
      */
     private void limitVoices(ParrotSoundType type) {
         ParrotSoundCategory category = type.getCategory();

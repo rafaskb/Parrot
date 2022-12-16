@@ -14,15 +14,15 @@ public enum SoundType implements ParrotSoundType {
     UI_CLICK("ui_hover", SoundCategory.USER_INTERFACE, 2, 0.50f, 1.5f, 0.0f, PlaybackMode.NORMAL, 0.0f),
     UI_HOVER("ui_hover", SoundCategory.USER_INTERFACE, 2, 0.35f, 1.0f, 0.03f, PlaybackMode.NORMAL, 0.0f);
 
-    private final Array<Sound>  sounds;
-    private final String        filename;
+    private final Array<Sound> sounds;
+    private final String filename;
     private final SoundCategory category;
-    private final int           voices;
-    private final float         volume;
-    private final float         pitch;
-    private final float         pitchVariation;
-    private final PlaybackMode  playbackMode;
-    private final float         continuityFactor;
+    private final int voices;
+    private final float volume;
+    private final float pitch;
+    private final float pitchVariation;
+    private final PlaybackMode playbackMode;
+    private final float continuityFactor;
 
     SoundType(String filename, SoundCategory category, int voices, float volume, float pitch, float pitchVariation, PlaybackMode playbackMode, float continuityFactor) {
         this.sounds = new Array<>();

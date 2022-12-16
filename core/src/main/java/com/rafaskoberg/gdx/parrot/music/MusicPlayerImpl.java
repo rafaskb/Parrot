@@ -16,16 +16,16 @@ public class MusicPlayerImpl implements MusicPlayer {
 
     // Collections
     private final Array<MusicInstance> musicInstances;
-    private final IntFloatMap          volumesByChannel;
-    private final IntFloatMap          rawVolumesByChannel;
+    private final IntFloatMap volumesByChannel;
+    private final IntFloatMap rawVolumesByChannel;
 
     // Members
-    private final Parrot                parrot;
-    private final ParrotSettings        settings;
+    private final Parrot parrot;
+    private final ParrotSettings settings;
     private final LoudnessInterpolation interpolation;
-    protected     Boom                  boom;
-    private       float                 rawVolume;
-    private       float                 masterVolume;
+    protected Boom boom;
+    private float rawVolume;
+    private float masterVolume;
 
     public MusicPlayerImpl(Parrot parrot) {
         // Collections

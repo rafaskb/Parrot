@@ -20,9 +20,9 @@ import com.rafaskoberg.gdx.parrot.example.util.Constants;
 import com.rafaskoberg.gdx.parrot.example.util.Utils;
 
 public class AmbiencePlayerWidget extends Table {
-    private final Parrot                     parrot;
-    private       VisImageButton             playButton;
-    private       VisSelectBox<AmbienceType> selectBox;
+    private final Parrot parrot;
+    private VisImageButton playButton;
+    private VisSelectBox<AmbienceType> selectBox;
 
     public AmbiencePlayerWidget(Parrot parrot) {
         this.parrot = parrot;

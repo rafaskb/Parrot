@@ -22,9 +22,9 @@ import com.rafaskoberg.gdx.parrot.example.SoundType;
 public class Utils {
 
     /**
-     * Creates a new translucent {@link Drawable} filled with the given color and alpha values. Note this method creates
-     * a lot of resources, although small, and can cause memory problems if called too many times. If you intend to call
-     * this method on each frame, it's a better idea to store the result somewhere.
+     * Creates a new translucent {@link Drawable} filled with the given color and alpha values. Note this method creates a lot of resources,
+     * although small, and can cause memory problems if called too many times. If you intend to call this method on each frame, it's a
+     * better idea to store the result somewhere.
      */
     public static Drawable createColorDrawable(Color color, float alpha) {
         Pixmap pixmapBg = new Pixmap(10, 10, Format.RGBA8888);

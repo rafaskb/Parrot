@@ -17,8 +17,8 @@ import com.rafaskoberg.gdx.parrot.sfx.SoundPlayerImpl;
 /** TODO Javadocs */
 public class Parrot implements SoundPlayer, MusicPlayer {
     protected ParrotSettings settings;
-    protected SoundPlayer    soundPlayer;
-    protected MusicPlayer    musicPlayer;
+    protected SoundPlayer soundPlayer;
+    protected MusicPlayer musicPlayer;
 
     /** TODO Javadocs */
     public Parrot() {
@@ -28,8 +28,7 @@ public class Parrot implements SoundPlayer, MusicPlayer {
     }
 
     /**
-     * Returns the {@link ParrotSettings} instance controlling the settings of this library. Changes to it can be made
-     * at any time.
+     * Returns the {@link ParrotSettings} instance controlling the settings of this library. Changes to it can be made at any time.
      */
     public ParrotSettings getSettings() {
         return settings;

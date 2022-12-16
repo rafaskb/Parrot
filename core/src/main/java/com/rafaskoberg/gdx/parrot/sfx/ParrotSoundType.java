@@ -53,9 +53,8 @@ public interface ParrotSoundType {
     }
 
     /**
-     * Returns a multiplier value used for {@link PlaybackMode#CONTINUOUS Continuous} sounds, which determines how
-     * quickly the sound should die after it stops being touched. This value is used to multiply {@link
-     * ParrotSettings#soundContinuousTimeout}. Defaults to 1.
+     * Returns a multiplier value used for {@link PlaybackMode#CONTINUOUS Continuous} sounds, which determines how quickly the sound should
+     * die after it stops being touched. This value is used to multiply {@link ParrotSettings#soundContinuousTimeout}. Defaults to 1.
      */
     default float getContinuityFactor() {
         return 1;

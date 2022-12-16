@@ -7,15 +7,15 @@ import com.badlogic.gdx.utils.Pool.Poolable;
  * {@link Music} wrapper containing a lot of extra information to improve audio handling.
  */
 public class MusicInstance implements Poolable {
-    protected Music           music;
+    protected Music music;
     protected ParrotMusicType musicType;
-    protected boolean         isLooping;
-    protected State           state;
-    protected State           nextState;
-    protected float           stateTimer;
-    protected int             channel;
-    protected int             boomChannel;
-    protected float           targetVolume;
+    protected boolean isLooping;
+    protected State state;
+    protected State nextState;
+    protected float stateTimer;
+    protected int channel;
+    protected int boomChannel;
+    protected float targetVolume;
 
     // REMINDER: Reset members
 
