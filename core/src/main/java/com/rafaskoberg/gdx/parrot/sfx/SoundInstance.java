@@ -14,6 +14,7 @@ public class SoundInstance implements Poolable {
     protected long id;
     protected float positionX;
     protected float positionY;
+    protected float volumeFactor;
     protected float pitch;
     protected boolean isDying;
     protected boolean playMe;

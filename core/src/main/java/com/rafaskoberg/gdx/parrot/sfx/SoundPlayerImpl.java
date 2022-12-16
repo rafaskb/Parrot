@@ -153,7 +153,7 @@ public class SoundPlayerImpl implements SoundPlayer {
             // Apply new attributes
             if(soundInstance.sound != null) {
                 // Calculate volume
-                float volumeFactors = fadeInFactor * distanceFactor * lifeFactor;
+                float volumeFactors = fadeInFactor * distanceFactor * lifeFactor * soundInstance.volumeFactor;
                 float volumeVariation = soundType.getVolumeVariation() * MathUtils.randomTriangular(-1, 1, 0);
                 float relativeVolume = ParrotUtils.getPerceivedVolume(soundType.getVolume() + volumeVariation, settings.loudnessExponentialCurve);
                 float soundVolume = relativeVolume * volumeFactors;
@@ -215,8 +215,7 @@ public class SoundPlayerImpl implements SoundPlayer {
     }
 
     /**
-     * Iterates through all positions set to continuous sounds and solidify them to whichever position is closer to the
-     * camera center.
+     * Iterates through all positions set to continuous sounds and solidify them to whichever position is closer to the camera center.
      */
     private void solidifyContinuousPositions(float centerX, float centerY, float delta) {
         if(continuousPositionsById.size > 0) {
@@ -287,7 +286,7 @@ public class SoundPlayerImpl implements SoundPlayer {
     }
 
     @Override
-    public long playSound(ParrotSoundType type, int soundIndex, float x, float y, float pitch, PlaybackMode mode, int boomChannel) {
+    public long playSound(ParrotSoundType type, int soundIndex, float x, float y, float volumeFactor, float pitch, PlaybackMode mode, int boomChannel) {
         // Make sure PlaybackMode is valid
         if(mode == null) mode = type.getPlaybackMode();
         if(mode == null) mode = PlaybackMode.NORMAL;
@@ -328,6 +327,7 @@ public class SoundPlayerImpl implements SoundPlayer {
                 soundInstance.duration = ParrotUtils.getSoundDuration(sound, settings.soundDurationOnUnsupportedPlatforms);
                 soundInstance.positionX = x;
                 soundInstance.positionY = y;
+                soundInstance.volumeFactor = volumeFactor;
                 soundInstance.pitch = pitch;
                 soundInstance.playbackMode = mode;
                 soundInstance.lastTouch = System.currentTimeMillis();

@@ -1,5 +1,8 @@
 [0.0.3]
+- BREAKING: Added a new parameter "volumeFactor" to some "playSound" methods of SoundPlayer and Parrot to allow for easy volume manipulation on play.
+    - If you extended SoundPlayer or Parrot, you will have to adapt the methods being overridden.
 - BREAKING: Fixed typo "soundSontinuousFadeIn" in ParrotSettings. The field is now called "soundContinuousFadeIn".
+    - If you used to access this field directly, you will need to fix the typo in your project as well.
 - Added SoundInstance.getSound(), which returns the underlying libGDX Sound instance being used.
 - Added MusicInstance.getMusic(), which returns the underlying libGDX Music instance being used.
 - Added "volumeVariation" to ParrotSoundType, which automatically applies a random volume variation when played.
