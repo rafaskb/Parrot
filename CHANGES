@@ -1,2 +1,3 @@
 [0.0.3]
+- BREAKING: Fixed typo "soundSontinuousFadeIn" in ParrotSettings. The field is now called "soundContinuousFadeIn".
 - Added "volumeVariation" to ParrotSoundType, which automatically applies a random volume variation when played.

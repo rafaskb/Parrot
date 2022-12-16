@@ -108,7 +108,7 @@ public class SoundPlayerImpl implements SoundPlayer {
 
             // Calculate fade in factor
             if(soundInstance.getPlaybackMode() == PlaybackMode.CONTINUOUS) {
-                float continuousFadein = settings.soundSontinuousFadeIn * continuityFactor;
+                float continuousFadein = settings.soundContinuousFadeIn * continuityFactor;
                 fadeInFactor = MathUtils.clamp(soundInstance.time / continuousFadein, 0.0f, 1.0f);
             }
 

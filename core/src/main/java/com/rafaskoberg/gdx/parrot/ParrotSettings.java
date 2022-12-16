@@ -44,7 +44,7 @@ public class ParrotSettings {
     /**
      * Time in seconds it will take for a {@link PlaybackMode#CONTINUOUS continuous} sound to reach it's full volume. Defaults to 0.15
      */
-    public float soundSontinuousFadeIn = 0.15f;
+    public float soundContinuousFadeIn = 0.15f;
 
     /**
      * Time in seconds it will take for a sound to stop playing after being considered dead. Defaults to 0.4
