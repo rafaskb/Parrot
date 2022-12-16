@@ -33,6 +33,13 @@ public class SoundInstance implements Poolable {
     }
 
     /**
+     * Returns the libGDX Sound instance managed by this wrapper.
+     */
+    public Sound getSound() {
+        return sound;
+    }
+
+    /**
      * Returns the public ID of this instance, which is recognized by {@link SoundPlayerImpl}.
      */
     public long getId() {
