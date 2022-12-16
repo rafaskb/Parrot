@@ -23,6 +23,13 @@ public class MusicInstance implements Poolable {
         reset();
     }
 
+    /**
+     * Returns the libGDX Music instance managed by this wrapper.
+     */
+    public Music getMusic() {
+        return music;
+    }
+
     @Override
     public void reset() {
         this.music = null;
