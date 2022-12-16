@@ -32,6 +32,13 @@ public interface ParrotSoundType {
     }
 
     /**
+     * Returns the volume variation of this sound type. Defaults to 0
+     */
+    default float getVolumeVariation() {
+        return 0f;
+    }
+
+    /**
      * Returns the pitch of this sound type. Defaults to 1
      */
     default float getPitch() {

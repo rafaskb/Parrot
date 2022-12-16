@@ -1,0 +1,2 @@
+[0.0.3]
+- Added "volumeVariation" to ParrotSoundType, which automatically applies a random volume variation when played.
