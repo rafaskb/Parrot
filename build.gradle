@@ -33,7 +33,7 @@ allprojects {
 
     ext {
         projectName = 'parrot'
-        projectVersion = '0.0.2-SNAPSHOT'
+        projectVersion = '0.0.3-SNAPSHOT'
 
         gdxVersion = '1.9.11'
         boomVersion = '5eb28db1d7d6c1b8b540287d1744b445c16f48b1'
