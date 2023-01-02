@@ -3,6 +3,7 @@ package com.rafaskoberg.gdx.parrot.sfx;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.utils.Array;
 import com.rafaskoberg.gdx.parrot.ParrotSettings;
+import com.rafaskoberg.gdx.parrot.util.NonRandomShuffle;
 
 /**
  * Interface containing information about a type of sound.
@@ -66,5 +67,12 @@ public interface ParrotSoundType {
     default float getContinuityFactor() {
         return 1;
     }
+
+    /**
+     * Returns the non random shuffle object of this sound type.
+     * The closer to 0 its factor is, the more random the sound index selection of a type will be.
+     * The closer to 1, the more likely a sound index is to play if it hasn't played in a while, and vis versa.
+     */
+    NonRandomShuffle<Sound> getNonRandomShuffle();
 
 }

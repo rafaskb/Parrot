@@ -111,10 +111,25 @@ public class SoundInstance implements Poolable {
     }
 
     /**
+     * Returns the volume factor of this sound. Default is 0.0.
+     */
+    public float getVolumeFactor()
+    {
+        return this.volumeFactor;
+    }
+
+    /**
      * Sets the pitch of this sound. Default is 1.0.
      */
     public void setPitch(float pitch) {
         if(sound != null) sound.setPitch(internalId, pitch);
+    }
+
+    /**
+     * Sets the volume factor of this sound. Default is 0.0.
+     */
+    public void setVolumeFactor(float volumeFactor) {
+        this.volumeFactor = volumeFactor;
     }
 
     /**

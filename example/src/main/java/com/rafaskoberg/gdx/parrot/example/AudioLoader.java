@@ -46,6 +46,8 @@ public class AudioLoader {
                 }
             }
         } while(successful);
+
+        soundType.getNonRandomShuffle().setValues(soundType.getSounds().toArray());
     }
 
     public static void load(MusicType musicType) {
