@@ -17,6 +17,8 @@ public class SoundInstance implements Poolable {
     protected float volumeFactor;
     protected float pitch;
     protected boolean isDying;
+    protected boolean preserved;
+    protected boolean awaitingReplay;
     protected boolean playMe;
     protected PlaybackMode playbackMode;
     protected long lastTouch;
@@ -139,6 +141,20 @@ public class SoundInstance implements Poolable {
     }
 
     /**
+     * Returns {@code true} if this sound is preserved, meaning it won't be freed from memory and is awaiting to be replayed when near the sound players coordinates.
+     */
+    public boolean isPreserved() {
+        return preserved;
+    }
+
+    /**
+     * Returns {@code true} if this sound is awaiting replay, meaning it is preserved, gracefully stopped by isDying fadeout, and waiting to be close enough to sound players coordinates to be replayed.
+     */
+    public boolean isAwaitingReplay() {
+        return awaitingReplay;
+    }
+
+    /**
      * Returns whether or not this instance is valid. That is, if it has been played already and the internal Internal ID is valid.
      */
     public boolean isValid() {
@@ -171,6 +187,8 @@ public class SoundInstance implements Poolable {
         this.positionY = 0.0f;
         this.pitch = 1.0f;
         this.isDying = false;
+        this.preserved = false;
+        this.awaitingReplay = false;
         this.playMe = true;
         this.playbackMode = PlaybackMode.NORMAL;
         this.lastTouch = 0;

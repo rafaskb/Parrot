@@ -20,6 +20,7 @@ import com.rafaskoberg.gdx.parrot.util.ParrotUtils;
 public class SoundPlayerImpl implements SoundPlayer {
     // Collections
     private final Array<SoundInstance> soundInstances;
+    private final Array<SoundInstance> awaitingPreservedSoundInstances;
     private final LongMap<SoundInstance> soundsById;
     private final LongMap<Array<Vector2>> continuousPositionsById;
     private final ObjectFloatMap<ParrotSoundCategory> pitchFactorsByCategory;
@@ -37,6 +38,7 @@ public class SoundPlayerImpl implements SoundPlayer {
     public SoundPlayerImpl(Parrot parrot) {
         // Collections
         this.soundInstances = new Array<>();
+        this.awaitingPreservedSoundInstances = new Array<>();
         this.soundsById = new LongMap<>();
         this.continuousPositionsById = new LongMap<>();
         this.pitchFactorsByCategory = new ObjectFloatMap<>();
@@ -78,140 +80,172 @@ public class SoundPlayerImpl implements SoundPlayer {
         solidifyContinuousPositions(listenerPosition.x, listenerPosition.y, delta);
 
         // Iterate through sounds
-        for(int i = 0; i < soundInstances.size; i++) {
+        for(int i = 0; i < soundInstances.size; i++)
+        {
             SoundInstance soundInstance = soundInstances.get(i);
-            ParrotSoundType soundType = soundInstance.getType();
-            ParrotSoundCategory category = soundType.getCategory();
+            if(updateSoundInstance(soundInstance, delta))
+                i --;
+        }
+        for(int i = 0; i < awaitingPreservedSoundInstances.size; i++)
+        {
+            SoundInstance soundInstance = awaitingPreservedSoundInstances.get(i);
+            if(updateSoundInstance(soundInstance, delta))
+                i --;
+        }
+    }
 
-            // Variables
-            float continuityFactor = soundType.getContinuityFactor();
-            float fadeInFactor = 1.0f;
-            float distanceFactor = 1.0f;
-            float lifeFactor = 1.0f;
-            float pan = 0.0f;
+    /** Returns true if sound was killed. */
+    private boolean updateSoundInstance(SoundInstance soundInstance, float delta)
+    {
+        boolean removed = false;
 
-            // Check if continuous sound should end
-            if(soundInstance.isActive() && soundInstance.getPlaybackMode() == PlaybackMode.CONTINUOUS) {
-                float inactivityTime = (System.currentTimeMillis() - soundInstance.lastTouch) / 1000f;
-                float continuousTimeout = settings.soundContinuousTimeout * continuityFactor;
-                if(inactivityTime > continuousTimeout) {
-                    stopSound(soundInstance);
-                }
-            }
+        ParrotSoundType soundType = soundInstance.getType();
+        ParrotSoundCategory category = soundType.getCategory();
 
-            // If sound has been played but has no internal ID, something terribly wrong happened to it. Kill sound!
-            if(!soundInstance.playMe && soundInstance.internalId == (long) -1) {
-                killSound(soundInstance);
-                i--;
-                continue;
-            }
+        // Variables
+        float continuityFactor = soundType.getContinuityFactor();
+        float fadeInFactor = 1.0f;
+        float distanceFactor = 1.0f;
+        float lifeFactor = 1.0f;
+        float pan = 0.0f;
 
-            // Calculate fade in factor
-            if(soundInstance.getPlaybackMode() == PlaybackMode.CONTINUOUS) {
-                float continuousFadein = settings.soundContinuousFadeIn * continuityFactor;
-                fadeInFactor = MathUtils.clamp(soundInstance.time / continuousFadein, 0.0f, 1.0f);
-            }
-
-            // Kill expired sounds
-            if(soundInstance.isExpired()) {
+        // Check if continuous sound should end
+        if(soundInstance.isActive() && soundInstance.getPlaybackMode() == PlaybackMode.CONTINUOUS) {
+            float inactivityTime = (System.currentTimeMillis() - soundInstance.lastTouch) / 1000f;
+            float continuousTimeout = settings.soundContinuousTimeout * continuityFactor;
+            if(inactivityTime > continuousTimeout) {
                 stopSound(soundInstance);
             }
-
-            // Update sound's time
-            soundInstance.time += delta;
-
-            // Check if instance should be killed and removed
-            if(soundInstance.isDying) {
-                float deadTime = (System.currentTimeMillis() - soundInstance.lastTouch) / 1000f;
-
-                // Check if sound should be killed and removed
-                if(deadTime > settings.soundDeathFadeOut) {
-                    killSound(soundInstance);
-                    i--;
-                    continue;
-                }
-
-                // Otherwise calculate life factor
-                lifeFactor = MathUtils.clamp(1.0f - (deadTime / settings.soundDeathFadeOut), 0.0f, 1.0f);
-            }
-
-            if(category != null && category.isSpatial()) {
-                // Calculate distance factor
-                tmpVec.set(soundInstance.positionX, soundInstance.positionY).sub(listenerPosition.x, listenerPosition.y);
-                float dst = tmpVec.len();
-                float dstFactorRaw = MathUtils.clamp(dst / settings.soundDistanceLimit, 0.0f, 1.0f);
-                distanceFactor = Interpolation.linear.apply(1.0f, ParrotUtils.dbToVolume(settings.soundDistanceReduction), dstFactorRaw);
-
-                // Calculate pan
-                float dstX = tmpVec.x;
-                boolean panFacingLeft = tmpVec.x < 0.0f;
-                float panFactorRaw = MathUtils.clamp(Math.abs(dstX / settings.soundPanLimit), 0.0f, 1.0f);
-                pan = Interpolation.linear.apply(0.0f, settings.soundPanReduction, panFactorRaw);
-                if(panFacingLeft) pan *= -1.0f;
-            }
-
-            // Apply new attributes
-            if(soundInstance.sound != null) {
-                // Calculate volume
-                float volumeFactors = fadeInFactor * distanceFactor * lifeFactor * soundInstance.volumeFactor;
-                float volumeVariation = soundType.getVolumeVariation() * MathUtils.randomTriangular(-1, 1, 0);
-                float relativeVolume = ParrotUtils.getPerceivedVolume(soundType.getVolume() + volumeVariation, settings.loudnessExponentialCurve);
-                float soundVolume = relativeVolume * volumeFactors;
-
-                // If sound is dying, keep the same pan and don't increase the volume
-                if(soundInstance.isDying) {
-                    soundVolume = Math.min(soundVolume, soundInstance.currentVolume);
-                    pan = soundInstance.currentPan;
-                }
-
-                // Apply master volume
-                float finalVolume = soundVolume * masterVolume;
-
-                // If sound is waiting to be played, play it
-                if(soundInstance.playMe) {
-                    soundInstance.playMe = false;
-                    boolean normal = soundInstance.playbackMode == PlaybackMode.NORMAL;
-                    long internalId;
-                    float pitch = soundInstance.pitch;
-
-                    // Apply random pitch variation to sound effect
-                    float pitchVariation = soundType.getPitchVariation() * MathUtils.randomTriangular(-1, 1, 0);
-                    pitch += pitchVariation;
-
-                    // Apply category-based pitch factors
-                    if(category != null) {
-                        float pitchCategoryFactor = pitchFactorsByCategory.get(category, 1);
-                        pitch *= pitchCategoryFactor;
-                    }
-
-                    if(boom == null) {
-                        // Play sound normally
-                        if(normal) {
-                            internalId = soundInstance.sound.play(finalVolume, pitch, pan);
-                        } else {
-                            internalId = soundInstance.sound.loop(finalVolume, pitch, pan);
-                        }
-                    } else {
-                        // Play sound through boom
-                        int boomChannel = soundInstance.boomChannel;
-                        if(normal) {
-                            internalId = boom.play(soundInstance.sound, boomChannel, finalVolume, pitch, pan);
-                        } else {
-                            internalId = boom.loop(soundInstance.sound, boomChannel, finalVolume, pitch, pan);
-                        }
-                    }
-                    soundInstance.internalId = internalId;
-                }
-                // Otherwise just apply changes
-                else {
-                    soundInstance.sound.setPan(soundInstance.internalId, pan, finalVolume);
-                }
-
-                // Store volume and pan to instance
-                soundInstance.currentVolume = soundVolume;
-                soundInstance.currentPan = pan;
-            }
         }
+
+        // If sound has been played but has no internal ID, something terribly wrong happened to it. Kill sound!
+        if(!soundInstance.playMe && soundInstance.internalId == (long) -1) {
+            killSound(soundInstance, true);
+            return true;
+        }
+
+        // Calculate fade in factor
+        if(soundInstance.getPlaybackMode() == PlaybackMode.CONTINUOUS) {
+            float continuousFadein = settings.soundContinuousFadeIn * continuityFactor;
+            fadeInFactor = MathUtils.clamp(soundInstance.time / continuousFadein, 0.0f, 1.0f);
+        }
+
+        // Kill expired sounds
+        if(soundInstance.isExpired()) {
+            stopSound(soundInstance);
+        }
+
+        // Update sound's time
+        soundInstance.time += delta;
+
+        // Check if instance should be killed and removed
+        if(soundInstance.isDying) {
+            float deadTime = (System.currentTimeMillis() - soundInstance.lastTouch) / 1000f;
+
+            // Check if sound should be killed and removed
+            if(deadTime > settings.soundDeathFadeOut && !soundInstance.isAwaitingReplay()) {
+                killSound(soundInstance);
+                return true;
+            }
+
+            // Otherwise calculate life factor
+            lifeFactor = MathUtils.clamp(1.0f - (deadTime / settings.soundDeathFadeOut), 0.0f, 1.0f);
+        }
+
+        if(category != null && category.isSpatial()) {
+            // Calculate distance factor
+            tmpVec.set(soundInstance.positionX, soundInstance.positionY).sub(listenerPosition.x, listenerPosition.y);
+            float dst = tmpVec.len();
+            float dstFactorRaw = MathUtils.clamp(dst / settings.soundDistanceLimit, 0.0f, 1.0f);
+            distanceFactor = Interpolation.linear.apply(1.0f, ParrotUtils.dbToVolume(settings.soundDistanceReduction), dstFactorRaw);
+
+            // If the sound is awaiting to be replayed, check if it's within the sound distance limit. If so, play it.
+            if(soundInstance.awaitingReplay && dst < settings.soundDistanceLimit) {
+                awaitingPreservedSoundInstances.removeValue(soundInstance, true);
+                removed = true;
+                playSound(soundInstance);
+                limitVoices(soundType);
+            }
+
+            // Calculate pan
+            float dstX = tmpVec.x;
+            boolean panFacingLeft = tmpVec.x < 0.0f;
+            float panFactorRaw = MathUtils.clamp(Math.abs(dstX / settings.soundPanLimit), 0.0f, 1.0f);
+            pan = Interpolation.linear.apply(0.0f, settings.soundPanReduction, panFactorRaw);
+            if(panFacingLeft) pan *= -1.0f;
+        }
+
+        // Apply new attributes
+        if(soundInstance.sound != null) {
+            // Calculate volume
+            float volumeFactors = fadeInFactor * distanceFactor * lifeFactor * soundInstance.volumeFactor;
+            float volumeVariation = soundType.getVolumeVariation() * MathUtils.randomTriangular(-1, 1, 0);
+            float relativeVolume = ParrotUtils.getPerceivedVolume(soundType.getVolume() + volumeVariation, settings.loudnessExponentialCurve);
+            float soundVolume = relativeVolume * volumeFactors;
+
+            // If sound is dying, keep the same pan and don't increase the volume
+            if(soundInstance.isDying) {
+                soundVolume = Math.min(soundVolume, soundInstance.currentVolume);
+                pan = soundInstance.currentPan;
+            }
+
+            // Apply master volume
+            float finalVolume = soundVolume * masterVolume;
+
+            // If sound is waiting to be played, play it
+            if(soundInstance.playMe) {
+                soundInstance.playMe = false;
+                boolean normal = soundInstance.playbackMode == PlaybackMode.NORMAL;
+                long internalId;
+                float pitch = soundInstance.pitch;
+
+                // Apply random pitch variation to sound effect
+                float pitchVariation = soundType.getPitchVariation() * MathUtils.randomTriangular(-1, 1, 0);
+                pitch += pitchVariation;
+
+                // Apply category-based pitch factors
+                if(category != null) {
+                    float pitchCategoryFactor = pitchFactorsByCategory.get(category, 1);
+                    pitch *= pitchCategoryFactor;
+                }
+
+                if(boom == null) {
+                    // Play sound normally
+                    if(normal) {
+                        internalId = soundInstance.sound.play(finalVolume, pitch, pan);
+                    } else {
+                        internalId = soundInstance.sound.loop(finalVolume, pitch, pan);
+                    }
+                } else {
+                    // Play sound through boom
+                    int boomChannel = soundInstance.boomChannel;
+                    if(normal) {
+                        internalId = boom.play(soundInstance.sound, boomChannel, finalVolume, pitch, pan);
+                    } else {
+                        internalId = boom.loop(soundInstance.sound, boomChannel, finalVolume, pitch, pan);
+                    }
+                }
+                soundInstance.internalId = internalId;
+            }
+            // Otherwise just apply changes
+            else {
+                soundInstance.sound.setPan(soundInstance.internalId, pan, finalVolume);
+            }
+
+            // Store volume and pan to instance
+            soundInstance.currentVolume = soundVolume;
+            soundInstance.currentPan = pan;
+        }
+        return removed;
+    }
+
+    private void playSound(SoundInstance soundInstance)
+    {
+        soundInstances.add(soundInstance);
+        soundInstance.playMe = true;
+        soundInstance.isDying = false;
+        soundInstance.awaitingReplay = false;
+        soundInstance.preserved = false;
     }
 
     /**
@@ -432,6 +466,7 @@ public class SoundPlayerImpl implements SoundPlayer {
         soundInstance.lastTouch = System.currentTimeMillis();
         soundInstance.isDying = true;
         soundInstance.playMe = false;
+        soundInstance.preserved = false;
     }
 
     @Override
@@ -462,7 +497,6 @@ public class SoundPlayerImpl implements SoundPlayer {
     }
 
     @Override
-
     public void killSound(ParrotSoundType type) {
         if(type == null) return;
         for(int i = 0; i < soundInstances.size; i++) {
@@ -495,15 +529,30 @@ public class SoundPlayerImpl implements SoundPlayer {
         soundInstances.clear();
     }
 
-    @Override
-    public void killSound(SoundInstance soundInstance) {
+    private void killSound(SoundInstance soundInstance, boolean ignorePreserved)
+    {
         if(soundInstance == null) return;
+
+        if(soundInstance.preserved)
+        {
+            soundInstances.removeValue(soundInstance, true);
+            soundInstance.awaitingReplay = true;
+        }
 
         // Stop sound
         if(soundInstance.sound != null) soundInstance.sound.stop(soundInstance.internalId);
 
         // Unregister sound
-        unregisterSound(soundInstance);
+        if(ignorePreserved || !soundInstance.isPreserved())
+            unregisterSound(soundInstance);
+            // Store to be replayed when near the sound players coordinates
+        else
+            preserveSound(soundInstance);
+    }
+
+    @Override
+    public void killSound(SoundInstance soundInstance) {
+        killSound(soundInstance, false);
     }
 
     @Override
@@ -541,6 +590,13 @@ public class SoundPlayerImpl implements SoundPlayer {
     }
 
     /**
+     * Store to be replayed when near the sound players coordinates.
+     */
+    private void preserveSound(SoundInstance soundInstance) {
+        awaitingPreservedSoundInstances.add(soundInstance);
+    }
+
+    /**
      * Limits the amount of voices of the given {@link ParrotSoundType} playing at once. If there are more voices than the allowed amount,
      * the oldest ones are killed.
      */
@@ -566,12 +622,18 @@ public class SoundPlayerImpl implements SoundPlayer {
                 if(soundInstance.getType().getCategory() == category) {
                     if(availableVoicesForCategory-- <= 0) {
                         stopSound(soundInstance);
+                        if(soundInstance.getPlaybackMode() == PlaybackMode.ETERNAL) {
+                            soundInstance.preserved = true;
+                        }
                     }
 
                     // Stop sounds based on type
                     else if(soundInstance.getType() == type) {
                         if(availableVoicesForType-- <= 0) {
                             stopSound(soundInstance);
+                            if(soundInstance.getPlaybackMode() == PlaybackMode.ETERNAL) {
+                                soundInstance.preserved = true;
+                            }
                         }
                     }
                 }
@@ -595,6 +657,7 @@ public class SoundPlayerImpl implements SoundPlayer {
     public void dispose() {
         Pools.freeAll(soundInstances);
         soundInstances.clear();
+        awaitingPreservedSoundInstances.clear();
         soundsById.clear();
     }
 
