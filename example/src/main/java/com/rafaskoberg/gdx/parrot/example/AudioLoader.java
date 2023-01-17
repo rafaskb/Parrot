@@ -51,7 +51,7 @@ public class AudioLoader {
         // Register sounds to NonRandomShuffle
         NonRandomShuffle<Sound> nonRandomShuffle = soundType.getNonRandomShuffle();
         if(nonRandomShuffle != null) {
-            nonRandomShuffle.setValues(soundType.getSounds().toArray());
+            nonRandomShuffle.setValues(soundType.getSounds().toArray(Sound.class));
         }
     }
 
