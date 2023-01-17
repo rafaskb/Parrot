@@ -91,7 +91,7 @@ public enum SoundType implements ParrotSoundType {
     }
 
     @Override
-    public NonRandomShuffle getNonRandomShuffle() {
+    public NonRandomShuffle<Sound> getNonRandomShuffle() {
         return nonRandomShuffle;
     }
 }

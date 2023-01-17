@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.files.FileHandle;
+import com.rafaskoberg.gdx.parrot.util.NonRandomShuffle;
 
 public class AudioLoader {
     private static final String SOUNDS_DIR = "sounds/";
@@ -47,8 +48,11 @@ public class AudioLoader {
             }
         } while(successful);
 
-        if(soundType.getNonRandomShuffle() != null)
-            soundType.getNonRandomShuffle().setValues(soundType.getSounds().toArray());
+        // Register sounds to NonRandomShuffle
+        NonRandomShuffle<Sound> nonRandomShuffle = soundType.getNonRandomShuffle();
+        if(nonRandomShuffle != null) {
+            nonRandomShuffle.setValues(soundType.getSounds().toArray());
+        }
     }
 
     public static void load(MusicType musicType) {
