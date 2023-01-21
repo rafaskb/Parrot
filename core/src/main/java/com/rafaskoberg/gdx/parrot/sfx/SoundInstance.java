@@ -26,6 +26,7 @@ public class SoundInstance implements Poolable {
     protected float currentPan;
     protected int boomChannel;
     private boolean persistent;
+    private int priority;
 
     // REMINDER: Reset members
 
@@ -167,6 +168,20 @@ public class SoundInstance implements Poolable {
     }
 
     /**
+     * Sets the priority. Lower priority sounds get voice limited first before higher priorities.
+     */
+    public void setPriority(int priority) {
+        this.priority = priority;
+    }
+
+    /**
+     * Returns the priority.
+     */
+    public int getPriority() {
+        return priority;
+    }
+
+    /**
      * Returns whether or not this sound's timer has expired its duration. Only works on the Desktop backend.
      */
     protected boolean isExpired() {
@@ -177,6 +192,7 @@ public class SoundInstance implements Poolable {
 
     @Override
     public void reset() {
+        this.priority = 0;
         this.sound = null;
         this.type = null;
         this.internalId = -1;
