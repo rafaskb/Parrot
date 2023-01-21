@@ -70,8 +70,8 @@ public interface ParrotSoundType {
 
     /**
      * Returns the non random shuffle object of this sound type.
-     * The closer to 0 its factor is, the more random the sound index selection of a type will be.
-     * The closer to 1, the more likely a sound index is to play if it hasn't played in a while, and vis versa.
+     * <li>The closer to 0 its factor is, the more random the sound index selection of a type will be.</li>
+     * <li>The closer to 1, the more likely a sound index is to play if it hasn't played in a while, and vice versa.</li>
      */
     NonRandomShuffle<Sound> getNonRandomShuffle();
 

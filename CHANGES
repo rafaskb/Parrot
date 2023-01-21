@@ -1,3 +1,7 @@
+[SNAPSHOT]
+- Fixed "volumeFactor" never being reset on SoundInstance's reset method.
+- Added "NonRandomShuffle" algorithm for picking different sounds every time, and avoiding the same sound files from repeating themselves. Thanks @BambooBandit!
+
 [0.0.3]
 - BREAKING: Added a new parameter "volumeFactor" to some "playSound" methods of SoundPlayer and Parrot to allow for easy volume manipulation on play.
     - If you extended SoundPlayer or Parrot, you will have to adapt the methods being overridden.

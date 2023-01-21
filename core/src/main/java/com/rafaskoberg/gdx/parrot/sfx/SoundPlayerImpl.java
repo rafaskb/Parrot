@@ -324,12 +324,17 @@ public class SoundPlayerImpl implements SoundPlayer {
         Array<Sound> sounds = type.getSounds();
         if(sounds != null) {
 
-            Sound sound = null;
-            if(type.getNonRandomShuffle() != null)
-                sound = soundIndex < 0 ? type.getNonRandomShuffle().get() : sounds.get(soundIndex);
-            else
-                sound = soundIndex < 0 ? type.getSounds().random() : sounds.get(soundIndex);
+            // Get sound either direcly, from NonRandomShuffle, or randomly.
+            final Sound sound;
+            if(soundIndex > 0) {
+                sound = sounds.get(soundIndex);
+            } else if(type.getNonRandomShuffle() != null) {
+                sound = type.getNonRandomShuffle().get();
+            } else {
+                sound = type.getSounds().random();
+            }
 
+            // Ensure sound is valid
             if(sound != null) {
 
                 // Calculate pitch
