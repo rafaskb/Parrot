@@ -35,15 +35,7 @@ public class SoundPlayerImpl implements SoundPlayer {
     private long nextId;
     private float rawVolume;
     private float masterVolume;
-
-    private Comparator<SoundInstance> priorityComparator = new Comparator<SoundInstance>()
-    {
-        @Override
-        public int compare(SoundInstance soundInstance1, SoundInstance soundInstance2)
-        {
-            return Integer.compare(soundInstance1.getPriority(), soundInstance2.getPriority());
-        }
-    };
+    private Comparator<SoundInstance> priorityComparator;
 
     public SoundPlayerImpl(Parrot parrot) {
         // Collections
@@ -60,6 +52,7 @@ public class SoundPlayerImpl implements SoundPlayer {
         this.nextId = 1;
         this.rawVolume = 1.0f;
         this.masterVolume = 1.0f;
+        this.priorityComparator = Comparator.comparingInt(SoundInstance::getPriority).thenComparingLong(SoundInstance::getId);
     }
 
     @Override
@@ -579,7 +572,9 @@ public class SoundPlayerImpl implements SoundPlayer {
             return;
         }
 
+        // Sort sounds before limitting
         soundInstances.sort(priorityComparator);
+
         // Iterate through valid sound instances
         for(int i = soundInstances.size - 1; i >= 0; i--) {
             SoundInstance soundInstance = soundInstances.get(i);
