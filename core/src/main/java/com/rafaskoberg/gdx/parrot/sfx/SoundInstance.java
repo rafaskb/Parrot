@@ -168,17 +168,17 @@ public class SoundInstance implements Poolable {
     }
 
     /**
-     * Sets the priority. Lower priority sounds get voice limited first before higher priorities.
-     */
-    public void setPriority(int priority) {
-        this.priority = priority;
-    }
-
-    /**
-     * Returns the priority.
+     * Returns the priority. Lower priority sounds get voice limited first before higher priorities. Defaults to 0.
      */
     public int getPriority() {
         return priority;
+    }
+
+    /**
+     * Sets the priority. Lower priority sounds get voice limited first before higher priorities. Defaults to 0.
+     */
+    public void setPriority(int priority) {
+        this.priority = priority;
     }
 
     /**
@@ -192,7 +192,6 @@ public class SoundInstance implements Poolable {
 
     @Override
     public void reset() {
-        this.priority = 0;
         this.sound = null;
         this.type = null;
         this.internalId = -1;
@@ -211,5 +210,6 @@ public class SoundInstance implements Poolable {
         this.currentPan = 0.0f;
         this.boomChannel = -1;
         this.persistent = false;
+        this.priority = 0;
     }
 }
