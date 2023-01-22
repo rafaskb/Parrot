@@ -25,8 +25,8 @@ public class SoundInstance implements Poolable {
     protected float currentVolume;
     protected float currentPan;
     protected int boomChannel;
-    private boolean persistent;
-    private int priority;
+    protected boolean persistent;
+    protected int priority;
 
     // REMINDER: Reset members
 
