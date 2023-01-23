@@ -69,6 +69,14 @@ public interface ParrotSoundType {
     }
 
     /**
+     * Returns the priority value for all sounds of this type. Lower priority sounds get voice limited first before higher priorities.
+     * Defaults to 0.
+     */
+    default int getPriority() {
+        return 0;
+    }
+
+    /**
      * Returns the non random shuffle object of this sound type.
      * <li>The closer to 0 its factor is, the more random the sound index selection of a type will be.</li>
      * <li>The closer to 1, the more likely a sound index is to play if it hasn't played in a while, and vice versa.</li>

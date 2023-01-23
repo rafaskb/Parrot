@@ -14,6 +14,8 @@ import com.rafaskoberg.gdx.parrot.Parrot;
 import com.rafaskoberg.gdx.parrot.ParrotSettings;
 import com.rafaskoberg.gdx.parrot.util.ParrotUtils;
 
+import java.util.Comparator;
+
 /**
  * Advanced spatial sound player that handles all sounds being played in the game.
  */
@@ -33,6 +35,7 @@ public class SoundPlayerImpl implements SoundPlayer {
     private long nextId;
     private float rawVolume;
     private float masterVolume;
+    private Comparator<SoundInstance> priorityComparator;
 
     public SoundPlayerImpl(Parrot parrot) {
         // Collections
@@ -49,6 +52,7 @@ public class SoundPlayerImpl implements SoundPlayer {
         this.nextId = 1;
         this.rawVolume = 1.0f;
         this.masterVolume = 1.0f;
+        this.priorityComparator = Comparator.comparingInt(SoundInstance::getPriority).thenComparingLong(SoundInstance::getId);
     }
 
     @Override
@@ -342,6 +346,7 @@ public class SoundPlayerImpl implements SoundPlayer {
                 soundInstance.pitch = pitch;
                 soundInstance.playbackMode = mode;
                 soundInstance.lastTouch = System.currentTimeMillis();
+                soundInstance.priority = type.getPriority();
                 if(boomChannel != -1) {
                     soundInstance.boomChannel = boomChannel;
                 }
@@ -567,6 +572,9 @@ public class SoundPlayerImpl implements SoundPlayer {
         if(totalSoundsPlaying <= availableVoicesForType && totalSoundsPlaying <= availableVoicesForCategory) {
             return;
         }
+
+        // Sort sounds before limitting
+        soundInstances.sort(priorityComparator);
 
         // Iterate through valid sound instances
         for(int i = soundInstances.size - 1; i >= 0; i--) {
