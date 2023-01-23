@@ -1,4 +1,5 @@
 [SNAPSHOT]
+- Added a priority parameter to ParrotSoundType and SoundInstance, which changes the order of sounds killed while limiting voices.
 - Fixed "volumeFactor" never being reset on SoundInstance's reset method.
 - Added "NonRandomShuffle" algorithm for picking different sounds every time, and avoiding the same sound files from repeating themselves. Thanks @BambooBandit!
 
