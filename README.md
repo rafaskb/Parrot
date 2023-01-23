@@ -1,34 +1,61 @@
 # Parrot 🔊🦜
 
-Parrot is a library that augments the audio support in libGDX. It provides flexible ways to manage sound effects and music tracks.
+Parrot is an audio management library for libGDX that eases the process of dealing with music and sound effects in your game.
 
-Warning! This library is still in early development!
+Parrot was originally made for the [Grashers](http://grashers.com/) game and transformed into an open source project due to many developers having to implement something very similar in their own games.
 
-Parrot was originally made for the Grashers game and transformed into an open source project due to way too many developers having to implement something very similar in their own games.
+## Features
 
+- Play your audio through channels, similar to real-life sound mixers.
+- Register multiple sound variations under the same sound type (see ParrotSoundType).
+- Sound categories, so you can easily control groups of sound types.
+- Voice limitting! Control the amount of sounds that are allowed to play simultaneously, by type or category.
+- Optional [Boom](https://github.com/rafaskb/Boom) support for basic OpenAL effects. (Boom is only available for the lwjgl3 backend)
 
-
-## This library isn't functional yet.
-
-But I'm working on it! :)
+## Example App
 
 In case you want to run the example app to see how the library is shaping up:
 1. Clone this repository.
-2. Open terminal and go to the project's root folder.
+2. Open terminal at the project's root folder.
 3. Run `gradlew example:run` _(If that doesn't work, try `./gradlew` instead)_
 
+## Install
+
+**Step 1.** Add the JitPack repository to your build file
+
+Add it in your root build.gradle at the end of repositories:
+
+```groovy
+allprojects {
+    repositories {
+        ...
+        maven { url 'https://jitpack.io' }
+    }
+}
+```
+
+**Step 2.** Add Parrot as a dependency to your core module:
+
+```groovy
+dependencies {
+    compile 'com.github.rafaskb.parrot:core:master-SNAPSHOT'
+}
+```
+
+_**Note:** Use `master-SNAPSHOT` to always fetch the most recent changes (although Jitpack has issues with Snapshots), or replace it by the release versions or commit hashes, e.g. `com.github.rafaskb.parrot:core:245fdf5`_
 
 
 ## Roadmap
 
 #### In Progress
 - [ ] Review the entire documentation to make sure everything is as clear as possible.
-- [ ] Write a proper README. (Including lwjgl3 and Boom limitations.)
 - [ ] Create a simple wiki with instructions.
 - [ ] Release v1.0.0 through Jitpack.
 - [ ] Improve error handling by throwing exceptions.
 
 #### Done
+- [x] Add priority to SoundTypes and SoundInstances.
+- [x] Write a proper README. (Including lwjgl3 and Boom limitations.)
 - [x] Implement pitch multipliers based on SoundCategories.
 - [x] Create a very clean and straightforward API in the Parrot class.
 - [x] Port Sound system.
