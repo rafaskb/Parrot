@@ -3,7 +3,11 @@ package com.rafaskoberg.gdx.parrot;
 import com.rafaskoberg.gdx.parrot.sfx.PlaybackMode;
 import com.rafaskoberg.gdx.parrot.sfx.SoundInstance;
 
+/**
+ * Properties class containing settings for Parrot. Changes to it can be made at any time.
+ */
 public class ParrotSettings {
+
     /**
      * Perceived loudness exponential curve to be applied to linear-based audio algorithms (plain old 0-1). Defaults to 3
      * <p>

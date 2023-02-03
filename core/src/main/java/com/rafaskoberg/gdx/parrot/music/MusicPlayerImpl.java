@@ -11,6 +11,9 @@ import com.rafaskoberg.gdx.parrot.ParrotSettings;
 import com.rafaskoberg.gdx.parrot.music.MusicInstance.State;
 import com.rafaskoberg.gdx.parrot.util.ParrotUtils;
 
+/**
+ * Advanced music player that handles all music tracks being played in the game.
+ */
 public class MusicPlayerImpl implements MusicPlayer {
     private static final float MIN_VOLUME = 0.000001f;
 

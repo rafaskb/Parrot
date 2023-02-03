@@ -14,13 +14,17 @@ import com.rafaskoberg.gdx.parrot.sfx.SoundInstance;
 import com.rafaskoberg.gdx.parrot.sfx.SoundPlayer;
 import com.rafaskoberg.gdx.parrot.sfx.SoundPlayerImpl;
 
-/** TODO Javadocs */
+/**
+ * Main class for Parrot, which contains settings, sound player, and music player.
+ */
 public class Parrot implements SoundPlayer, MusicPlayer {
     protected ParrotSettings settings;
     protected SoundPlayer soundPlayer;
     protected MusicPlayer musicPlayer;
 
-    /** TODO Javadocs */
+    /**
+     * Creates a new Parrot instance.
+     */
     public Parrot() {
         this.settings = new ParrotSettings();
         this.soundPlayer = new SoundPlayerImpl(this);
