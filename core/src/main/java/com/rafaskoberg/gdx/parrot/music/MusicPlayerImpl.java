@@ -129,7 +129,7 @@ public class MusicPlayerImpl implements MusicPlayer {
                     } else {
                         boom.play(music, musicInstance.boomChannel);
                     }
-                    music.setPosition(0);
+                    music.setPosition(musicInstance.initialPosition);
                     music.setVolume(MIN_VOLUME);
                     music.setLooping(musicInstance.isLooping);
                     boolean shouldFadeIn = musicInstance.nextState == State.FADING_IN;
@@ -204,7 +204,7 @@ public class MusicPlayerImpl implements MusicPlayer {
     }
 
     @Override
-    public MusicInstance playMusic(ParrotMusicType musicType, boolean loop, boolean fadeIn, int channel, int boomChannel) {
+    public MusicInstance playMusic(ParrotMusicType musicType, boolean loop, boolean fadeIn, float position, int channel, int boomChannel) {
         // Stop channel
         stopMusicChannel(channel, true);
 
@@ -238,6 +238,7 @@ public class MusicPlayerImpl implements MusicPlayer {
             musicInstance.musicType = musicType;
             musicInstance.isLooping = loop;
             musicInstance.targetVolume = masterVolume * relativeVolume * volumesByChannel.get(channel, 1);
+            musicInstance.initialPosition = position;
             musicInstance.channel = channel;
             musicInstance.boomChannel = boomChannel;
 

@@ -16,6 +16,7 @@ public class MusicInstance implements Poolable {
     protected int channel;
     protected int boomChannel;
     protected float targetVolume;
+    protected float initialPosition;
 
     // REMINDER: Reset members
 
@@ -59,6 +60,22 @@ public class MusicInstance implements Poolable {
     }
 
     /**
+     * Returns the initial playback position of this music in seconds. Defaults to 0.
+     */
+    public float getInitialPosition() {
+        return initialPosition;
+    }
+
+    /**
+     * Sets the initial playback position of this music in seconds. Defaults to 0.
+     * <p> Note that this only works when called before the libGDX Music is actually played. Make sure {@link #isPlaying()} is
+     * false.
+     */
+    public void setInitialPosition(float initialPosition) {
+        this.initialPosition = initialPosition;
+    }
+
+    /**
      * Returns whether this music instance is playing by checking if the current state is active.
      */
     public boolean isPlaying() {
@@ -76,6 +93,7 @@ public class MusicInstance implements Poolable {
         this.channel = 0;
         this.boomChannel = -1;
         this.targetVolume = 1f;
+        this.initialPosition = 0;
     }
 
     public enum State {

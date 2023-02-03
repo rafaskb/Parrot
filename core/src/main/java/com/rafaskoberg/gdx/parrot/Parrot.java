@@ -168,8 +168,8 @@ public class Parrot implements SoundPlayer, MusicPlayer {
     }
 
     @Override
-    public MusicInstance playMusic(ParrotMusicType musicType, boolean loop, boolean fadeIn, int channel, int boomChannel) {
-        return musicPlayer.playMusic(musicType, loop, fadeIn, channel, boomChannel);
+    public MusicInstance playMusic(ParrotMusicType musicType, boolean loop, boolean fadeIn, float position, int channel, int boomChannel) {
+        return musicPlayer.playMusic(musicType, loop, fadeIn, position, channel, boomChannel);
     }
 
     @Override

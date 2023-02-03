@@ -1,5 +1,6 @@
 package com.rafaskoberg.gdx.parrot.example.widgets;
 
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
@@ -109,7 +110,8 @@ public class AmbiencePlayerWidget extends Table {
         // Play ambience
         if(!isPlaying) {
             AmbienceType ambienceType = selectBox.getSelected();
-            parrot.playMusic(ambienceType, true, true, Constants.AMBIENCE_CHANNEL, -1);
+            float initialPosition = MathUtils.random(0, 10);
+            parrot.playMusic(ambienceType, true, true, initialPosition, Constants.AMBIENCE_CHANNEL, -1);
             playButton.setChecked(true);
         }
 

@@ -47,7 +47,7 @@ public interface MusicPlayer extends Disposable {
      * @return The {@link MusicInstance} representing the {@link Music} instance that will be played.
      */
     default MusicInstance playMusic(ParrotMusicType musicType) {
-        return playMusic(musicType, false, true, 0, -1);
+        return playMusic(musicType, false, true, 0, 0, -1);
     }
 
     /**
@@ -57,7 +57,7 @@ public interface MusicPlayer extends Disposable {
      * @return The {@link MusicInstance} representing the {@link Music} instance that will be played.
      */
     default MusicInstance playMusic(ParrotMusicType musicType, boolean loop) {
-        return playMusic(musicType, loop, true, 0, -1);
+        return playMusic(musicType, loop, true, 0, 0, -1);
     }
 
     /**
@@ -68,7 +68,7 @@ public interface MusicPlayer extends Disposable {
      * @return The {@link MusicInstance} representing the {@link Music} instance that will be played.
      */
     default MusicInstance playMusic(ParrotMusicType musicType, boolean loop, boolean fadeIn) {
-        return playMusic(musicType, loop, fadeIn, 0, -1);
+        return playMusic(musicType, loop, fadeIn, 0, 0, -1);
     }
 
     /**
@@ -80,7 +80,21 @@ public interface MusicPlayer extends Disposable {
      * @param boomChannel Boom channel to play this music through.
      * @return The {@link MusicInstance} representing the {@link Music} instance that will be played.
      */
-    MusicInstance playMusic(ParrotMusicType musicType, boolean loop, boolean fadeIn, int channel, int boomChannel);
+    default MusicInstance playMusic(ParrotMusicType musicType, boolean loop, boolean fadeIn, int channel, int boomChannel) {
+        return playMusic(musicType, loop, fadeIn, 0, channel, boomChannel);
+    }
+
+    /**
+     * Register a {@link ParrotMusicType} to be played the next time this instance is updated with the given attributes.
+     *
+     * @param loop        Whether or not the music should loop.
+     * @param fadeIn      Whether or not the music should fade-in when it starts playing.
+     * @param position    The initial playback position in seconds.
+     * @param channel     Internal channel to play this music through.
+     * @param boomChannel Boom channel to play this music through.
+     * @return The {@link MusicInstance} representing the {@link Music} instance that will be played.
+     */
+    MusicInstance playMusic(ParrotMusicType musicType, boolean loop, boolean fadeIn, float position, int channel, int boomChannel);
 
     /**
      * Gracefully pauses the music of the given type currently being played.

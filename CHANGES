@@ -1,5 +1,6 @@
 [SNAPSHOT]
 - BREAKING: Parrot.playMusic now returns MusicInstance instead of Music. MusicInstance exposes the Music object along with some additional data.
+- Added a new parameter "position" to Parrot.playMusic, which allows music to start from different playback positions.
 - Added a priority parameter to ParrotSoundType and SoundInstance, which changes the order of sounds killed while limiting voices.
 - Fixed "volumeFactor" never being reset on SoundInstance's reset method.
 - Added "NonRandomShuffle" algorithm for picking different sounds every time, and avoiding the same sound files from repeating themselves. Thanks @BambooBandit!
