@@ -1,9 +1,9 @@
 package com.rafaskoberg.gdx.parrot;
 
-import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.rafaskoberg.boom.Boom;
+import com.rafaskoberg.gdx.parrot.music.MusicInstance;
 import com.rafaskoberg.gdx.parrot.music.MusicPlayer;
 import com.rafaskoberg.gdx.parrot.music.MusicPlayerImpl;
 import com.rafaskoberg.gdx.parrot.music.ParrotMusicType;
@@ -168,13 +168,18 @@ public class Parrot implements SoundPlayer, MusicPlayer {
     }
 
     @Override
-    public Music playMusic(ParrotMusicType musicType, boolean loop, boolean fadeIn, int channel, int boomChannel) {
+    public MusicInstance playMusic(ParrotMusicType musicType, boolean loop, boolean fadeIn, int channel, int boomChannel) {
         return musicPlayer.playMusic(musicType, loop, fadeIn, channel, boomChannel);
     }
 
     @Override
     public void pauseMusic(ParrotMusicType musicType, boolean gracefully) {
         musicPlayer.pauseMusic(musicType, gracefully);
+    }
+
+    @Override
+    public void pauseMusicInstance(MusicInstance musicInstance, boolean gracefully) {
+        musicPlayer.pauseMusicInstance(musicInstance, gracefully);
     }
 
     @Override
@@ -193,6 +198,11 @@ public class Parrot implements SoundPlayer, MusicPlayer {
     }
 
     @Override
+    public void resumeMusicInstance(MusicInstance musicInstance, boolean gracefully) {
+        musicPlayer.resumeMusicInstance(musicInstance, gracefully);
+    }
+
+    @Override
     public void stopMusic(ParrotMusicType musicType, boolean gracefully) {
         musicPlayer.stopMusic(musicType, gracefully);
     }
@@ -205,6 +215,11 @@ public class Parrot implements SoundPlayer, MusicPlayer {
     @Override
     public void stopAllMusic(boolean gracefully) {
         musicPlayer.stopAllMusic(gracefully);
+    }
+
+    @Override
+    public void stopMusicInstance(MusicInstance musicInstance, boolean gracefully) {
+        musicPlayer.stopMusicInstance(musicInstance, gracefully);
     }
 
     @Override

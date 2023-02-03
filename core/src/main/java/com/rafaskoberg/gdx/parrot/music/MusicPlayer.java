@@ -44,9 +44,9 @@ public interface MusicPlayer extends Disposable {
     /**
      * Register a {@link ParrotMusicType} to be played the next time this instance is updated.
      *
-     * @return The {@link Music} instance that will be played.
+     * @return The {@link MusicInstance} representing the {@link Music} instance that will be played.
      */
-    default Music playMusic(ParrotMusicType musicType) {
+    default MusicInstance playMusic(ParrotMusicType musicType) {
         return playMusic(musicType, false, true, 0, -1);
     }
 
@@ -54,9 +54,9 @@ public interface MusicPlayer extends Disposable {
      * Register a {@link ParrotMusicType} to be played the next time this instance is updated.
      *
      * @param loop Whether or not the music should loop.
-     * @return The {@link Music} instance that will be played.
+     * @return The {@link MusicInstance} representing the {@link Music} instance that will be played.
      */
-    default Music playMusic(ParrotMusicType musicType, boolean loop) {
+    default MusicInstance playMusic(ParrotMusicType musicType, boolean loop) {
         return playMusic(musicType, loop, true, 0, -1);
     }
 
@@ -65,9 +65,9 @@ public interface MusicPlayer extends Disposable {
      *
      * @param loop   Whether or not the music should loop.
      * @param fadeIn Whether or not the music should fade-in when it starts playing.
-     * @return The {@link Music} instance that will be played.
+     * @return The {@link MusicInstance} representing the {@link Music} instance that will be played.
      */
-    default Music playMusic(ParrotMusicType musicType, boolean loop, boolean fadeIn) {
+    default MusicInstance playMusic(ParrotMusicType musicType, boolean loop, boolean fadeIn) {
         return playMusic(musicType, loop, fadeIn, 0, -1);
     }
 
@@ -78,9 +78,9 @@ public interface MusicPlayer extends Disposable {
      * @param fadeIn      Whether or not the music should fade-in when it starts playing.
      * @param channel     Internal channel to play this music through.
      * @param boomChannel Boom channel to play this music through.
-     * @return The {@link Music} instance that will be played.
+     * @return The {@link MusicInstance} representing the {@link Music} instance that will be played.
      */
-    Music playMusic(ParrotMusicType musicType, boolean loop, boolean fadeIn, int channel, int boomChannel);
+    MusicInstance playMusic(ParrotMusicType musicType, boolean loop, boolean fadeIn, int channel, int boomChannel);
 
     /**
      * Gracefully pauses the music of the given type currently being played.
@@ -104,6 +104,20 @@ public interface MusicPlayer extends Disposable {
     default void pauseMusicChannel(int channel) {
         pauseMusicChannel(channel, true);
     }
+
+    /**
+     * Gracefully pauses a {@link MusicInstance} in case it's playing.
+     */
+    default void pauseMusicInstance(MusicInstance musicInstance) {
+        pauseMusicInstance(musicInstance, true);
+    }
+
+    /**
+     * Pauses a {@link MusicInstance} in case it's playing.
+     *
+     * @param gracefully Whether or not the action should be progressive.
+     */
+    void pauseMusicInstance(MusicInstance musicInstance, boolean gracefully);
 
     /**
      * Pauses the music being played in the given channel.
@@ -143,6 +157,20 @@ public interface MusicPlayer extends Disposable {
      * @param gracefully Whether or not the action should be progressive.
      */
     void resumeMusicChannel(int channel, boolean gracefully);
+
+    /**
+     * Gracefully resumes a {@link MusicInstance} in case it's paused.
+     */
+    default void resumeMusicInstance(MusicInstance musicInstance) {
+        resumeMusicInstance(musicInstance, true);
+    }
+
+    /**
+     * Resumes a {@link MusicInstance} in case it's paused.
+     *
+     * @param gracefully Whether or not the action should be progressive.
+     */
+    void resumeMusicInstance(MusicInstance musicInstance, boolean gracefully);
 
     /**
      * Gracefully stops the music of the given type currently being played.
@@ -188,6 +216,20 @@ public interface MusicPlayer extends Disposable {
      * @param gracefully Whether or not the action should be progressive.
      */
     void stopAllMusic(boolean gracefully);
+
+    /**
+     * Gracefully stops a {@link MusicInstance} in case it's playing.
+     */
+    default void stopMusicInstance(MusicInstance musicInstance) {
+        stopMusicInstance(musicInstance, true);
+    }
+
+    /**
+     * Stops a {@link MusicInstance} in case it's playing.
+     *
+     * @param gracefully Whether or not the action should be progressive.
+     */
+    void stopMusicInstance(MusicInstance musicInstance, boolean gracefully);
 
     /**
      * Returns whether or not there is any music currently being played by this player.

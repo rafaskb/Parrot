@@ -204,7 +204,7 @@ public class MusicPlayerImpl implements MusicPlayer {
     }
 
     @Override
-    public Music playMusic(ParrotMusicType musicType, boolean loop, boolean fadeIn, int channel, int boomChannel) {
+    public MusicInstance playMusic(ParrotMusicType musicType, boolean loop, boolean fadeIn, int channel, int boomChannel) {
         // Stop channel
         stopMusicChannel(channel, true);
 
@@ -248,7 +248,7 @@ public class MusicPlayerImpl implements MusicPlayer {
             music.pause();
             music.setPosition(0);
 
-            return music;
+            return musicInstance;
         }
 
         return null;
@@ -272,12 +272,8 @@ public class MusicPlayerImpl implements MusicPlayer {
         }
     }
 
-    /**
-     * Pauses a {@link MusicInstance} in case it's playing.
-     *
-     * @param gracefully Whether or not the action should be progressive.
-     */
-    private void pauseMusicInstance(MusicInstance musicInstance, boolean gracefully) {
+    @Override
+    public void pauseMusicInstance(MusicInstance musicInstance, boolean gracefully) {
         State state = musicInstance.state;
         boolean isActive = state.isActive();
         boolean isPaused = state == State.PAUSED;
@@ -311,12 +307,8 @@ public class MusicPlayerImpl implements MusicPlayer {
         }
     }
 
-    /**
-     * Resumes a {@link MusicInstance} in case it's paused.
-     *
-     * @param gracefully Whether or not the action should be progressive.
-     */
-    private void resumeMusicInstance(MusicInstance musicInstance, boolean gracefully) {
+    @Override
+    public void resumeMusicInstance(MusicInstance musicInstance, boolean gracefully) {
         State state = musicInstance.state;
         if(state == State.PAUSED || state == State.FADING_OUT) {
             musicInstance.state = State.FADING_IN;
@@ -355,12 +347,8 @@ public class MusicPlayerImpl implements MusicPlayer {
         }
     }
 
-    /**
-     * Stops a {@link MusicInstance} in case it's playing.
-     *
-     * @param gracefully Whether or not the action should be progressive.
-     */
-    private void stopMusicInstance(MusicInstance musicInstance, boolean gracefully) {
+    @Override
+    public void stopMusicInstance(MusicInstance musicInstance, boolean gracefully) {
         State state = musicInstance.state;
         boolean isActive = state.isActive();
         boolean isSilent = state == State.SILENT;

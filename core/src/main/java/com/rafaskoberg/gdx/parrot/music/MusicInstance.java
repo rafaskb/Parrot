@@ -30,6 +30,41 @@ public class MusicInstance implements Poolable {
         return music;
     }
 
+    /**
+     * Returns {@link ParrotMusicType} of this instance.
+     */
+    public ParrotMusicType getMusicType() {
+        return musicType;
+    }
+
+    /**
+     * Returns the internal state of this instance.
+     */
+    public State getState() {
+        return state;
+    }
+
+    /**
+     * Returns the internal channel being used for this music instance. Defaults to 0.
+     */
+    public int getChannel() {
+        return channel;
+    }
+
+    /**
+     * Returns the boom channel this music is to be played on. Defaults to -1.
+     */
+    public int getBoomChannel() {
+        return boomChannel;
+    }
+
+    /**
+     * Returns whether this music instance is playing by checking if the current state is active.
+     */
+    public boolean isPlaying() {
+        return state.isActive();
+    }
+
     @Override
     public void reset() {
         this.music = null;
