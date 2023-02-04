@@ -339,6 +339,15 @@ public class SoundPlayerImpl implements SoundPlayer {
             return -1;
         }
 
+        // Get sound duration
+        float soundDuration = ParrotUtils.getSoundDuration(sound, settings.soundDurationOnUnsupportedPlatforms);
+
+        // Ignore distant tiny sounds
+        boolean isSpatial = type.getCategory().isSpatial();
+        if(ignoreDistantTinySound(x, y, soundDuration, isSpatial, mode)) {
+            return -1;
+        }
+
         // Calculate pitch
         pitch = pitch * type.getPitch();
 
@@ -348,7 +357,7 @@ public class SoundPlayerImpl implements SoundPlayer {
         soundInstance.sound = sound;
         soundInstance.type = type;
         soundInstance.id = id;
-        soundInstance.duration = ParrotUtils.getSoundDuration(sound, settings.soundDurationOnUnsupportedPlatforms);
+        soundInstance.duration = soundDuration;
         soundInstance.positionX = x;
         soundInstance.positionY = y;
         soundInstance.volumeFactor = volumeFactor;
@@ -363,6 +372,39 @@ public class SoundPlayerImpl implements SoundPlayer {
 
         // Return external ID
         return id;
+    }
+
+    /**
+     * Checks if the given sound should be ignored according to the "Ignore Distant Tiny Sounds" feature.
+     *
+     * @return true if the sound should be ignored.
+     */
+    private boolean ignoreDistantTinySound(float soundX, float soundY, float soundDuration, boolean isSpatial, PlaybackMode mode) {
+        // Ensure the "Ignore Distant Tiny Sounds" feature is enabled
+        if(!settings.ignoreDistantTinySounds) return false;
+
+        // Ignore non-spatial sounds
+        if(!isSpatial) return false;
+
+        // Check mode
+        boolean modeMatchesCriteria = settings.ignoreDistantTinySoundsOfAllModes || mode == PlaybackMode.NORMAL;
+        if(!modeMatchesCriteria) return false;
+
+        // Check sound duration
+        boolean isTinySound = soundDuration <= settings.ignoreDistantTinySoundsDuration;
+        if(!isTinySound) return false;
+
+        // Check distance
+        float distanceThreshold = settings.ignoreDistantTinySoundsDistance;
+        if(distanceThreshold < 0) {
+            distanceThreshold = settings.soundDistanceLimit;
+        }
+        float dst2 = listenerPosition.dst2(soundX, soundY);
+        boolean isDistant = dst2 >= (distanceThreshold * 2);
+        if(!isDistant) return false;
+
+        // Sound is tiny, is distant, and should be ignored
+        return true;
     }
 
     @Override
