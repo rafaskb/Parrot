@@ -3,6 +3,7 @@
 - Added a new parameter "position" to Parrot.playMusic, which allows music to start from different playback positions.
 - Added a priority parameter to ParrotSoundType and SoundInstance, which changes the order of sounds killed while limiting voices.
 - Added "NonRandomShuffle" algorithm for picking different sounds every time, and avoiding the same sound files from repeating themselves. Thanks @BambooBandit!
+- Added SoundInstance.getInternalId(), which returns the value returned by Sound.play, and Boom.
 - Fixed "volumeFactor" never being reset on SoundInstance's reset method.
 - Fixed "volumeVariation" being recalculated every frame instead of just once, causing sounds to sound very choppy.
 

@@ -50,6 +50,13 @@ public class SoundInstance implements Poolable {
     }
 
     /**
+     * Returns the internal ID returned by Sound.play. This is also the value returned and recognized by Boom.
+     */
+    public long getInternalId() {
+        return internalId;
+    }
+
+    /**
      * Returns the {@link ParrotSoundType} of this instance.
      */
     public ParrotSoundType getType() {
