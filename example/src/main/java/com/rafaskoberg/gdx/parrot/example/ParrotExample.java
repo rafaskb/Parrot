@@ -16,7 +16,7 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.kotcrab.vis.ui.VisUI;
 import com.rafaskoberg.boom.Boom;
 import com.rafaskoberg.boom.BoomChannel;
-import com.rafaskoberg.boom.effect.reverb.ReverbPreset;
+import com.rafaskoberg.boom.effect.ReverbPreset;
 import com.rafaskoberg.gdx.parrot.Parrot;
 import com.rafaskoberg.gdx.parrot.ParrotSettings;
 import com.rafaskoberg.gdx.parrot.example.util.Constants;
@@ -47,7 +47,7 @@ public class ParrotExample extends ApplicationAdapter {
         boom = Boom.init();
         parrot.setBoom(boom);
         BoomChannel boomChannel = boom.createChannel(Constants.BOOM_GENERAL_CHANNEL);
-        boomChannel.addReverb(ReverbPreset.CAVE);
+        boomChannel.addEffect(ReverbPreset.CAVE);
 
         // Load VisUI
         VisUI.load(Gdx.files.internal("skin/tinted.json"));
