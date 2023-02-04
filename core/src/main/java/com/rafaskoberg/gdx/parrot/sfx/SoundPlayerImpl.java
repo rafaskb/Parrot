@@ -356,9 +356,7 @@ public class SoundPlayerImpl implements SoundPlayer {
         soundInstance.playbackMode = mode;
         soundInstance.lastTouch = System.currentTimeMillis();
         soundInstance.priority = type.getPriority();
-        if(boomChannel != -1) {
-            soundInstance.boomChannel = boomChannel;
-        }
+        soundInstance.boomChannel = boomChannel;
 
         // Register SoundInstance
         registerSound(soundInstance);
