@@ -318,52 +318,53 @@ public class SoundPlayerImpl implements SoundPlayer {
             }
         }
 
-        // Get random sound
+        // Ensure we have a sound to play
         Array<Sound> sounds = type.getSounds();
-        if(sounds != null) {
-
-            // Get sound either direcly, from NonRandomShuffle, or randomly.
-            final Sound sound;
-            if(soundIndex > 0) {
-                sound = sounds.get(soundIndex);
-            } else if(type.getNonRandomShuffle() != null) {
-                sound = type.getNonRandomShuffle().get();
-            } else {
-                sound = type.getSounds().random();
-            }
-
-            // Ensure sound is valid
-            if(sound != null) {
-
-                // Calculate pitch
-                pitch = pitch * type.getPitch();
-
-                // Create SoundInstance
-                long id = getNextId();
-                SoundInstance soundInstance = Pools.obtain(SoundInstance.class);
-                soundInstance.sound = sound;
-                soundInstance.type = type;
-                soundInstance.id = id;
-                soundInstance.duration = ParrotUtils.getSoundDuration(sound, settings.soundDurationOnUnsupportedPlatforms);
-                soundInstance.positionX = x;
-                soundInstance.positionY = y;
-                soundInstance.volumeFactor = volumeFactor;
-                soundInstance.pitch = pitch;
-                soundInstance.playbackMode = mode;
-                soundInstance.lastTouch = System.currentTimeMillis();
-                soundInstance.priority = type.getPriority();
-                if(boomChannel != -1) {
-                    soundInstance.boomChannel = boomChannel;
-                }
-
-                // Register SoundInstance
-                registerSound(soundInstance);
-
-                // Return external ID
-                return id;
-            }
+        if(sounds == null || sounds.isEmpty()) {
+            return -1;
         }
-        return -1;
+
+        // Get random sound
+        final Sound sound;
+        if(soundIndex > 0) {
+            sound = sounds.get(soundIndex);
+        } else if(type.getNonRandomShuffle() != null) {
+            sound = type.getNonRandomShuffle().get();
+        } else {
+            sound = type.getSounds().random();
+        }
+
+        // Ensure sound is valid
+        if(sound == null) {
+            return -1;
+        }
+
+        // Calculate pitch
+        pitch = pitch * type.getPitch();
+
+        // Create SoundInstance
+        long id = getNextId();
+        SoundInstance soundInstance = Pools.obtain(SoundInstance.class);
+        soundInstance.sound = sound;
+        soundInstance.type = type;
+        soundInstance.id = id;
+        soundInstance.duration = ParrotUtils.getSoundDuration(sound, settings.soundDurationOnUnsupportedPlatforms);
+        soundInstance.positionX = x;
+        soundInstance.positionY = y;
+        soundInstance.volumeFactor = volumeFactor;
+        soundInstance.pitch = pitch;
+        soundInstance.playbackMode = mode;
+        soundInstance.lastTouch = System.currentTimeMillis();
+        soundInstance.priority = type.getPriority();
+        if(boomChannel != -1) {
+            soundInstance.boomChannel = boomChannel;
+        }
+
+        // Register SoundInstance
+        registerSound(soundInstance);
+
+        // Return external ID
+        return id;
     }
 
     @Override
