@@ -26,9 +26,9 @@ public enum SoundType implements ParrotSoundType {
         SoundCategory.WORLD, // Category
         1, // Voices
         0.8f, // Volume
-        0, // Volume Variation
+        0.05f, // Volume Variation
         0.5f, // Pitch
-        0.00f, // Pitch Variation
+        0.15f, // Pitch Variation
         PlaybackMode.ETERNAL, // Playback Mode
         0.0f, // Continuity Factor
         0, // Priority
@@ -52,7 +52,7 @@ public enum SoundType implements ParrotSoundType {
         SoundCategory.PLAYER, // Category
         1, // Voices
         0.6f, // Volume
-        0, // Volume Variation
+        0.1f, // Volume Variation
         1.0f, // Pitch
         0.00f, // Pitch Variation
         PlaybackMode.CONTINUOUS, // Playback Mode
@@ -78,7 +78,7 @@ public enum SoundType implements ParrotSoundType {
         SoundCategory.USER_INTERFACE, // Category
         2, // Voices
         0.35f, // Volume
-        0.2f, // Volume Variation
+        0.1f, // Volume Variation
         1.0f, // Pitch
         0.03f, // Pitch Variation
         PlaybackMode.NORMAL, // Playback Mode

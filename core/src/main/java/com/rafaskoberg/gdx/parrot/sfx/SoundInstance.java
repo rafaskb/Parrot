@@ -15,6 +15,7 @@ public class SoundInstance implements Poolable {
     protected float positionX;
     protected float positionY;
     protected float volumeFactor;
+    protected float volumeVariation;
     protected float pitch;
     protected boolean isDying;
     protected boolean playMe;
@@ -199,6 +200,7 @@ public class SoundInstance implements Poolable {
         this.positionX = 0.0f;
         this.positionY = 0.0f;
         this.volumeFactor = 1f;
+        this.volumeVariation = 0f;
         this.pitch = 1.0f;
         this.isDying = false;
         this.playMe = true;
