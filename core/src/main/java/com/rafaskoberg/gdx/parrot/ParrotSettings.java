@@ -27,7 +27,8 @@ public class ParrotSettings {
     public float distanceRolloffMinDistance = 3f;
 
     /**
-     * In the spatial system, volume dampening based off distances use this to determine the volume multiplier beyond {@link float distanceRolloffMaxDistance}. Defaults to 0
+     * In the spatial system, volume dampening based off distances use this to determine the volume multiplier beyond {@link #distanceRolloffMaxDistance}. Defaults to 0
+
      */
     public float distanceRolloffMinGain = 0f;
 
