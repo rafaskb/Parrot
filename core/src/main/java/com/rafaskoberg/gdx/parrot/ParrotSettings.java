@@ -1,5 +1,6 @@
 package com.rafaskoberg.gdx.parrot;
 
+import com.badlogic.gdx.math.Interpolation;
 import com.rafaskoberg.gdx.parrot.sfx.PlaybackMode;
 import com.rafaskoberg.gdx.parrot.sfx.SoundInstance;
 
@@ -16,14 +17,24 @@ public class ParrotSettings {
     public int loudnessExponentialCurve = 3;
 
     /**
-     * In the spatial system, distances beyond this limit will have the maximum amount of reduction. Defaults to 15
+     * In the spatial system, distances beyond this limit will be based off {@link float distanceRolloffMinGain}. Defaults to 15
      */
-    public float soundDistanceLimit = 15f;
+    public float distanceRolloffMaxDistance = 15f;
 
     /**
-     * Amount of reduction applied to sounds, in decibels, according to their distance. Defaults to -2
+     * In the spatial system, distances before this limit will be played with no distance volume dampening. Distances beyond this limit will drop off based off {@link Interpolation distanceRolloffCurve}. Defaults to 3
      */
-    public float soundDistanceReduction = -2f;
+    public float distanceRolloffMinDistance = 3f;
+
+    /**
+     * In the spatial system, volume dampening based off distances use this to determine the volume multiplier beyond {@link float distanceRolloffMaxDistance}. Defaults to 0
+     */
+    public float distanceRolloffMinGain = 0f;
+
+    /**
+     * In the spatial system, distances beyond {@link float distanceRolloffMinDistance} will be based off this drop off curve and {@link float distanceRolloffMinGain}. Defaults to exp5In
+     */
+    public Interpolation distanceRolloffCurve = Interpolation.exp5In;
 
     /**
      * Distances beyond this limit will have the maximum amount of pan. Defaults to 10

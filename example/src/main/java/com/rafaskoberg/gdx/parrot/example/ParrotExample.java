@@ -40,8 +40,7 @@ public class ParrotExample extends ApplicationAdapter {
 
         // Modify some Parrot settings
         ParrotSettings settings = parrot.getSettings();
-        settings.soundDistanceLimit = 10;
-        settings.soundDistanceReduction = -20;
+        settings.distanceRolloffMaxDistance = 10;
 
         // Create Boom
         boom = Boom.init();
