@@ -143,13 +143,12 @@ public class SoundPlayerImpl implements SoundPlayer {
                 // Calculate distance factor
                 tmpVec.set(soundInstance.positionX, soundInstance.positionY).sub(listenerPosition.x, listenerPosition.y);
                 float dst = tmpVec.len();
-                if(dst > settings.distanceRolloffMinDistance)
-                {
+                if(dst > settings.distanceRolloffMinDistance) {
                     float dstFactorRaw = MathUtils.clamp((dst - settings.distanceRolloffMinDistance) / settings.distanceRolloffMaxDistance, 0.0f, 1.0f);
                     distanceFactor = settings.distanceRolloffCurve.apply(settings.distanceRolloffMinGain, 1, 1 - dstFactorRaw);
-                }
-                else
+                } else {
                     distanceFactor = 1;
+                }
 
                 // Calculate pan
                 float dstX = tmpVec.x;
