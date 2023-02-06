@@ -6,8 +6,8 @@
 - Added SoundInstance.getInternalId(), which returns the value returned by Sound.play, and Boom.
 - Fixed "volumeFactor" never being reset on SoundInstance's reset method.
 - Fixed "volumeVariation" being recalculated every frame instead of just once, causing sounds to sound very choppy.
-- BREAKING: Removed soundDistanceReduction.
-- BREAKING: Renamed soundDistanceLimit to distanceRolloffMaxDistance.
+- BREAKING: Removed setting "soundDistanceReduction".
+- BREAKING: Renamed setting "soundDistanceLimit" to "distanceRolloffMaxDistance".
 - Added a new setting "distanceRolloffMinDistance" to control at what distance does volume starts getting affected.
 - Added a new setting "distanceRolloffMinGain" to determine the minimum multiplier that can be applied to sound volume based off distance.
 - Added a new setting "distanceRolloffCurve" to control the drop off curve that sound volume gets based off distance.
