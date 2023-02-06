@@ -17,7 +17,8 @@ public class ParrotSettings {
     public int loudnessExponentialCurve = 3;
 
     /**
-     * In the spatial system, distances beyond this limit will be based off {@link float distanceRolloffMinGain}. Defaults to 15
+     * In the spatial system, distances beyond this limit will be based off {@link #distanceRolloffMinGain}. Defaults to 15
+
      */
     public float distanceRolloffMaxDistance = 15f;
 
