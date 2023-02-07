@@ -18,23 +18,24 @@ public class ParrotSettings {
 
     /**
      * In the spatial system, distances beyond this limit will be based off {@link #distanceRolloffMinGain}. Defaults to 15
-
      */
     public float distanceRolloffMaxDistance = 15f;
 
     /**
-     * In the spatial system, distances before this limit will be played with no distance volume dampening. Distances beyond this limit will drop off based off {@link Interpolation distanceRolloffCurve}. Defaults to 3
+     * In the spatial system, distances before this limit will be played with no distance volume dampening. Distances beyond this limit will
+     * drop off based off {@link Interpolation distanceRolloffCurve}. Defaults to 3
      */
     public float distanceRolloffMinDistance = 3f;
 
     /**
-     * In the spatial system, volume dampening based off distances use this to determine the volume multiplier beyond {@link #distanceRolloffMaxDistance}. Defaults to 0
-
+     * In the spatial system, volume dampening based off distances use this to determine the volume multiplier beyond
+     * {@link #distanceRolloffMaxDistance}. Defaults to 0
      */
     public float distanceRolloffMinGain = 0f;
 
     /**
-     * In the spatial system, distances beyond {@link #distanceRolloffMinDistance} will be based off this drop off curve and {@link #distanceRolloffMinGain}. Defaults to exp5In
+     * In the spatial system, distances beyond {@link #distanceRolloffMinDistance} will be based off this drop off curve and
+     * {@link #distanceRolloffMinGain}. Defaults to exp5In
      */
     public Interpolation distanceRolloffCurve = Interpolation.pow3In;
 
