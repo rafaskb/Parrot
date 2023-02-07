@@ -36,8 +36,7 @@ public class ParrotSettings {
     /**
      * In the spatial system, distances beyond {@link #distanceRolloffMinDistance} will be based off this drop off curve and {@link #distanceRolloffMinGain}. Defaults to exp5In
      */
-    public Interpolation distanceRolloffCurve = Interpolation.exp3In;
-
+    public Interpolation distanceRolloffCurve = Interpolation.pow3In;
 
     /**
      * Distances beyond this limit will have the maximum amount of pan. Defaults to 10
