@@ -401,7 +401,7 @@ public class SoundPlayerImpl implements SoundPlayer {
         // Check distance
         float distanceThreshold = settings.ignoreDistantTinySoundsDistance;
         if(distanceThreshold < 0) {
-            distanceThreshold = settings.soundDistanceLimit;
+            distanceThreshold = settings.distanceRolloffMaxDistance;
         }
         float dst2 = listenerPosition.dst2(soundX, soundY);
         boolean isDistant = dst2 >= (distanceThreshold * distanceThreshold);
