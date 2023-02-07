@@ -1,17 +1,17 @@
 [SNAPSHOT]
 - BREAKING: Parrot.playMusic now returns MusicInstance instead of Music. MusicInstance exposes the Music object along with some additional data.
+- BREAKING: Removed setting "soundDistanceReduction".
+- BREAKING: Renamed setting "soundDistanceLimit" to "distanceRolloffMaxDistance".
 - Added a new parameter "position" to Parrot.playMusic, which allows music to start from different playback positions.
 - Added a priority parameter to ParrotSoundType and SoundInstance, which changes the order of sounds killed while limiting voices.
 - Added "NonRandomShuffle" algorithm for picking different sounds every time, and avoiding the same sound files from repeating themselves. Thanks @BambooBandit!
 - Added SoundInstance.getInternalId(), which returns the value returned by Sound.play, and Boom.
-- Added "Ignore Distant Tiny Sounds" feature, which is an optional mechanism that prevents short sounds from being played if they're too far from the listener.
-- Fixed "volumeFactor" never being reset on SoundInstance's reset method.
-- Fixed "volumeVariation" being recalculated every frame instead of just once, causing sounds to sound very choppy.
-- BREAKING: Removed setting "soundDistanceReduction".
-- BREAKING: Renamed setting "soundDistanceLimit" to "distanceRolloffMaxDistance".
 - Added a new setting "distanceRolloffMinDistance" to control at what distance does volume starts getting affected.
 - Added a new setting "distanceRolloffMinGain" to determine the minimum multiplier that can be applied to sound volume based off distance.
 - Added a new setting "distanceRolloffCurve" to control the drop off curve that sound volume gets based off distance.
+- Added "Ignore Distant Tiny Sounds" feature, which is an optional mechanism that prevents short sounds from being played if they're too far from the listener.
+- Fixed "volumeFactor" never being reset on SoundInstance's reset method.
+- Fixed "volumeVariation" being recalculated every frame instead of just once, causing sounds to sound very choppy.
 
 [0.0.3]
 - BREAKING: Added a new parameter "volumeFactor" to some "playSound" methods of SoundPlayer and Parrot to allow for easy volume manipulation on play.
