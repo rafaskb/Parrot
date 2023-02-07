@@ -84,4 +84,31 @@ public class ParrotSettings {
      */
     public float musicFadeOutDuration = 0.8f;
 
+    /*
+     *  Feature: "Ignore Distant Tiny Sounds"
+     */
+
+    /**
+     * Flag that toggles the "Ignore Distant Tiny Sounds" feature, which ignores tiny sounds being played too far from the listener. Applies
+     * only for spatial sounds. Defaults to false.
+     */
+    public boolean ignoreDistantTinySounds = false;
+
+    /**
+     * Distance threshold for tiny sounds that are too far from the listener to be ignored. -1 uses the same value * from
+     * {@link #soundDistanceLimit}. Defaults to -1.
+     */
+    public float ignoreDistantTinySoundsDistance = -1;
+
+    /**
+     * Sound length threshold in seconds for tiny sounds that should be ignored when play too far from the listener. Defaults to 1.
+     */
+    public float ignoreDistantTinySoundsDuration = 1;
+
+    /**
+     * Determines the {@link PlaybackMode}s of tiny distant sounds that should be ignored. If false, just normal ones are ignored. If true,
+     * all modes are ignored. Defaults to false.
+     */
+    public boolean ignoreDistantTinySoundsOfAllModes = false;
+
 }
