@@ -330,7 +330,7 @@ public class SoundPlayerImpl implements SoundPlayer {
 
         // Get random sound
         final Sound sound;
-        if(soundIndex > 0) {
+        if(soundIndex >= 0) {
             sound = sounds.get(soundIndex);
         } else if(type.getNonRandomShuffle() != null) {
             sound = type.getNonRandomShuffle().get();

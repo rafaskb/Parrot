@@ -14,6 +14,7 @@
 - Fixes
     - Fixed "volumeFactor" never being reset on SoundInstance's reset method.
     - Fixed "volumeVariation" being recalculated every frame instead of just once, causing sounds to sound very choppy.
+    - Fixed an issue where it was impossible to handpick soundIndex 0 when playing a sound.
 
 [0.0.3]
 - BREAKING: Added a new parameter "volumeFactor" to some "playSound" methods of SoundPlayer and Parrot to allow for easy volume manipulation on play.
